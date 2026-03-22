@@ -475,6 +475,9 @@
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
+  @media (max-width: 768px) {
+    .fade-up { opacity: 1; transform: none; transition: none; }
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
