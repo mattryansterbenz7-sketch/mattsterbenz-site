@@ -346,77 +346,121 @@
   .project-link:hover { text-decoration: underline; }
 
   /* ── EXTENSION SHOWCASE ── */
-  .ext-showcase {
-    margin-bottom: 3rem;
-    background: #0d1821;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #1C2D3A;
-  }
-  .ext-showcase-top {
-    padding: 1.25rem 1.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid #1C2D3A;
-  }
-  .ext-showcase-title {
-    font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #f1f5f9;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .ext-showcase-title .ext-badge {
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    background: rgba(255,122,89,0.15); color: #FF7A59; border: 1px solid rgba(255,122,89,0.3);
-    border-radius: 100px; padding: 0.15rem 0.6rem;
-  }
-  .ext-showcase-link {
-    font-size: 0.8rem; font-weight: 500; color: #00BDA5; text-decoration: none;
-  }
-  .ext-showcase-link:hover { text-decoration: underline; }
-  .ext-showcase-body {
-    display: grid; grid-template-columns: 380px 1fr; gap: 0; min-height: 520px;
-  }
-  .ext-panel-col {
-    border-right: 1px solid #1C2D3A;
-    overflow: hidden; position: relative;
-  }
-  .ext-panel-col iframe {
-    width: 800px; height: 900px;
-    border: none;
-    transform: scale(0.95); transform-origin: top left;
-    pointer-events: none;
-  }
-  .ext-panel-col::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, #0d1821);
-    pointer-events: none;
-  }
-  .ext-dashboard-col {
-    overflow: hidden; position: relative;
-  }
-  .ext-dashboard-col iframe {
-    width: 1200px; height: 900px;
-    border: none;
-    transform: scale(0.72); transform-origin: top left;
-    pointer-events: none;
-  }
-  .ext-dashboard-col::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, #0d1821);
-    pointer-events: none;
-  }
-  .ext-showcase-desc {
-    padding: 1rem 1.5rem 1.25rem;
-    font-size: 0.875rem; font-weight: 300; color: #7da8c4; line-height: 1.6;
-    border-top: 1px solid #1C2D3A;
-    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  }
-  @media (max-width: 900px) {
-    .ext-showcase-body { grid-template-columns: 1fr; }
-    .ext-dashboard-col { display: none; }
-    .ext-panel-col { border-right: none; }
+  .ext-showcase { margin-bottom: 3rem; background: #0d1821; border-radius: 12px; overflow: hidden; border: 1px solid #2D3E50; }
+  .ext-showcase::before { content:''; display:block; height:3px; background:linear-gradient(90deg,#FF7A59,#ff9a7a,#00BDA5); }
+  .ext-showcase-top { padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #1C2D3A; }
+  .ext-showcase-title { font-family:var(--font-display); font-weight:700; font-size:0.95rem; color:#f1f5f9; display:flex; align-items:center; gap:0.5rem; }
+  .ext-badge { font-size:0.62rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:rgba(255,122,89,0.15); color:#FF7A59; border:1px solid rgba(255,122,89,0.3); border-radius:100px; padding:0.15rem 0.6rem; }
+  .ext-link { font-size:0.8rem; font-weight:500; color:#00BDA5; text-decoration:none; }
+  .ext-link:hover { text-decoration:underline; }
+  .ext-tabs { display:flex; gap:0; border-bottom:1px solid #1C2D3A; }
+  .ext-tab { font-size:0.78rem; font-weight:600; color:#7da8c4; background:none; border:none; border-bottom:2px solid transparent; padding:0.6rem 1.25rem; cursor:pointer; letter-spacing:0.03em; font-family:inherit; transition:color 0.15s; }
+  .ext-tab.active { color:#FF7A59; border-bottom-color:#FF7A59; }
+  .ext-tab-panel { display:none; }
+  .ext-tab-panel.active { display:block; }
+  .ext-body { display:grid; grid-template-columns:340px 1fr; min-height:480px; }
+  .ext-left { border-right:1px solid #1C2D3A; overflow:hidden; }
+  .ext-right { padding:1.25rem; display:flex; flex-direction:column; gap:0.75rem; overflow:hidden; }
+  .ext-footer { padding:0.9rem 1.5rem; border-top:1px solid #1C2D3A; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .ext-footer-desc { font-size:0.82rem; font-weight:300; color:#7da8c4; line-height:1.6; }
+
+  /* Panel internals */
+  .ext-showcase * { box-sizing:border-box; }
+  .xp { font-family:-apple-system,sans-serif; background:#1C2D3A; color:#e2e8f0; width:340px; font-size:13px; }
+  .xp-hdr { padding:11px 14px; border-bottom:1px solid #2D3E50; display:flex; align-items:center; justify-content:space-between; background:#1C2D3A; }
+  .xp-logo { font-size:14px; font-weight:700; color:#f8fafc; } .xp-logo em { color:#FF7A59; font-style:normal; font-family:Georgia,serif; }
+  .xp-btn { background:#FF7A59; color:#fff; border:none; padding:6px 12px; border-radius:5px; font-size:11px; font-weight:700; cursor:pointer; }
+  .xp-icon-row { display:flex; gap:6px; }
+  .xp-icon { background:none; border:none; cursor:pointer; font-size:10px; font-weight:600; color:#7da8c4; text-transform:uppercase; letter-spacing:0.05em; padding:3px 6px; }
+  .xp-bar { padding:9px 14px; background:#243342; border-bottom:1px solid #2D3E50; display:flex; align-items:center; justify-content:space-between; }
+  .xp-co { display:flex; align-items:center; gap:8px; }
+  .xp-fav { width:20px; height:20px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; color:#fff; flex-shrink:0; }
+  .xp-coname { font-size:13px; font-weight:700; color:#f8fafc; }
+  .xp-det { font-size:9px; font-weight:700; color:#7da8c4; text-transform:uppercase; letter-spacing:0.1em; }
+  .xp-savebtn { background:#2D3E50; border:1px solid #3d5468; color:#7a9ab8; font-size:11px; font-weight:600; padding:4px 10px; border-radius:5px; cursor:pointer; }
+  .xp-job-bar { padding:7px 14px; background:#243342; border-bottom:1px solid #2D3E50; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .xp-jobtitle { font-size:12px; font-weight:600; color:#f8fafc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .xp-chips { display:flex; gap:4px; flex-wrap:wrap; margin-top:3px; }
+  .xp-chip { font-size:10px; font-weight:600; border-radius:4px; padding:1px 6px; }
+  .xp-chip.remote { color:#60a5fa; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.25); }
+  .xp-chip.salary { color:#4ade80; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.25); }
+  .xp-chip.type { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.25); }
+  .xp-savejob { background:#FF7A59; border:none; color:#fff; font-size:11px; font-weight:700; padding:5px 10px; border-radius:5px; cursor:pointer; white-space:nowrap; }
+  .xp-sec { padding:12px 14px; border-bottom:1px solid #2D3E50; border-left:3px solid transparent; }
+  .xp-sec.job { border-left-color:#FF7A59; background:rgba(255,122,89,0.04); }
+  .xp-sec.intel { border-left-color:#00BDA5; background:rgba(0,189,165,0.03); }
+  .xp-sec.overview { border-left-color:#45a8c4; background:rgba(69,168,196,0.03); }
+  .xp-sec-ttl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:10px; }
+  .xp-sec.job .xp-sec-ttl { color:#FF7A59; } .xp-sec.intel .xp-sec-ttl { color:#00BDA5; } .xp-sec.overview .xp-sec-ttl { color:#45a8c4; }
+  .xp-score-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .xp-score { width:48px; height:48px; border-radius:50%; border:2px solid #34d399; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .xp-score-num { font-size:18px; font-weight:800; color:#34d399; line-height:1; }
+  .xp-score-label { font-size:9px; font-weight:700; color:#34d399; text-transform:uppercase; letter-spacing:0.08em; }
+  .xp-verdict { display:flex; flex-direction:column; gap:3px; }
+  .xp-vbadge { font-size:10px; font-weight:700; border-radius:20px; padding:2px 9px; border:1px solid; display:inline-block; }
+  .xp-vbadge.high { background:rgba(52,211,153,0.12); color:#34d399; border-color:rgba(52,211,153,0.35); }
+  .xp-vtext { font-size:11px; color:#99afc4; line-height:1.5; }
+  .xp-salary { display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:#243342; border-radius:6px; border:1px solid #2D3E50; margin-bottom:8px; }
+  .xp-sal-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#7da8c4; }
+  .xp-sal-val { font-size:13px; font-weight:700; color:#4ade80; }
+  .xp-flags { margin-top:6px; }
+  .xp-flag-hdr { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; display:flex; align-items:center; gap:4px; }
+  .xp-flag-hdr.green { color:#4ade80; } .xp-flag-hdr.red { color:#fca5a5; }
+  .xp-flag-item { display:flex; gap:6px; font-size:11px; line-height:1.45; margin-bottom:4px; }
+  .xp-flag-item.fit { color:#6ee7b7; } .xp-flag-item.flag { color:#fca5a5; }
+  .xp-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .xp-stat { background:#243342; border-radius:6px; padding:8px 10px; border:1px solid #2D3E50; }
+  .xp-stat-lbl { font-size:9px; color:#7da8c4; margin-bottom:2px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; }
+  .xp-stat-val { font-size:13px; font-weight:700; color:#f8fafc; }
+  .xp-intel { font-size:11px; color:#99afc4; line-height:1.6; }
+  .xp-tags-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+  .xp-tag { font-size:10px; font-weight:600; border-radius:4px; padding:2px 7px; background:#243342; border:1px solid #3d5468; color:#7da8c4; }
+
+  /* Dashboard card internals */
+  .xd-card { background:#1C2D3A; border:1px solid #2D3E50; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:8px; }
+  .xd-card.green { border-color:#34d399; }
+  .xd-card.orange { border-color:#fb923c; }
+  .xd-card-hdr { display:flex; align-items:flex-start; justify-content:space-between; }
+  .xd-type { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; border-radius:3px; padding:2px 6px; }
+  .xd-type.job { color:#FF7A59; background:rgba(255,122,89,0.1); border:1px solid rgba(255,122,89,0.25); }
+  .xd-type.co { color:#99afc4; background:rgba(81,111,144,0.1); border:1px solid rgba(81,111,144,0.2); }
+  .xd-company { font-size:14px; font-weight:600; color:#f1f5f9; margin-top:3px; }
+  .xd-role { font-size:11px; color:#7da8c4; }
+  .xd-chips { display:flex; gap:5px; flex-wrap:wrap; }
+  .xd-chip { font-size:10px; font-weight:600; border-radius:5px; padding:2px 7px; }
+  .xd-chip.salary { color:#4ade80; background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.25); }
+  .xd-chip.remote { color:#60a5fa; background:rgba(96,165,250,0.1); border:1px solid rgba(96,165,250,0.25); }
+  .xd-verdict { display:flex; align-items:flex-start; gap:8px; }
+  .xd-badge { font-size:10px; font-weight:700; border-radius:20px; padding:2px 9px; border:1px solid; white-space:nowrap; flex-shrink:0; }
+  .xd-badge.high { background:rgba(52,211,153,0.12); color:#34d399; border-color:rgba(52,211,153,0.35); }
+  .xd-badge.mid { background:rgba(99,102,241,0.12); color:#818cf8; border-color:rgba(99,102,241,0.35); }
+  .xd-badge.mixed { background:rgba(245,158,11,0.12); color:#fbbf24; border-color:rgba(245,158,11,0.35); }
+  .xd-vtext { font-size:11px; color:#99afc4; line-height:1.5; }
+  .xd-tags { display:flex; gap:4px; flex-wrap:wrap; }
+  .xd-tag { font-size:10px; font-weight:600; border-radius:4px; padding:2px 7px; background:#243342; border:1px solid #3d5468; color:#7da8c4; }
+  .xd-stars { display:flex; gap:2px; }
+  .xd-star { font-size:13px; color:#2D3E50; } .xd-star.on { color:#f59e0b; }
+  .xd-stat-row { display:flex; gap:5px; flex-wrap:wrap; }
+  .xd-stat { font-size:10px; color:#7da8c4; background:#243342; border-radius:3px; padding:2px 7px; border:1px solid #2D3E50; }
+  .xd-status { width:100%; padding:6px 12px; border-radius:6px; font-family:inherit; font-size:11px; font-weight:700; border:1.5px solid; cursor:default; }
+  .xd-status.conv { background:rgba(251,146,60,0.12); border-color:#fb923c; color:#fb923c; }
+  .xd-status.apply { background:rgba(34,211,238,0.1); border-color:#22d3ee; color:#22d3ee; }
+  .xd-status.applied { background:rgba(96,165,250,0.12); border-color:#60a5fa; color:#60a5fa; }
+  .xd-footer { display:flex; align-items:center; justify-content:space-between; }
+  .xd-date { font-size:10px; color:#3d5468; }
+  .xd-links { display:flex; gap:8px; }
+  .xd-lnk { font-size:10px; text-decoration:none; font-weight:500; }
+  .xd-lnk.post { color:#FF7A59; } .xd-lnk.li { color:#0a66c2; } .xd-lnk.web { color:#00BDA5; }
+  .xd-analysis { border:1px solid #2D3E50; border-radius:6px; overflow:hidden; }
+  .xd-analysis-hdr { padding:7px 11px; font-size:9px; font-weight:800; color:#7da8c4; background:#1a2a36; text-transform:uppercase; letter-spacing:0.08em; display:flex; justify-content:space-between; }
+  .xd-analysis-body { padding:10px 11px; display:flex; flex-direction:column; gap:8px; }
+  .xd-al { font-size:9px; font-weight:800; color:#7da8c4; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:3px; }
+  .xd-bl { font-size:11px; line-height:1.45; display:flex; gap:5px; margin-bottom:3px; }
+  .xd-bl.fit { color:#6ee7b7; } .xd-bl.flag { color:#fca5a5; }
+  @media (max-width:900px) {
+    .ext-body { grid-template-columns:1fr; }
+    .ext-right { display:none; }
+    .ext-left { border-right:none; }
   }
 
   /* ── GITHUB CARDS ── */
@@ -852,23 +896,236 @@
 
     <div class="ext-showcase fade-up">
       <div class="ext-showcase-top">
-        <div class="ext-showcase-title">
-          Company Intel — Chrome Extension
-          <span class="ext-badge">Live</span>
-        </div>
-        <a href="extension-showcase.html" target="_blank" class="ext-showcase-link">View full showcase →</a>
+        <div class="ext-showcase-title">Company Intel — Chrome Extension <span class="ext-badge">Live</span></div>
+        <a href="extension-showcase.html" target="_blank" class="ext-link">View full showcase →</a>
       </div>
-      <div class="ext-showcase-body">
-        <div class="ext-panel-col">
-          <iframe src="extension-showcase.html" scrolling="no" tabindex="-1"></iframe>
-        </div>
-        <div class="ext-dashboard-col">
-          <iframe src="extension-showcase.html" scrolling="no" tabindex="-1" style="margin-top:-580px; margin-left:-32px;"></iframe>
+
+      <!-- Tab bar -->
+      <div class="ext-tabs">
+        <button class="ext-tab active" onclick="extTab(this,'panel')">Side Panel</button>
+        <button class="ext-tab" onclick="extTab(this,'dashboard')">Saved Dashboard</button>
+      </div>
+
+      <!-- SIDE PANEL TAB -->
+      <div class="ext-tab-panel active" id="ext-panel">
+        <div class="ext-body">
+          <!-- Left: the panel -->
+          <div class="ext-left">
+            <div class="xp">
+              <div class="xp-hdr">
+                <div class="xp-logo">C<em>I</em></div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <button class="xp-btn">Research</button>
+                  <div class="xp-icon-row">
+                    <button class="xp-icon">★ Saved</button>
+                    <button class="xp-icon">⚙ Prefs</button>
+                  </div>
+                </div>
+              </div>
+              <div class="xp-bar">
+                <div class="xp-co">
+                  <div class="xp-fav" style="background:#FF7A59">R</div>
+                  <div><div class="xp-det">Detected</div><div class="xp-coname">Rippling</div></div>
+                </div>
+                <button class="xp-savebtn">Save</button>
+              </div>
+              <div class="xp-job-bar">
+                <div>
+                  <div class="xp-jobtitle">VP of Revenue — Mid-Market</div>
+                  <div class="xp-chips">
+                    <span class="xp-chip remote">Remote — US</span>
+                    <span class="xp-chip salary">$180K–$230K</span>
+                    <span class="xp-chip type">Full-time</span>
+                  </div>
+                </div>
+                <button class="xp-savejob">Save Job</button>
+              </div>
+              <div class="xp-sec job">
+                <div class="xp-sec-ttl">Job Fit Analysis</div>
+                <div class="xp-score-row">
+                  <div class="xp-score"><div><div class="xp-score-num">9</div><div class="xp-score-label">/10</div></div></div>
+                  <div class="xp-verdict">
+                    <span class="xp-vbadge high">Strong Match</span>
+                    <div class="xp-vtext">Early-stage revenue leadership, direct CRO access, greenfield segment — matches your track record well.</div>
+                  </div>
+                </div>
+                <div class="xp-salary">
+                  <span class="xp-sal-lbl">Base Salary</span>
+                  <span class="xp-sal-val">$180,000 – $230,000</span>
+                </div>
+                <div class="xp-flags">
+                  <div class="xp-flag-hdr green">🟢 Green Flags</div>
+                  <div class="xp-flag-item fit"><span>↳</span> Direct CRO reporting — seat at the revenue table</div>
+                  <div class="xp-flag-item fit"><span>↳</span> Greenfield segment, no inherited playbook</div>
+                  <div class="xp-flag-item fit"><span>↳</span> Series D with $500M+ ARR — scale without bureaucracy</div>
+                </div>
+                <div class="xp-flags" style="margin-top:8px">
+                  <div class="xp-flag-hdr red">🔴 Red Flags</div>
+                  <div class="xp-flag-item flag"><span>↳</span> Heavy cross-functional dependency on Product</div>
+                  <div class="xp-flag-item flag"><span>↳</span> Ramp structure not mentioned in posting</div>
+                </div>
+                <div class="xp-tags-row">
+                  <span class="xp-tag">Revenue Leadership</span>
+                  <span class="xp-tag">Mid-Market</span>
+                  <span class="xp-tag">Greenfield</span>
+                  <span class="xp-tag">CRO Access</span>
+                </div>
+              </div>
+              <div class="xp-sec intel">
+                <div class="xp-sec-ttl">Company Intel</div>
+                <div class="xp-intel">Workforce management platform unifying HR, IT & Finance. Raised $500M Series F at $13.5B valuation. Mid-market expansion is the current strategic priority.</div>
+              </div>
+              <div class="xp-sec overview">
+                <div class="xp-sec-ttl">Company Overview</div>
+                <div class="xp-stat-grid">
+                  <div class="xp-stat"><div class="xp-stat-lbl">Employees</div><div class="xp-stat-val">3,200</div></div>
+                  <div class="xp-stat"><div class="xp-stat-lbl">Funding</div><div class="xp-stat-val">$1.2B</div></div>
+                  <div class="xp-stat"><div class="xp-stat-lbl">Founded</div><div class="xp-stat-val">2016</div></div>
+                  <div class="xp-stat"><div class="xp-stat-lbl">Industry</div><div class="xp-stat-val">HR Tech</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right: second panel -->
+          <div class="ext-right" style="background:#111e28; padding:0;">
+            <div class="xp" style="width:100%;background:#1C2D3A;">
+              <div class="xp-hdr">
+                <div class="xp-logo">C<em>I</em></div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <button class="xp-btn">Research</button>
+                  <div class="xp-icon-row">
+                    <button class="xp-icon">★ Saved</button>
+                    <button class="xp-icon">⚙ Prefs</button>
+                  </div>
+                </div>
+              </div>
+              <div class="xp-bar">
+                <div class="xp-co">
+                  <div class="xp-fav" style="background:#00BDA5">G</div>
+                  <div><div class="xp-det">Detected</div><div class="xp-coname">Gong</div></div>
+                </div>
+                <button class="xp-savebtn">Save</button>
+              </div>
+              <div class="xp-sec intel">
+                <div class="xp-sec-ttl">Company Intel</div>
+                <div class="xp-intel">Market leader in revenue intelligence — call recording, deal inspection, forecasting. $583M raised, 4,000+ customers. Owns 60%+ category share.</div>
+              </div>
+              <div class="xp-sec overview">
+                <div class="xp-sec-ttl">Company Overview</div>
+                <div class="xp-stat-grid">
+                  <div class="xp-stat"><div class="xp-stat-lbl">Employees</div><div class="xp-stat-val">1,500</div></div>
+                  <div class="xp-stat"><div class="xp-stat-lbl">Funding</div><div class="xp-stat-val">$583M</div></div>
+                  <div class="xp-stat"><div class="xp-stat-lbl">Founded</div><div class="xp-stat-val">2015</div></div>
+                  <div class="xp-stat"><div class="xp-stat-lbl">Industry</div><div class="xp-stat-val">Sales Tech</div></div>
+                </div>
+              </div>
+              <div class="xp-sec" style="border-left-color:#FF7A59;background:rgba(255,122,89,0.03)">
+                <div class="xp-sec-ttl" style="color:#ff9a7a">Culture Signals</div>
+                <div class="xp-intel">Data-driven, high-performer culture. Strong enablement, competitive OTE. Some post-Series D process creep noted in recent reviews.</div>
+                <div class="xp-tags-row">
+                  <span class="xp-tag">Sales Tech</span>
+                  <span class="xp-tag">Revenue Intel</span>
+                  <span class="xp-tag">Category Leader</span>
+                  <span class="xp-tag">High OTE</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="ext-showcase-desc">
-        <span>AI-powered side panel that auto-detects companies while you browse job postings — researches firmographics, scores fit, surfaces green/red flags, and tracks everything in a built-in CRM dashboard. Built with Claude API, Apollo.io, and Google Search.</span>
-        <a href="https://github.com/mattryansterbenz7-sketch/company-intel" target="_blank" class="ext-showcase-link" style="white-space:nowrap">View on GitHub →</a>
+
+      <!-- DASHBOARD TAB -->
+      <div class="ext-tab-panel" id="ext-dashboard">
+        <div style="background:#111e28; padding:0;">
+          <!-- Toolbar -->
+          <div style="padding:10px 16px; display:flex; align-items:center; gap:8px; border-bottom:1px solid #1C2D3A; background:#1C2D3A; flex-wrap:wrap;">
+            <input style="flex:1;min-width:160px;background:#243342;border:1px solid #2D3E50;border-radius:6px;color:#e2e8f0;font-size:12px;padding:6px 12px;font-family:inherit;" placeholder="Search companies or roles…" readonly>
+            <button style="background:#FF7A59;border:1px solid #FF7A59;border-radius:6px;color:#fff;font-size:11px;padding:5px 12px;cursor:pointer;font-weight:700;">All</button>
+            <button style="background:#243342;border:1px solid #2D3E50;border-radius:6px;color:#7da8c4;font-size:11px;padding:5px 12px;cursor:pointer;">Jobs</button>
+            <button style="background:#243342;border:1px solid #2D3E50;border-radius:6px;color:#7da8c4;font-size:11px;padding:5px 12px;cursor:pointer;">Companies</button>
+            <span style="font-size:10px;font-weight:700;color:#7da8c4;text-transform:uppercase;letter-spacing:0.08em;">Status:</span>
+            <button style="background:#243342;border:1px solid #2D3E50;border-radius:6px;color:#7da8c4;font-size:11px;padding:5px 12px;cursor:pointer;">All</button>
+            <button style="background:rgba(34,211,238,0.1);border:1px solid #22d3ee;border-radius:6px;color:#22d3ee;font-size:11px;padding:5px 12px;cursor:pointer;font-weight:700;">Want to Apply</button>
+            <button style="background:#243342;border:1px solid #2D3E50;border-radius:6px;color:#7da8c4;font-size:11px;padding:5px 12px;cursor:pointer;">Conversations</button>
+          </div>
+          <!-- Cards grid -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px;">
+
+            <div class="xd-card green">
+              <div class="xd-card-hdr"><div><span class="xd-type job">Job</span><div class="xd-company">Rippling</div><div class="xd-role">VP of Revenue — Mid-Market</div></div></div>
+              <div class="xd-chips"><span class="xd-chip remote">Remote US</span><span class="xd-chip salary">$180K–$230K</span></div>
+              <div class="xd-verdict"><span class="xd-badge high">Strong Match</span><div class="xd-vtext">Direct CRO access, greenfield segment, explicit mandate to build the playbook.</div></div>
+              <div class="xd-analysis">
+                <div class="xd-analysis-hdr"><span>Full Analysis</span><span>›</span></div>
+                <div class="xd-analysis-body">
+                  <div><div class="xd-al">Green Flags</div><div class="xd-bl fit"><span>🟢</span> Greenfield mid-market, no inherited playbook</div><div class="xd-bl fit"><span>🟢</span> Direct CRO reporting line</div></div>
+                  <div><div class="xd-al">Red Flags</div><div class="xd-bl flag"><span>🔴</span> Heavy cross-functional dependency</div></div>
+                </div>
+              </div>
+              <div class="xd-tags"><span class="xd-tag">Revenue Leadership</span><span class="xd-tag">Greenfield</span><span class="xd-tag">CRO Access</span></div>
+              <div class="xd-stars"><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span></div>
+              <select class="xd-status apply"><option>I Want to Apply</option></select>
+              <div class="xd-footer"><span class="xd-date">Mar 20, 2026</span><div class="xd-links"><a class="xd-lnk post" href="#">↗ Posting</a><a class="xd-lnk li" href="#">LinkedIn</a></div></div>
+            </div>
+
+            <div class="xd-card orange">
+              <div class="xd-card-hdr"><div><span class="xd-type job">Job</span><div class="xd-company">Linear</div><div class="xd-role">Head of Revenue</div></div></div>
+              <div class="xd-chips"><span class="xd-chip remote">Remote</span><span class="xd-chip salary">$200K–$250K</span></div>
+              <div class="xd-verdict"><span class="xd-badge high">Strong Match</span><div class="xd-vtext">First revenue hire, founder-led sales transitioning to a proper motion. Exactly the playbook you've built before.</div></div>
+              <div class="xd-tags"><span class="xd-tag">First Rev Hire</span><span class="xd-tag">Founder-Led</span><span class="xd-tag">Dev Tools</span><span class="xd-tag">Early Stage</span></div>
+              <div class="xd-stat-row"><span class="xd-stat">~90 employees</span><span class="xd-stat">$52M raised</span></div>
+              <div class="xd-stars"><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span></div>
+              <select class="xd-status conv"><option>Conversations in Progress</option></select>
+              <div class="xd-footer"><span class="xd-date">Mar 10, 2026</span><div class="xd-links"><a class="xd-lnk post" href="#">↗ Posting</a><a class="xd-lnk li" href="#">LinkedIn</a></div></div>
+            </div>
+
+            <div class="xd-card">
+              <div class="xd-card-hdr"><div><span class="xd-type job">Job</span><div class="xd-company">Gong</div><div class="xd-role">Head of Sales — SMB & Commercial</div></div></div>
+              <div class="xd-chips"><span class="xd-chip remote">Hybrid — SF</span><span class="xd-chip salary">$160K–$200K</span></div>
+              <div class="xd-verdict"><span class="xd-badge mid">Good Match</span><div class="xd-vtext">Strong product and brand. More structured than ideal — worth a first call.</div></div>
+              <div class="xd-tags"><span class="xd-tag">Category Leader</span><span class="xd-tag">High OTE</span><span class="xd-tag">Sales Tech</span></div>
+              <div class="xd-stars"><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star">★</span></div>
+              <select class="xd-status apply"><option>I Want to Apply</option></select>
+              <div class="xd-footer"><span class="xd-date">Mar 19, 2026</span><div class="xd-links"><a class="xd-lnk post" href="#">↗ Posting</a><a class="xd-lnk li" href="#">LinkedIn</a></div></div>
+            </div>
+
+            <div class="xd-card">
+              <div class="xd-card-hdr"><div><span class="xd-type co">Company</span><div class="xd-company">Hex</div></div></div>
+              <div class="xd-vtext" style="font-size:12px;color:#99afc4;">Collaborative data workspace. ~$52M raised, Series B — early enough for real scope and equity upside.</div>
+              <div class="xd-tags"><span class="xd-tag">Series B</span><span class="xd-tag">PLG</span><span class="xd-tag">Data Tools</span><span class="xd-tag">Early Stage</span></div>
+              <div class="xd-stat-row"><span class="xd-stat">200 employees</span><span class="xd-stat">$52M raised</span></div>
+              <div class="xd-stars"><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star">★</span></div>
+              <select class="xd-status" style="background:rgba(100,116,139,0.12);border-color:#64748b;color:#94a3b8;width:100%;padding:6px 12px;border-radius:6px;font-family:inherit;font-size:11px;font-weight:700;border-width:1.5px;"><option>Saved — Needs Review</option></select>
+              <div class="xd-footer"><span class="xd-date">Mar 14, 2026</span><div class="xd-links"><a class="xd-lnk li" href="#">LinkedIn</a><a class="xd-lnk web" href="#">Website</a></div></div>
+            </div>
+
+            <div class="xd-card">
+              <div class="xd-card-hdr"><div><span class="xd-type job">Job</span><div class="xd-company">Notion</div><div class="xd-role">Director of Revenue Operations</div></div></div>
+              <div class="xd-chips"><span class="xd-chip remote">Remote US</span><span class="xd-chip salary">$155K–$190K</span></div>
+              <div class="xd-verdict"><span class="xd-badge mid">Good Match</span><div class="xd-vtext">Ops-heavy but broad systems scope. Strong brand and culture signals.</div></div>
+              <div class="xd-tags"><span class="xd-tag">RevOps</span><span class="xd-tag">Systems</span><span class="xd-tag">Productivity</span></div>
+              <div class="xd-stars"><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star">★</span><span class="xd-star">★</span></div>
+              <select class="xd-status applied"><option>Applied</option></select>
+              <div class="xd-footer"><span class="xd-date">Mar 15, 2026</span><div class="xd-links"><a class="xd-lnk post" href="#">↗ Posting</a><a class="xd-lnk li" href="#">LinkedIn</a></div></div>
+            </div>
+
+            <div class="xd-card">
+              <div class="xd-card-hdr"><div><span class="xd-type job">Job</span><div class="xd-company">Salesforce</div><div class="xd-role">RVP, Commercial Sales</div></div></div>
+              <div class="xd-chips"><span class="xd-chip remote">Hybrid — NYC</span><span class="xd-chip salary">$170K–$210K</span></div>
+              <div class="xd-verdict"><span class="xd-badge mixed">Mixed Signals</span><div class="xd-vtext">Strong comp and brand. Process-heavy culture conflicts with your preference for autonomy.</div></div>
+              <div class="xd-tags"><span class="xd-tag">Enterprise</span><span class="xd-tag">Strong Brand</span><span class="xd-tag">Process-Heavy</span></div>
+              <div class="xd-stars"><span class="xd-star on">★</span><span class="xd-star on">★</span><span class="xd-star">★</span><span class="xd-star">★</span><span class="xd-star">★</span></div>
+              <select class="xd-status" style="background:rgba(100,116,139,0.12);border-color:#64748b;color:#94a3b8;width:100%;padding:6px 12px;border-radius:6px;font-family:inherit;font-size:11px;font-weight:700;border-width:1.5px;"><option>Saved — Needs Review</option></select>
+              <div class="xd-footer"><span class="xd-date">Mar 8, 2026</span><div class="xd-links"><a class="xd-lnk post" href="#">↗ Posting</a><a class="xd-lnk li" href="#">LinkedIn</a></div></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="ext-footer">
+        <span class="ext-footer-desc">AI side panel that auto-detects companies while browsing job postings — scores fit 1–10, surfaces green/red flags, researches firmographics, and tracks everything in a built-in CRM. Built on Claude API, Apollo.io &amp; Google Search.</span>
+        <a href="https://github.com/mattryansterbenz7-sketch/company-intel" target="_blank" class="ext-link" style="white-space:nowrap">View on GitHub →</a>
       </div>
     </div>
 
@@ -1201,6 +1458,13 @@ function openCase(idx) {
   document.getElementById('caseList').classList.add('hidden');
   document.getElementById('caseDetail').style.display = 'block';
   document.getElementById('work').scrollIntoView({ behavior: 'smooth' });
+}
+
+function extTab(btn, id) {
+  document.querySelectorAll('.ext-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.ext-tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('ext-' + id).classList.add('active');
 }
 
 function closeCase() {
