@@ -904,6 +904,7 @@
       <div class="ext-tabs">
         <button class="ext-tab active" onclick="extTab(this,'panel')">Side Panel</button>
         <button class="ext-tab" onclick="extTab(this,'dashboard')">Saved Dashboard</button>
+        <button class="ext-tab" onclick="extTab(this,'story')">The Story</button>
       </div>
 
       <!-- SIDE PANEL TAB -->
@@ -1123,8 +1124,30 @@
         </div>
       </div>
 
+      <!-- STORY TAB -->
+      <div class="ext-tab-panel" id="ext-story">
+        <div style="background:#111e28; padding:2rem 2rem; max-width:720px; margin:0 auto;">
+          <h3 style="font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:#f1f5f9;margin-bottom:1.25rem;line-height:1.4;">I was managing my job search across 6 different tools. So I built one that replaced them all.</h3>
+          <div style="font-size:0.88rem;color:#99afc4;line-height:1.75;display:flex;flex-direction:column;gap:1rem;">
+            <p>A Google Sheet CRM, another sheet for network mapping, Teal for bookmarking jobs, ChatGPT for career strategy, Granola for call transcripts, and Gmail for everything else. Context was everywhere. Nothing talked to each other. Every time I wanted AI advice on an opportunity, I had to manually re-explain my background, copy-paste email threads, screenshot transcripts, and hope it remembered what we talked about last time.</p>
+            <p><strong style="color:#e2e8f0;">The core idea:</strong> a three-tier context system where an AI advisor always has the full picture.</p>
+            <p>At the base layer is <strong style="color:#FF7A59;">"Story Time"</strong> — a personal profile where I told the AI my career story, what I value, what I'm looking for, and what I want to avoid. That context flows into every conversation automatically. On top of that, each company and opportunity accumulates its own context — emails pulled from the Gmail API, meeting transcripts from Granola, calendar events from Google Calendar, company research from Apollo and Serper, employee reviews, leadership data, and my own notes. The AI chat on each company page has all of this without me lifting a finger.</p>
+            <p>Then there's the <strong style="color:#00BDA5;">global advisor</strong> — a pipeline-wide chat that sits on the dashboard and can reason across every opportunity at once. I can ask it "draft a follow-up to Krisztian at Captivate based on our last call" and it pulls in that company's email threads and meeting transcripts to write something specific. I can ask "what should I prioritize this week" and it weighs every active opportunity against what it knows about me.</p>
+            <p>The system also learns passively. Insights from every conversation — things I say I value, concerns I raise, patterns in how I evaluate companies — get extracted and folded back into my profile over time. The more I use it, the sharper it gets.</p>
+            <p style="color:#7da8c4;font-weight:500;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:0.5rem;">What I figured out along the way:</p>
+            <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.5rem;">
+              <li>Connected 6 APIs (Anthropic Claude, Apollo.io, Serper, Gmail API, Google Calendar API, Granola MCP) — each with different auth flows, rate limits, and data formats</li>
+              <li>Built entirely as a Manifest V3 Chrome extension with no backend — all data stays local in the browser</li>
+              <li>Designed a unified data model where companies and opportunities share one record, eliminating sync issues</li>
+              <li>Implemented event-driven AI scoring that re-evaluates match quality as new emails, transcripts, and signals come in</li>
+            </ul>
+            <p style="color:#e2e8f0;font-weight:500;margin-top:0.25rem;">I use this every day for my actual job search. It replaced my spreadsheets, my job board bookmarks, and most of my ChatGPT threads. Built with Claude Code.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="ext-footer">
-        <span class="ext-footer-desc">AI side panel that auto-detects companies while browsing job postings — scores fit 1–10, surfaces green/red flags, researches firmographics, and tracks everything in a built-in CRM. Built on Claude API, Apollo.io &amp; Google Search.</span>
+        <span class="ext-footer-desc">A Chrome extension that replaced 6 tools in my job search — AI scoring, company research, email context, and a built-in CRM. Built on Claude API, Apollo.io, Gmail API, Google Calendar, Granola &amp; Serper.</span>
         <a href="https://github.com/mattryansterbenz7-sketch/company-intel" target="_blank" class="ext-link" style="white-space:nowrap">View on GitHub →</a>
       </div>
     </div>
@@ -1138,13 +1161,6 @@
       </div>
 
       <div class="project-card wip fade-up" style="transition-delay:0.07s">
-        <span class="project-status status-wip">In Progress</span>
-        <div class="project-title">AI Writing Assistant (Chrome Extension)</div>
-        <div class="project-desc">A personal Grammarly alternative built on the Claude API. Grammar, tone suggestions, and email polish — tailored to how I actually write. Works in Gmail and LinkedIn.</div>
-        <span class="project-link" style="cursor:default; opacity:0.5">Shipping soon</span>
-      </div>
-
-      <div class="project-card wip fade-up" style="transition-delay:0.14s">
         <span class="project-status status-wip">Planned</span>
         <div class="project-title">More coming</div>
         <div class="project-desc">Building is how I think. More tools in the pipeline — this section updates as things ship.</div>
