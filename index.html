@@ -892,7 +892,7 @@
     <div class="section-tag fade-up">What I'm Building</div>
     <h2 class="section-title fade-up">Tools &amp; Projects</h2>
     <div class="divider fade-up"></div>
-    <p class="section-sub fade-up" style="margin-bottom:2.5rem;">I build tools that solve problems I actually have. This section grows as projects ship.</p>
+    <p class="section-sub fade-up" style="margin-bottom:2.5rem;">I build practical tools around real workflow problems. Company Intel is the clearest example: a personal CRM and research layer for running a job search with full context.</p>
 
     <div class="ext-showcase fade-up">
       <div class="ext-showcase-top">
@@ -1127,27 +1127,27 @@
       <!-- STORY TAB -->
       <div class="ext-tab-panel" id="ext-story">
         <div style="background:#111e28; padding:2rem 2rem; max-width:720px; margin:0 auto;">
-          <h3 style="font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:#f1f5f9;margin-bottom:1.25rem;line-height:1.4;">I was managing my job search across 6 different tools. So I built one that replaced them all.</h3>
+          <h3 style="font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:#f1f5f9;margin-bottom:1.25rem;line-height:1.4;">Company Intel turns scattered job-search activity into one system for research, relationship context, and execution.</h3>
           <div style="font-size:0.88rem;color:#99afc4;line-height:1.75;display:flex;flex-direction:column;gap:1rem;">
-            <p>A Google Sheet CRM, another sheet for network mapping, Teal for bookmarking jobs, ChatGPT for career strategy, Granola for call transcripts, and Gmail for everything else. Context was everywhere. Nothing talked to each other. Every time I wanted AI advice on an opportunity, I had to manually re-explain my background, copy-paste email threads, screenshot transcripts, and hope it remembered what we talked about last time.</p>
-            <p><strong style="color:#e2e8f0;">The core idea:</strong> a three-tier context system where an AI advisor always has the full picture.</p>
-            <p>At the base layer is <strong style="color:#FF7A59;">"Story Time"</strong> — a personal profile where I told the AI my career story, what I value, what I'm looking for, and what I want to avoid. That context flows into every conversation automatically. On top of that, each company and opportunity accumulates its own context — emails pulled from the Gmail API, meeting transcripts from Granola, calendar events from Google Calendar, company research from Apollo and Serper, employee reviews, leadership data, and my own notes. The AI chat on each company page has all of this without me lifting a finger.</p>
-            <p>Then there's the <strong style="color:#00BDA5;">global advisor</strong> — a pipeline-wide chat that sits on the dashboard and can reason across every opportunity at once. I can ask it "draft a follow-up to Krisztian at Captivate based on our last call" and it pulls in that company's email threads and meeting transcripts to write something specific. I can ask "what should I prioritize this week" and it weighs every active opportunity against what it knows about me.</p>
-            <p>The system also learns passively. Insights from every conversation — things I say I value, concerns I raise, patterns in how I evaluate companies — get extracted and folded back into my profile over time. The more I use it, the sharper it gets.</p>
+            <p>I built Company Intel because my job search was fragmented across too many disconnected tools: spreadsheets for tracking, bookmarked job posts, Gmail threads, meeting notes, and ad hoc AI chats that forgot the context every time. The work wasn't just finding companies. It was holding the full picture together well enough to make better decisions and follow through.</p>
+            <p><strong style="color:#e2e8f0;">The product:</strong> a Chrome extension that acts like a personal CRM for company research and opportunity management. As I browse, it detects the company or job I'm looking at, pulls in relevant research, scores role fit, and lets me save everything into a pipeline I can actually work from.</p>
+            <p>Each company record becomes a live context hub. It combines firmographic and hiring signals with my notes, Gmail threads, calendar activity, meeting transcripts from Granola, leadership data, and AI-generated analysis. Instead of jumping between tabs and reassembling the story by hand, I get one place that shows what the company is, where the opportunity stands, and what happened in the relationship so far.</p>
+            <p>The AI layer is what makes it especially useful. On a specific company or role, I can ask for fit analysis, red flags, talking points, or a draft follow-up grounded in the actual email and meeting history. At the dashboard level, I can reason across the full pipeline at once. It behaves less like a chatbot and more like an advisor with memory, context, and a point of view.</p>
+            <p>What I like about the build is that it solves a real workflow problem end to end. It replaced the patchwork of research tools, bookmarks, notes, and one-off prompts with a system that helps me qualify faster, stay organized, and act with better context.</p>
             <p style="color:#7da8c4;font-weight:500;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.06em;margin-top:0.5rem;">What I figured out along the way:</p>
             <ul style="padding-left:1.25rem;display:flex;flex-direction:column;gap:0.5rem;">
-              <li>Connected 6 APIs (Anthropic Claude, Apollo.io, Serper, Gmail API, Google Calendar API, Granola MCP) — each with different auth flows, rate limits, and data formats</li>
-              <li>Built entirely as a Manifest V3 Chrome extension with no backend — all data stays local in the browser</li>
-              <li>Designed a unified data model where companies and opportunities share one record, eliminating sync issues</li>
-              <li>Implemented event-driven AI scoring that re-evaluates match quality as new emails, transcripts, and signals come in</li>
+              <li>Connected six APIs across research, email, calendar, transcripts, and LLM workflows, each with different auth and data constraints</li>
+              <li>Built the whole product as a Manifest V3 Chrome extension with no backend, keeping the experience fast and local-first</li>
+              <li>Designed a unified data model where companies and opportunities live in the same record, so context stays synced</li>
+              <li>Created contextual AI workflows that use live company data, relationship history, and personal preferences instead of generic prompts</li>
             </ul>
-            <p style="color:#e2e8f0;font-weight:500;margin-top:0.25rem;">I use this every day for my actual job search. It replaced my spreadsheets, my job board bookmarks, and most of my ChatGPT threads. Built with Claude Code.</p>
+            <p style="color:#e2e8f0;font-weight:500;margin-top:0.25rem;">I use it in my actual job search. It replaced my spreadsheets, job-post bookmarks, and a lot of the manual context switching that made the process slower than it needed to be.</p>
           </div>
         </div>
       </div>
 
       <div class="ext-footer">
-        <span class="ext-footer-desc">A Chrome extension that replaced 6 tools in my job search — AI scoring, company research, email context, and a built-in CRM. Built on Claude API, Apollo.io, Gmail API, Google Calendar, Granola &amp; Serper.</span>
+        <span class="ext-footer-desc">Company Intel is a Chrome extension that turns everyday browsing into a structured job-search workflow, combining company research, opportunity tracking, relationship context, and AI analysis in one local-first system.</span>
         <a href="https://github.com/mattryansterbenz7-sketch/company-intel" target="_blank" class="ext-link" style="white-space:nowrap">View on GitHub →</a>
       </div>
     </div>
