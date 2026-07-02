@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="description" content="Matt Sterbenz — revenue & GTM operator. The shape of my experience, drawn from live career data." />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Matt Sterbenz — the shape of my experience</title>
+<style>
+  @font-face {
+    font-family: 'Hanken Grotesk';
+    font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url('fonts/hanken-grotesk-latin-variable.woff2') format('woff2');
+  }
+  :root {
+    --paper:#F6F1E9; --card:#FFFFFF; --ink:#0A0B0D; --line:#E2DED5; --line-soft:#ECE9E2;
+    --inset:#EDE8DF; --accent:#D98A5B; --accent-ink:#A85F36; --accent-soft:rgba(217,138,91,0.12);
+    --c-deal:#D99A3D; --c-pipe:#9C8FD9; --c-sys:#6F9CD9;
+    --c-life:#36B37E; --c-founder:#C9505F; --c-ai:#4FB3C4;
+    --r-md:16px; --r-sm:8px; --r-btn:6px;
+    --ease-out:cubic-bezier(0.16,1,0.3,1);
+  }
+  * { box-sizing:border-box; } html,body { margin:0; }
+  body { background:var(--paper); color:var(--ink);
+    font-family:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.55; }
+  .wrap { max-width:1060px; margin:0 auto; padding:56px 32px 90px; }
+
+  header.masthead h1 { font-size:30px; font-weight:750; letter-spacing:-0.025em; margin:0; }
+  header.masthead .role { font-size:15.5px; margin:6px 0 0; max-width:640px; }
+  header.masthead .role b { font-weight:650; }
+
+  .stage { margin-top:30px; display:grid; grid-template-columns:1.35fr 1fr; gap:26px; align-items:center; }
+  .chart-card { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:18px 20px 12px; }
+  .chart-card svg { display:block; width:100%; height:auto; }
+  .chart-foot { display:flex; align-items:center; gap:16px; padding:8px 4px 6px; flex-wrap:wrap; }
+  .legend { display:flex; gap:16px; font-size:12.5px; font-weight:600; }
+  .legend .k { display:inline-flex; align-items:center; gap:7px; }
+  .legend .k i { width:18px; height:0; border-top:3px solid var(--ink); border-radius:2px; display:block; }
+  .legend .k i.demand { border-top:3px dashed var(--accent); }
+  .legend .k.off { opacity:0.35; }
+  .reveal { margin-left:auto; border:1px solid var(--line); background:var(--card); border-radius:var(--r-btn);
+    padding:7px 14px; font:inherit; font-size:12.5px; font-weight:650; color:var(--ink); cursor:pointer;
+    transition:background 200ms var(--ease-out), border-color 200ms var(--ease-out), color 200ms var(--ease-out); }
+  .reveal:hover { background:var(--inset); }
+  .reveal.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  /* polygons: draw-in + demand reveal */
+  #shape-depth, #shape-demand { transform-origin: 380px 250px; }
+  .drawn #shape-depth { animation:draw 700ms var(--ease-out) both; }
+  .drawn #shape-demand { animation:draw 700ms var(--ease-out) 240ms both; }
+  @keyframes draw { from { transform:scale(0.55); opacity:0; } to { transform:scale(1); opacity:1; } }
+  #shape-demand, #g-demand { transition:opacity 300ms var(--ease-out); }
+  .demand-off #shape-demand { opacity:0 !important; }
+  .axis-hit { cursor:pointer; }
+  .axis-label { cursor:pointer; }
+  .vertex { transition:r 200ms var(--ease-out); }
+  .axis-on .vertex { r:6; }
+
+  /* reading panel */
+  .reading { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:20px 22px; min-height:220px; }
+  .reading .rk { display:flex; align-items:center; gap:9px; }
+  .reading .rk i { width:11px; height:11px; border-radius:3px; background:var(--rc, var(--accent)); flex:none; }
+  .reading h3 { margin:0; font-size:16px; font-weight:700; letter-spacing:-0.01em; }
+  .reading .nums { display:flex; gap:22px; margin:12px 0 0; }
+  .reading .nums div { font-size:12px; font-weight:600; }
+  .reading .nums b { display:block; font-size:21px; font-weight:750; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; color:var(--rc, var(--ink)); }
+  .reading p.txt { margin:12px 0 0; font-size:13.5px; line-height:1.6; }
+  .reading p.txt b { font-weight:650; }
+  .reading .cue { margin:14px 0 0; font-size:12px; font-weight:550; display:flex; align-items:center; gap:7px; }
+
+  /* receipts */
+  .receipts { margin-top:26px; }
+  .receipts h2 { font-size:16px; font-weight:700; margin:0 0 12px; letter-spacing:-0.01em; }
+  .rgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .rrow { background:var(--card); border:1px solid var(--line); border-radius:var(--r-sm); padding:11px 14px;
+    display:flex; align-items:center; gap:10px; transition:box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out), opacity 200ms var(--ease-out); }
+  .rrow.lit { border-color:var(--cc); box-shadow:0 5px 16px rgba(30,27,23,0.09); }
+  .rrow.dim { opacity:0.45; }
+  .rrow i { width:10px; height:10px; border-radius:3px; background:var(--cc); flex:none; }
+  .rrow h4 { margin:0; font-size:13px; font-weight:700; flex:none; }
+  .rrow .receipt { font-size:12.5px; line-height:1.4; }
+  .rrow .receipt b { font-weight:750; color:var(--cc); font-variant-numeric:tabular-nums; }
+
+  footer.colophon { margin-top:34px; border-top:1px solid var(--line); padding-top:14px;
+    font-size:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  footer.colophon i { width:7px; height:7px; border-radius:50%; background:var(--accent); flex:none; }
+  @media (max-width:900px){ .stage { grid-template-columns:1fr; } .rgrid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>Matt Sterbenz</h1>
+    <p class="role"><b>Revenue &amp; GTM operator</b> — I build, sell, and sustain SaaS businesses: complex technical sales motions, GTM systems from first contact through renewal, and lately the AI tooling that runs them.</p>
+  </header>
+
+  <div class="stage">
+    <div class="chart-card">
+      <svg viewBox="0 0 760 500" id="radar" aria-label="Experience depth versus target-role demand across six categories"></svg>
+      <div class="chart-foot">
+        <div class="legend">
+          <span class="k"><i></i>My evidence depth</span>
+          <span class="k" id="lg-demand"><i class="demand"></i>What I'm aiming at</span>
+        </div>
+        <button class="reveal on" id="reveal">Hide what I'm aiming at</button>
+      </div>
+    </div>
+    <aside class="reading" id="reading"></aside>
+  </div>
+
+  <div class="receipts">
+    <h2>The receipts</h2>
+    <div class="rgrid" id="rgrid"></div>
+  </div>
+
+  <footer class="colophon">
+    <i></i>Drawn from my live career profile — five roles, 50 tracked skills, and the meeting record behind them. The shape updates as the work does. <span>· 2026</span>
+  </footer>
+</div>
+
+<script>
+const CATS = [
+  { id:'deal',    name:'Deal craft & closing',           hex:'#D99A3D', depth:1.00, demand:0.85,
+    lead:['$5M+','contracted revenue owned end-to-end — sales, renewals, expansion, pricing, billing'],
+    txt:'My deepest evidence, fully demanded. <b>$5M+ in contracted revenue owned end-to-end</b>, ACV and commitment length up 3–4× through pricing architecture, deals from $6K to $220K a year — and a #3-of-1,300 national ranking in my first sales seat.' },
+  { id:'pipe',    name:'Pipeline & relationships',       hex:'#9C8FD9', depth:0.72, demand:0.60,
+    lead:['~40%','of revenue closed at Tourial came from pipeline I sourced myself'],
+    txt:'The engine I still run: conferences, warm rooms, and relationships over cold lists. <b>~40% of what I closed at Tourial was self-sourced</b>; I met Phonexa’s COO at a product-led-growth talk and closed a white-label deal in under three weeks — commercials negotiated over dinner.' },
+  { id:'sys',     name:'GTM & revenue systems',          hex:'#6F9CD9', depth:0.62, demand:0.62,
+    lead:['$3M+','ARR flowed through the revenue systems I architected'],
+    txt:'Matched shapes — the roles I want need someone who builds the machine, not just runs it. <b>$3M+ in ARR flowed through the HubSpot-centric lifecycle system I architected</b>; Salesbricks featured the quote-to-cash build as a public case study, and my onboarding system stayed the company standard for two years.' },
+  { id:'life',    name:'Customer lifecycle & retention', hex:'#36B37E', depth:0.55, demand:0.42,
+    lead:['$150K→$1M+','peak active ARR grown across 70+ customer logos'],
+    txt:'Surplus — I carry more here than a pure closing seat asks for, and it trades as range: <b>peak active ARR from ~$150K to $1M+ across 70+ logos</b>, owning the whole journey from closed-won through renewal, including saving the largest account multiple times, contractually.' },
+  { id:'founder', name:'Founder-adjacent operating',     hex:'#C9505F', depth:0.65, demand:0.92,
+    lead:['Promoted','Strategic AE → Head of Revenue & GTM Operations (equity + comp)'],
+    txt:'The axis my targeting is built around — the roles I want demand nearly everything I have here, and the evidence holds: <b>promoted to Head of Revenue when the scope outgrew the title</b>, the founder’s trusted operator through three product pivots, a rebrand, and a responsible wind-down under real exposure.' },
+  { id:'ai',      name:'AI-native building',             hex:'#4FB3C4', depth:0.48, demand:0.72,
+    lead:['180+','issues shipped solo building an AI-native CRM (40+ tool MCP suite)'],
+    txt:'On paper, demand outruns depth — it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 40+ tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
+];
+
+const svg = document.getElementById('radar');
+const CX = 380, CY = 250, R = 185, N = CATS.length;
+const ang = i => -Math.PI/2 + i * 2*Math.PI/N;
+const pt = (i, r) => [CX + Math.cos(ang(i))*r*R, CY + Math.sin(ang(i))*r*R];
+let g = '';
+[0.33, 0.66, 1].forEach(r => {
+  const ps = CATS.map((_,i)=>pt(i,r).join(',')).join(' ');
+  g += `<polygon points="${ps}" fill="none" stroke="#ECE9E2" stroke-width="1"/>`;
+});
+CATS.forEach((c,i) => {
+  const [x,y] = pt(i,1);
+  g += `<line x1="${CX}" y1="${CY}" x2="${x}" y2="${y}" stroke="#ECE9E2" stroke-width="1"/>`;
+});
+const shape = key => CATS.map((c,i)=>pt(i,c[key]).join(',')).join(' ');
+g += `<g id="g-demand"><polygon id="shape-demand" points="${shape('demand')}" fill="rgba(217,138,91,0.10)" stroke="#D98A5B" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"/></g>`;
+g += `<polygon id="shape-depth" points="${shape('depth')}" fill="rgba(10,11,13,0.07)" stroke="#0A0B0D" stroke-width="2.5" stroke-linejoin="round"/>`;
+CATS.forEach((c,i) => {
+  const [dx,dy] = pt(i,c.depth);
+  const [lx,ly] = pt(i, 1.13);
+  const cos = Math.cos(ang(i));
+  const anchor = Math.abs(cos) < 0.3 ? 'middle' : (cos > 0 ? 'start' : 'end');
+  const words = c.name.split(' & ');
+  const lines = words.length > 1 ? [words[0] + ' &', words[1]] : [c.name];
+  let label = '';
+  lines.forEach((ln,li) => {
+    label += `<text x="${lx}" y="${ly + li*15 - (lines.length-1)*6}" text-anchor="${anchor}" font-size="13" font-weight="650" fill="#0A0B0D">${ln}</text>`;
+  });
+  g += `<g class="axis-label" data-cat="${c.id}">${label}</g>`;
+  g += `<g class="axis-hit" data-cat="${c.id}">
+          <circle class="vertex" cx="${dx}" cy="${dy}" r="4.5" fill="${c.hex}" stroke="#fff" stroke-width="2"/>
+          <circle cx="${dx}" cy="${dy}" r="17" fill="transparent"/>
+        </g>`;
+});
+svg.innerHTML = g;
+requestAnimationFrame(()=>svg.classList.add('drawn'));
+
+/* receipts */
+const rgrid = document.getElementById('rgrid');
+CATS.forEach(c => {
+  rgrid.insertAdjacentHTML('beforeend',
+    `<div class="rrow" data-cat="${c.id}" style="--cc:${c.hex}"><i></i><h4>${c.name}</h4>
+     <span class="receipt"><b>${c.lead[0]}</b> ${c.lead[1]}</span></div>`);
+});
+
+/* reading panel */
+const reading = document.getElementById('reading');
+const pct = v => Math.round(v*100);
+function renderReading(c, pinned) {
+  reading.style.setProperty('--rc', c.hex);
+  reading.innerHTML = `<div class="rk"><i></i><h3>${c.name}</h3></div>
+    <div class="nums">
+      <div><b>${pct(c.depth)}</b>evidence depth</div>
+      <div><b>${pct(c.demand)}</b>role demand</div>
+    </div>
+    <p class="txt">${c.txt}</p>
+    <p class="cue">${pinned ? 'Pinned — click the chart again to unpin.' : 'Click the axis to pin this reading.'}</p>`;
+}
+function renderIntro() {
+  reading.style.removeProperty('--rc');
+  reading.innerHTML = `<div class="rk"><i style="background:var(--accent)"></i><h3>How to read this</h3></div>
+    <p class="txt">The <b>solid shape</b> is what five roles actually built — evidence, not adjectives. The <b>dashed shape</b> is the role I'm aiming at. Where they match, I'm a safe bet; where the dashed edge reaches past the solid one, that's the edge I'm growing into; where solid reaches past dashed, that's surplus you get for free.</p>
+    <p class="cue">Hover any axis of the chart for the story behind it.</p>`;
+}
+renderIntro();
+
+let pinnedCat = null;
+function setActive(id) {
+  document.querySelectorAll('.rrow').forEach(r => {
+    r.classList.toggle('lit', r.dataset.cat === id);
+    r.classList.toggle('dim', !!id && r.dataset.cat !== id);
+  });
+  document.querySelectorAll('.axis-hit').forEach(h => h.classList.toggle('axis-on', h.dataset.cat === id));
+}
+svg.addEventListener('mouseover', e => {
+  const t = e.target.closest('[data-cat]'); if(!t || pinnedCat) return;
+  const c = CATS.find(x=>x.id===t.dataset.cat);
+  renderReading(c, false); setActive(c.id);
+});
+svg.addEventListener('mouseleave', () => { if(!pinnedCat){ renderIntro(); setActive(null); } });
+svg.addEventListener('click', e => {
+  const t = e.target.closest('[data-cat]');
+  if(!t) { pinnedCat = null; renderIntro(); setActive(null); return; }
+  pinnedCat = (pinnedCat === t.dataset.cat) ? null : t.dataset.cat;
+  if(pinnedCat){ renderReading(CATS.find(x=>x.id===pinnedCat), true); setActive(pinnedCat); }
+  else { renderIntro(); setActive(null); }
+});
+rgrid.addEventListener('mouseover', e => {
+  const r = e.target.closest('.rrow'); if(!r || pinnedCat) return;
+  renderReading(CATS.find(x=>x.id===r.dataset.cat), false); setActive(r.dataset.cat);
+});
+rgrid.addEventListener('mouseleave', () => { if(!pinnedCat){ renderIntro(); setActive(null); } });
+
+/* demand reveal toggle */
+const revealBtn = document.getElementById('reveal');
+revealBtn.addEventListener('click', () => {
+  const off = svg.classList.toggle('demand-off');
+  revealBtn.classList.toggle('on', !off);
+  revealBtn.textContent = off ? "Reveal what I'm aiming at" : "Hide what I'm aiming at";
+  document.getElementById('lg-demand').classList.toggle('off', off);
+});
+</script>
+</body>
+</html>
