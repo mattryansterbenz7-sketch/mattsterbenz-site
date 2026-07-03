@@ -437,8 +437,8 @@
 
     <div class="case-filters reveal" id="caseFilters" role="group" aria-label="Filter case studies">
       <button class="filter-pill" data-filter="All" aria-pressed="true">All</button>
-      <button class="filter-pill" data-filter="Revenue systems" aria-pressed="false">Revenue systems</button>
-      <button class="filter-pill" data-filter="Partnerships" aria-pressed="false">Partnerships</button>
+      <button class="filter-pill" data-filter="Revenue" aria-pressed="false">Revenue</button>
+      <button class="filter-pill" data-filter="GTM systems" aria-pressed="false">GTM systems</button>
       <button class="filter-pill" data-filter="GTM strategy" aria-pressed="false">GTM strategy</button>
       <button class="filter-pill" data-filter="Stewardship" aria-pressed="false">Stewardship</button>
       <button class="filter-pill" data-filter="AI building" aria-pressed="false">AI building</button>
@@ -446,29 +446,51 @@
 
     <div class="case-grid reveal" id="caseList">
 
-      <button class="card card-hover case-card" data-tags="Revenue systems|HubSpot|Lifecycle" onclick="openCase(0)">
-        <img class="case-media" src="images/hubspot-pipeline.png" alt="HubSpot revenue pipeline" width="1546" height="730" loading="lazy" />
+      <button class="card card-hover case-card" data-tags="Revenue|Retention|Founder-adjacent" onclick="openCase(0)">
+        <span class="case-typo"><span>$3M+ in new ARR.</span></span>
         <span class="case-body">
-          <span class="case-role">Revenue operations · Rep.ai</span>
-          <span class="case-title">Architecting the full customer lifecycle system</span>
-          <span class="case-blurb">Several million in ARR ran through disconnected workflows. I rebuilt the lifecycle around HubSpot as one source of truth.</span>
-          <span class="case-tags"><span class="case-tag">Revenue systems</span><span class="case-tag">HubSpot</span><span class="case-tag">Lifecycle</span></span>
+          <span class="case-role">Head of Revenue &amp; GTM Ops · Rep.ai</span>
+          <span class="case-title">Owned the revenue, end to end</span>
+          <span class="case-blurb">Across 70+ logos, three pivots, and a wind-down. Peak active ARR from ~$150K to $1M+. Sales, renewals, expansion, pricing, contracts - mine.</span>
+          <span class="case-tags"><span class="case-tag">Revenue</span><span class="case-tag">Retention</span><span class="case-tag">Founder-adjacent</span></span>
           <span class="case-more">Read more →</span>
         </span>
       </button>
 
-      <button class="card card-hover case-card" data-tags="Revenue systems|Partnerships|Deal architecture" onclick="openCase(1)">
+      <button class="card card-hover case-card" data-tags="GTM systems|HubSpot|Lifecycle" onclick="openCase(1)">
+        <img class="case-media" src="images/hubspot-pipeline.png" alt="HubSpot revenue pipeline" width="1546" height="730" loading="lazy" />
+        <span class="case-body">
+          <span class="case-role">Revenue operations · Rep.ai</span>
+          <span class="case-title">Built the GTM system on HubSpot</span>
+          <span class="case-blurb">$5M+ in contracted revenue ran through disconnected tools. I made HubSpot the single source of truth - pipeline, renewals, expansion, churn.</span>
+          <span class="case-tags"><span class="case-tag">GTM systems</span><span class="case-tag">HubSpot</span><span class="case-tag">Lifecycle</span></span>
+          <span class="case-more">Read more →</span>
+        </span>
+      </button>
+
+      <button class="card card-hover case-card" data-tags="GTM systems|Partnerships|Deal architecture" onclick="openCase(2)">
         <img class="case-media" src="images/salesbricks.png" alt="Salesbricks quote-to-cash" width="1974" height="728" loading="lazy" />
         <span class="case-body">
           <span class="case-role">Revenue operations · Rep.ai</span>
           <span class="case-title">Quote-to-cash overhaul with Salesbricks</span>
-          <span class="case-blurb">ARR was growing past what ad hoc billing could carry. I sourced the partnership and built the closing infrastructure.</span>
-          <span class="case-tags"><span class="case-tag">Revenue systems</span><span class="case-tag">Partnerships</span><span class="case-tag">Deal architecture</span></span>
+          <span class="case-blurb">Ad hoc billing couldn't carry the deals I was closing. I sourced the partnership and built the closing infrastructure. Salesbricks published us as a case study.</span>
+          <span class="case-tags"><span class="case-tag">GTM systems</span><span class="case-tag">Partnerships</span><span class="case-tag">Deal architecture</span></span>
           <span class="case-more">Read more →</span>
         </span>
       </button>
 
-      <button class="card card-hover case-card" data-tags="GTM strategy|Product tour|ScreenSpace" onclick="openCase(2)">
+      <button class="card card-hover case-card" data-tags="Revenue|Founding AE|Category creation" onclick="openCase(3)">
+        <span class="case-typo"><span>40% of new ARR.</span></span>
+        <span class="case-body">
+          <span class="case-role">Founding AE · Tourial (now Navless.ai)</span>
+          <span class="case-title">Founding seller in a new category</span>
+          <span class="case-blurb">Employee ~#10 at an interactive-tour startup. I closed ~40% of all new ARR on a 10-person team and added 30 of ~70 logos - $350K to $1.5M+.</span>
+          <span class="case-tags"><span class="case-tag">Revenue</span><span class="case-tag">Founding AE</span><span class="case-tag">Category creation</span></span>
+          <span class="case-more">Read more →</span>
+        </span>
+      </button>
+
+      <button class="card card-hover case-card" data-tags="GTM strategy|Product tour|ScreenSpace" onclick="openCase(4)">
         <img class="case-media" src="images/interactive-tour.png" alt="Interactive product tour" width="3456" height="1506" loading="lazy" />
         <span class="case-body">
           <span class="case-role">GTM strategy · ServiceBell</span>
@@ -479,29 +501,29 @@
         </span>
       </button>
 
-      <button class="card card-hover case-card" data-tags="GTM strategy|Demand quality|Buyer experience" onclick="openCase(3)">
+      <button class="card card-hover case-card" data-tags="GTM strategy|Demand quality|Buyer experience" onclick="openCase(5)">
         <span class="case-typo"><span>Quality over volume.</span></span>
         <span class="case-body">
           <span class="case-role">GTM strategy</span>
-          <span class="case-title">Quality-first conversion strategy</span>
-          <span class="case-blurb">Most SaaS teams optimize for lead volume. I made the published case for signal over counts.</span>
+          <span class="case-title">The case for signal over lead counts</span>
+          <span class="case-blurb">Most SaaS teams optimize for lead volume. I made the published case for signal over counts - and I run my own search that way.</span>
           <span class="case-tags"><span class="case-tag">GTM strategy</span><span class="case-tag">Demand quality</span><span class="case-tag">Buyer experience</span></span>
           <span class="case-more">Read more →</span>
         </span>
       </button>
 
-      <button class="card card-hover case-card" data-tags="Stewardship|Judgment|Revenue ownership" onclick="openCase(4)">
+      <button class="card card-hover case-card" data-tags="Stewardship|Judgment|Founder-adjacent" onclick="openCase(6)">
         <span class="case-typo"><span>Every account closed out clean.</span></span>
         <span class="case-body">
-          <span class="case-role">Executive operations · Rep.ai</span>
+          <span class="case-role">Head of Revenue · Rep.ai</span>
           <span class="case-title">Customer &amp; revenue stewardship through a wind-down</span>
-          <span class="case-blurb">Active customers, live contracts, real exposure. Trusted to protect all three on the way down.</span>
-          <span class="case-tags"><span class="case-tag">Stewardship</span><span class="case-tag">Judgment</span><span class="case-tag">Revenue ownership</span></span>
+          <span class="case-blurb">Active customers, live contracts, real exposure. The founder trusted me to protect all three on the way down.</span>
+          <span class="case-tags"><span class="case-tag">Stewardship</span><span class="case-tag">Judgment</span><span class="case-tag">Founder-adjacent</span></span>
           <span class="case-more">Read more →</span>
         </span>
       </button>
 
-      <button class="card card-hover case-card" data-tags="AI building|0→1 product|Claude / MCP" onclick="openCase(5)">
+      <button class="card card-hover case-card" data-tags="AI building|0→1 product|Claude / MCP" onclick="openCase(7)">
         <span class="case-typo dark"><span class="coop-glyph">
           <svg width="28" height="28" viewBox="0 0 128 128" aria-hidden="true"><rect width="128" height="128" rx="22" fill="#F4505C"/><path d="M20 68 Q33 57 47 57 Q78 41 106 22 Q84 46 69 61 L112 74 L89 72 L101 99 Q71 79 50 75 Q32 73 20 68 Z" fill="#ffffff"/></svg>
           <span>Coop<span style="color:var(--coral)">.</span>ai</span>
@@ -509,7 +531,7 @@
         <span class="case-body">
           <span class="case-role">Founder &amp; builder · Coop.ai</span>
           <span class="case-title">Coop.ai - an AI career-search partner, built solo</span>
-          <span class="case-blurb">A job search runs on tools that don't talk to each other. I built the advisor that holds the whole search at once.</span>
+          <span class="case-blurb">A job search runs on tools that don't talk to each other. I built the advisor that holds the whole search at once - solo, as a non-engineer.</span>
           <span class="case-tags"><span class="case-tag">AI building</span><span class="case-tag">0→1 product</span><span class="case-tag">Claude / MCP</span></span>
           <span class="case-more">Read more →</span>
         </span>
@@ -791,22 +813,40 @@
 /* ---------- Case data ---------- */
 const CASES = [
   {
+    role: "Head of Revenue & GTM Ops · Rep.ai",
+    title: "Owned the revenue, end to end",
+    tags: ["Revenue","Retention","Pricing","Founder-adjacent","Complex sales"],
+    situation: "Rep.ai was a VC-backed, AI-native startup that moved through three product pivots, a full rebrand, and eventually a wind-down. Revenue needed one owner who could close the deal and run everything after it - pricing, contracts, renewals, and the customer relationship.",
+    action: "Owned the full revenue P&L with decision authority over pricing, positioning, customer selection, and deal structure. Closed complex, technical SaaS deals in live product demos - handling the evaluation and objections in the room - and grew ACV and commitment length roughly 3-4x through executive-level negotiation. Ran renewals, expansion, and churn, and sat as the closest non-engineering link between customers, the founder, and engineering, turning customer conversations into structured PRDs, bug reports, and roadmap calls.",
+    outcome: "$3M+ in cumulative new ARR across 70+ logos and $5M+ in total contracted revenue, owned from first conversation through retention. Peak active ARR grew from ~$150K to $1M+. Promoted from Strategic AE to Head of Revenue & GTM Operations as the scope outgrew the title.",
+    link: null, cta: null
+  },
+  {
     role: "Revenue operations · Rep.ai",
-    title: "Architecting the full customer lifecycle system",
-    tags: ["Revenue systems","HubSpot","Lifecycle","Arrows","Sybill"],
-    situation: "Onboarding, lifecycle tracking, and revenue visibility were fragmented. Several million in ARR flowed through disconnected workflows - ambiguous handoffs, inconsistent onboarding, little retention insight.",
-    action: "Architected HubSpot as the single source of truth: a custom revenue pipeline with stages, properties, and layouts purpose-built to manage several million in ARR end to end. Wired Salesbricks (billing) and Arrows (onboarding) to sync into HubSpot so revenue, onboarding progress, and customer health lived in one place. Designed the full customer journey from closed-won through activation, expansion, and renewal. Piped AI-analyzed call recordings (Sybill) into custom properties, capturing sentiment and key signals from customer conversations automatically.",
-    outcome: "One lifecycle architecture with HubSpot at the center, managing several million in ARR across the customer base. Handoffs got unambiguous. Execution shifted from person-dependent to system-driven, with a repeatable foundation for onboarding, retention, and expansion.",
+    title: "Built the GTM system on HubSpot",
+    tags: ["GTM systems","HubSpot","Lifecycle","Onboarding","Automation"],
+    situation: "Onboarding, lifecycle tracking, and revenue visibility were fragmented. Millions in ARR flowed through disconnected workflows - ambiguous handoffs, inconsistent onboarding, little retention insight.",
+    action: "Architected HubSpot as the operating layer: a custom revenue pipeline built to manage the full ARR base end to end. Wired Salesbricks (billing), Arrows (onboarding), Sybill (AI call analysis), Dock, Notion, and GitHub into one connected system, so revenue, onboarding progress, and customer health lived in one place. Piped AI-analyzed calls into HubSpot custom properties automatically, and designed the full journey from closed-won through activation, expansion, and renewal.",
+    outcome: "One lifecycle architecture with HubSpot at the center. Handoffs got unambiguous and execution shifted from person-dependent to system-driven. The repeatable onboarding flow I built on top (Arrows + HubSpot + Notion) carried $3M+ in ARR, became the company standard for two years, and earned a project bonus.",
     link: null, cta: null
   },
   {
     role: "Revenue operations · Rep.ai",
     title: "Quote-to-cash overhaul with Salesbricks",
-    tags: ["Revenue systems","Partnerships","Deal architecture"],
-    situation: "Rep.ai's sales process lacked real billing and closing infrastructure. As active ARR grew from ~$150K toward $1M+ across 70+ logos - $3M+ in cumulative new ARR, $5M+ in total contracted revenue - the workflow couldn't support complex deal structures, multi-year commitments, or scalable pricing.",
-    action: "Sourced, negotiated, and operationalized a strategic partnership with Salesbricks to professionalize the entire quote-to-cash workflow. Implemented structured pricing, contract management, and billing infrastructure - the machinery behind a 4x+ increase in ACV and commitment length won through executive-level negotiation.",
-    outcome: "Revenue operations went from ad hoc to institutional. Salesbricks became core billing infrastructure for the full ARR base, and Salesbricks published Rep.ai as a case study in revenue operations.",
+    tags: ["GTM systems","Partnerships","Deal architecture","Pricing","Contracts"],
+    situation: "As active ARR grew from ~$150K toward $1M+ across 70+ logos, ad hoc invoicing couldn't support the complex deal structures, multi-year commitments, or scalable pricing I was closing.",
+    action: "Sourced, negotiated, and operationalized a partnership with Salesbricks to professionalize the whole quote-to-cash workflow - structured pricing, contract management, and billing, the machinery behind a ~4x increase in ACV and commitment length. Along the way I re-papered and saved the largest account, a legacy $19.2K/month relationship with no contract on file, migrating billing cleanly without losing the customer or their confidence.",
+    outcome: "Revenue operations went from ad hoc to institutional. Salesbricks became core billing infrastructure for the full ARR base - and published Rep.ai as a public case study in revenue-operations excellence.",
     link: "https://www.salesbricks.com/case-study/rep-ai-transforming-revenue-operations-with-salesbricks", cta: "View the Salesbricks case study"
+  },
+  {
+    role: "Founding Mid-Market AE · Tourial (now Navless.ai)",
+    title: "Founding seller in a new category",
+    tags: ["Revenue","Founding AE","Category creation","Self-sourced pipeline","Complex sales"],
+    situation: "A seed-stage startup creating a new category - no-code interactive product tours - before the market had language for it. I was roughly employee #10. Pipeline had to be built, not inherited.",
+    action: "Owned a full mid-market cycle end to end: prospecting, discovery, technical demos, multi-stakeholder navigation, and close. Self-sourced most of my pipeline through relationships, LinkedIn, and conferences, and translated a technical product into clear business value while the category was still forming.",
+    outcome: "Scaled company ARR from $350K to $1.5M+. Closed ~40% of all new ARR across a 10-person selling team and added 30 of the ~70 logos won during my tenure. That relationship-led engine is the one I still run.",
+    link: null, cta: null
   },
   {
     role: "GTM strategy · ServiceBell (built with ScreenSpace)",
@@ -819,18 +859,18 @@ const CASES = [
   },
   {
     role: "GTM strategy",
-    title: "Quality-first conversion strategy",
+    title: "The case for signal over lead counts",
     tags: ["GTM strategy","Demand quality","Buyer experience","Decision clarity"],
     situation: "Most SaaS teams default to maximizing lead volume: gate the content, optimize for downloads, call it growth. Quantity wins over actual buyer understanding and signal clarity.",
     action: "Authored a featured strategic article making the quality-first case for demand generation: help prospects self-educate early, cut friction, and prioritize clarity over form captures.",
-    outcome: "A disciplined GTM philosophy on the record - optimize for meaningful engagement and decision clarity, not raw lead counts. Growth reframed from volume-driven activity to quality-driven signal.",
+    outcome: "A disciplined GTM philosophy on the record - optimize for meaningful engagement and decision clarity, not raw lead counts. The same principle runs Coop: five great applications beat fifty mediocre ones.",
     link: "https://summurai.com/Summyboard/gated-or-not/135835", cta: "Read the article"
   },
   {
-    role: "Executive operations · Rep.ai",
+    role: "Head of Revenue · Rep.ai",
     title: "Customer & revenue stewardship through a wind-down",
-    tags: ["Stewardship","Judgment","Customer trust","Revenue ownership"],
-    situation: "The company entered a wind-down with active customers, contractual commitments, and real revenue exposure. It called for calm, high-judgment execution under financial and reputational constraint.",
+    tags: ["Stewardship","Judgment","Customer trust","Founder-adjacent"],
+    situation: "The company entered a wind-down with active customers, contractual commitments, and real revenue exposure. It called for calm, high-judgment execution under financial and reputational constraint, as the founder's trusted operator.",
     action: "Owned customer and revenue transitions end to end. Built a structured offboarding process, made contract-aligned policy calls, ran the prorated refund math, and led the sensitive conversations directly - pushback included. Documented every decision and held the line consistently across accounts.",
     outcome: "Clean, controlled transitions. Customer trust protected during contraction, contractual commitments met, and every account closed out with its obligations settled.",
     link: null, cta: null
@@ -838,10 +878,10 @@ const CASES = [
   {
     role: "Founder & builder · Coop.ai",
     title: "Coop.ai - an AI career-search partner, built solo",
-    tags: ["AI building","0→1 product","Chrome extension","Claude / MCP"],
+    tags: ["AI building","0→1 product","Chrome extension","Claude / MCP","Multi-agent"],
     situation: "A real job search runs on a pile of tools that don't talk to each other - a spreadsheet stale by week two, a dozen tabs per company, a chat window where you re-paste your background every session. The context resets every time, and the highest-stakes decisions get made tired, scattered, and alone.",
-    action: "Designed and built Coop end to end: a Chrome extension that detects the company on any page, researches and scores the role against real criteria, and keeps every opportunity in one self-updating pipeline. Emails, calendar events, and meeting transcripts attach themselves automatically. The core is an advisor, powered by Claude over MCP, that already holds the full picture - so it reasons across the whole search instead of one posting at a time. Idea to daily use in five weeks.",
-    outcome: "I run my own search on it every day; it's now in private beta. Working proof of how I build: pragmatic 0→1 execution, AI wired into a real workflow, and judgment kept in the user's hands rather than hardcoded.",
+    action: "Designed and built Coop end to end as a non-engineer: a Manifest V3 Chrome extension shipped across 180+ issues, using multi-agent Claude Code over parallel git worktrees with the model tier tuned per issue. A deterministic 5-dimension engine scores fit; a synthesis layer distills a 500+ meeting corpus, emails, and notes into a living profile; an MCP server with 40+ tools makes the whole pipeline agent-operable, every write gated by a human approval queue.",
+    outcome: "I run my own search on it every day, it's in private beta, and it's become a live artifact I share on-screen in interviews. Proof of how I build: pragmatic 0→1 execution, AI wired into a real workflow, and judgment kept in the user's hands rather than hardcoded.",
     link: "https://coopmcp.com/", cta: "See Coop"
   }
 ];
