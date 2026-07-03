@@ -6,7 +6,7 @@
 <title>Matt Sterbenz - Revenue &amp; GTM operator</title>
 <meta name="description" content="Founding AE to Head of Revenue at an AI SaaS startup. $3M+ new ARR closed, $5M+ total contracted. Then I built Coop, an AI career CRM, solo." />
 <meta property="og:title" content="Matt Sterbenz - Revenue &amp; GTM operator" />
-<meta property="og:description" content="I did everything short of writing code. Then I went and wrote the code. Founding AE to Head of Revenue at an AI SaaS startup - then I built Coop, an AI career CRM, solo." />
+<meta property="og:description" content="I close revenue. And I build the systems behind it. Founding AE to Head of Revenue at an AI SaaS startup - then I built Coop, an AI career CRM, solo." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://mattsterbenz.com/" />
 <meta property="og:image" content="https://mattsterbenz.com/images/matt-headshot.jpg" />
@@ -84,6 +84,7 @@
     padding: calc(var(--nav-h) + 4.5rem) 24px 4.5rem;
     max-width: var(--max); margin: 0 auto;
     display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3.5rem; align-items: center;
+    background: radial-gradient(58% 76% at 84% 26%, var(--coral-soft-2), transparent 72%);
   }
   .hero h1 { margin: 0 0 1.4rem; max-width: 15ch; }
   .hero-sub { font-size: 1.15rem; font-weight: 500; max-width: 34rem; margin-bottom: 2.2rem; }
@@ -110,7 +111,7 @@
   .stat-num {
     display: block; font-weight: 800; letter-spacing: -0.025em;
     font-size: clamp(1.9rem, 3.4vw, 2.5rem); line-height: 1.05;
-    color: var(--ink); font-variant-numeric: tabular-nums;
+    color: var(--coral-ink); font-variant-numeric: tabular-nums;
   }
   .stat-label { display: block; margin-top: 0.5rem; font-size: 0.95rem; font-weight: 500; line-height: 1.45; }
   @media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
@@ -332,11 +333,11 @@
   .contact-row-val { font-size: 1.02rem; font-weight: 700; display: block; color: var(--ink); }
 
   /* ---------- Footer ---------- */
-  .site-footer { padding: 1.75rem 24px; text-align: center; }
+  .site-footer { padding: 1.75rem 24px; text-align: center; border-top: 3px solid var(--coral); }
   .site-footer p, .site-footer a { color: var(--ink-on-dark); font-size: 0.95rem; font-weight: 500; }
 </style>
 </head>
-<body>
+<body data-coop-hello="I'm Coop - the tool Matt built. I'll follow along and tell you what I see.">
 
 <!-- Nav -->
 <header class="site-nav">
@@ -368,10 +369,10 @@
 </div>
 
 <!-- Hero -->
-<section id="top" class="hero">
+<section id="top" class="hero" data-coop="Matt built me. So when he says he builds the systems behind revenue - I'm exhibit A.">
   <div class="reveal">
     <span class="kicker">Matt Sterbenz - revenue and GTM operator</span>
-    <h1>I did everything short of writing code. <em>Then I went and wrote the code.</em></h1>
+    <h1>I close revenue. <em>And I build the systems behind it.</em></h1>
     <p class="hero-sub">Closing is the foundation - founding AE to Head of Revenue at an AI SaaS startup. Then I built Coop, an AI career CRM, solo.</p>
     <div class="hero-actions">
       <a href="https://calendly.com/mattryansterbenz7/30-minute-meeting-with-matt" target="_blank" rel="noopener" class="btn btn-primary">Book 30 minutes →</a>
@@ -384,7 +385,7 @@
 </section>
 
 <!-- Proof strip -->
-<section class="stats-band section-raised" aria-label="The receipts">
+<section class="stats-band section-raised" aria-label="The receipts" data-coop="These are the numbers he won't round up. I keep his file, so I checked.">
   <div class="stats-grid reveal-stagger" id="statsGrid">
     <div class="card stat-card">
       <span class="stat-num" data-count="3" data-prefix="$" data-suffix="M+">$3M+</span>
@@ -406,7 +407,7 @@
 </section>
 
 <!-- About -->
-<section id="about" class="section">
+<section id="about" class="section" data-coop="Account executive at heart, operator by demand. That's the read I'd give a hiring manager.">
   <div class="container">
     <div class="about-grid">
       <div class="about-sticky reveal">
@@ -427,7 +428,7 @@
 </section>
 
 <!-- Selected work -->
-<section id="work" class="section section-raised">
+<section id="work" class="section section-raised" data-coop="Hover a case. This is the part of his file I'd open before a first call.">
   <div class="container">
     <div class="reveal">
       <span class="kicker">Selected work</span>
@@ -554,7 +555,7 @@
 </section>
 
 <!-- Building -->
-<section id="building" class="section">
+<section id="building" class="section" data-coop="That's me. Five weeks from idea to daily use. He didn't wait for a spec - he built.">
   <div class="container">
     <div class="build-grid">
       <div class="reveal">
@@ -591,7 +592,7 @@
 </section>
 
 <!-- Principles -->
-<section id="principles" class="section section-raised">
+<section id="principles" class="section section-raised" data-coop="He wrote these before he wrote me - then built me to follow them.">
   <div class="container">
     <div class="reveal">
       <span class="kicker">How I work</span>
@@ -742,7 +743,7 @@
 </section>
 
 <!-- Contact -->
-<section id="contact" class="section section-raised">
+<section id="contact" class="section section-raised" data-coop="This is where I'd tell you to book the call. So: book the call.">
   <div class="container">
     <div class="reveal">
       <span class="kicker">Contact</span>
@@ -975,5 +976,8 @@ document.getElementById('attuned').addEventListener('toggle', function () {
   if (this.open && !frame.src) frame.src = frame.dataset.src;
 });
 </script>
+
+<!-- Coop, live: cursor-follow companion (desktop, motion-safe, dismissible) -->
+<script src="/coop-companion.js" defer></script>
 </body>
 </html>

@@ -93,7 +93,7 @@
   @media (max-width:560px){ .wrap { padding:92px 20px 70px; } }
 </style>
 </head>
-<body>
+<body data-coop-hello="I'm Coop. This is Matt's experience, mapped. Move around - I'll follow along.">
 <header class="xnav">
   <a class="xnav-logo" href="/">Matt<span style="color:var(--coral)">.</span></a>
   <a class="xnav-back" href="/">← mattsterbenz.com</a>
@@ -259,5 +259,8 @@ revealBtn.addEventListener('click', () => {
   document.getElementById('lg-demand').classList.toggle('off', off);
 });
 </script>
+
+<!-- Coop, live: cursor-follow companion (desktop, motion-safe, dismissible) -->
+<script src="/coop-companion.js" defer></script>
 </body>
 </html>
