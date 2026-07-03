@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Coop mark: coral rounded square + white swallow in flight (profile: swept wing, forked tail).
+       Single source of truth — run scripts/gen-icons.sh after editing. -->
+  <rect width="128" height="128" rx="22" fill="#F4505C"/>
+  <path d="M20 68 Q33 57 47 57 Q78 41 106 22 Q84 46 69 61 L112 74 L89 72 L101 99 Q71 79 50 75 Q32 73 20 68 Z" fill="#ffffff"/>
+</svg>

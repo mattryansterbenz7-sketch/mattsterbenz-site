@@ -2,30 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="description" content="Matt Sterbenz — revenue & GTM operator. The shape of my experience, drawn from live career data." />
+<meta name="description" content="Matt Sterbenz - revenue & GTM operator. The shape of my experience, drawn from live career data." />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Matt Sterbenz — the shape of my experience</title>
+<title>Matt Sterbenz - the shape of my experience</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E1B17'/%3E%3Ctext x='28' y='45' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='36' font-weight='800' text-anchor='middle' fill='%23F5F4F2'%3EM%3C/text%3E%3Ccircle cx='48' cy='42' r='6' fill='%23F4505C'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/brand.css" />
 <style>
-  @font-face {
-    font-family: 'Hanken Grotesk';
-    font-style: normal; font-weight: 100 900; font-display: swap;
-    src: url('fonts/hanken-grotesk-latin-variable.woff2') format('woff2');
-  }
   :root {
-    --paper:#F6F1E9; --card:#FFFFFF; --ink:#0A0B0D; --line:#E2DED5; --line-soft:#ECE9E2;
-    --inset:#EDE8DF; --accent:#D98A5B; --accent-ink:#A85F36; --accent-soft:rgba(217,138,91,0.12);
+    --paper:var(--bg-base); --card:var(--bg-raised); --line:var(--border); --line-soft:var(--border-subtle);
+    --inset:var(--bg-inset); --accent:var(--coral); --accent-ink:var(--coral-ink); --accent-soft:var(--coral-soft);
     --c-deal:#D99A3D; --c-pipe:#9C8FD9; --c-sys:#6F9CD9;
     --c-life:#36B37E; --c-founder:#C9505F; --c-ai:#4FB3C4;
-    --r-md:16px; --r-sm:8px; --r-btn:6px;
-    --ease-out:cubic-bezier(0.16,1,0.3,1);
+    --r-md:16px; --r-sm:8px; --r-btn:8px;
   }
-  * { box-sizing:border-box; } html,body { margin:0; }
-  body { background:var(--paper); color:var(--ink);
-    font-family:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
-    -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.55; }
-  .wrap { max-width:1060px; margin:0 auto; padding:56px 32px 90px; }
+  body { background:var(--paper); color:var(--ink); font-size:14px; line-height:1.55; }
+  .wrap { max-width:1060px; margin:0 auto; padding:104px 32px 90px; }
 
-  header.masthead h1 { font-size:30px; font-weight:750; letter-spacing:-0.025em; margin:0; }
+  /* shared-site nav */
+  .xnav { position:fixed; top:0; left:0; right:0; z-index:100; height:56px;
+    background:rgba(241,239,234,0.92); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line-soft);
+    display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
+  .xnav a { text-decoration:none; }
+  .xnav-logo { font-weight:800; font-size:17px; letter-spacing:-0.02em; color:var(--ink); }
+  .xnav-back { font-size:13.5px; font-weight:650; color:var(--ink); padding:10px 4px;
+    transition:color 200ms var(--ease-out); }
+  .xnav-back:hover { color:var(--accent-ink); }
+
+  header.masthead h1 { font-size:30px; font-weight:750; letter-spacing:-0.025em; margin:0; line-height:1.2; }
   header.masthead .role { font-size:15.5px; margin:6px 0 0; max-width:640px; }
   header.masthead .role b { font-weight:650; }
 
@@ -38,11 +42,11 @@
   .legend .k i { width:18px; height:0; border-top:3px solid var(--ink); border-radius:2px; display:block; }
   .legend .k i.demand { border-top:3px dashed var(--accent); }
   .legend .k.off { opacity:0.35; }
-  .reveal { margin-left:auto; border:1px solid var(--line); background:var(--card); border-radius:var(--r-btn);
-    padding:7px 14px; font:inherit; font-size:12.5px; font-weight:650; color:var(--ink); cursor:pointer;
+  .demand-btn { margin-left:auto; border:1px solid var(--line); background:var(--card); border-radius:var(--r-btn);
+    padding:10px 14px; font:inherit; font-size:12.5px; font-weight:650; color:var(--ink); cursor:pointer; min-height:44px;
     transition:background 200ms var(--ease-out), border-color 200ms var(--ease-out), color 200ms var(--ease-out); }
-  .reveal:hover { background:var(--inset); }
-  .reveal.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .demand-btn:hover { background:var(--inset); }
+  .demand-btn.on { background:var(--accent); border-color:var(--accent); color:#fff; }
 
   /* polygons: draw-in + demand reveal */
   #shape-depth, #shape-demand { transform-origin: 380px 250px; }
@@ -70,14 +74,15 @@
 
   /* receipts */
   .receipts { margin-top:26px; }
-  .receipts h2 { font-size:16px; font-weight:700; margin:0 0 12px; letter-spacing:-0.01em; }
+  .receipts h2 { font-size:16px; font-weight:700; margin:0 0 12px; letter-spacing:-0.01em; line-height:1.3; }
   .rgrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
   .rrow { background:var(--card); border:1px solid var(--line); border-radius:var(--r-sm); padding:11px 14px;
-    display:flex; align-items:center; gap:10px; transition:box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out), opacity 200ms var(--ease-out); }
+    display:flex; align-items:center; gap:10px; cursor:pointer;
+    transition:box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out), opacity 200ms var(--ease-out); }
   .rrow.lit { border-color:var(--cc); box-shadow:0 5px 16px rgba(30,27,23,0.09); }
   .rrow.dim { opacity:0.45; }
   .rrow i { width:10px; height:10px; border-radius:3px; background:var(--cc); flex:none; }
-  .rrow h4 { margin:0; font-size:13px; font-weight:700; flex:none; }
+  .rrow h4 { margin:0; font-size:13px; font-weight:700; flex:none; line-height:1.3; }
   .rrow .receipt { font-size:12.5px; line-height:1.4; }
   .rrow .receipt b { font-weight:750; color:var(--cc); font-variant-numeric:tabular-nums; }
 
@@ -85,14 +90,19 @@
     font-size:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
   footer.colophon i { width:7px; height:7px; border-radius:50%; background:var(--accent); flex:none; }
   @media (max-width:900px){ .stage { grid-template-columns:1fr; } .rgrid { grid-template-columns:1fr; } }
+  @media (max-width:560px){ .wrap { padding:92px 20px 70px; } }
 </style>
 </head>
 <body>
+<header class="xnav">
+  <a class="xnav-logo" href="/">Matt<span style="color:var(--coral)">.</span></a>
+  <a class="xnav-back" href="/">← mattsterbenz.com</a>
+</header>
 <div class="wrap">
 
   <header class="masthead">
     <h1>Matt Sterbenz</h1>
-    <p class="role"><b>Revenue &amp; GTM operator</b> — I build, sell, and sustain SaaS businesses: complex technical sales motions, GTM systems from first contact through renewal, and lately the AI tooling that runs them.</p>
+    <p class="role"><b>Revenue &amp; GTM operator</b> - I build, sell, and sustain SaaS businesses: complex technical sales motions, GTM systems from first contact through renewal, and lately the AI tooling that runs them.</p>
   </header>
 
   <div class="stage">
@@ -103,7 +113,7 @@
           <span class="k"><i></i>My evidence depth</span>
           <span class="k" id="lg-demand"><i class="demand"></i>What I'm aiming at</span>
         </div>
-        <button class="reveal on" id="reveal">Hide what I'm aiming at</button>
+        <button class="demand-btn on" id="reveal">Hide what I'm aiming at</button>
       </div>
     </div>
     <aside class="reading" id="reading"></aside>
@@ -115,30 +125,30 @@
   </div>
 
   <footer class="colophon">
-    <i></i>Drawn from my live career profile — five roles, 50 tracked skills, and the meeting record behind them. The shape updates as the work does. <span>· 2026</span>
+    <i></i>Drawn from my live career profile - five roles, 50 tracked skills, and the meeting record behind them. The shape updates as the work does. <span>· 2026</span>
   </footer>
 </div>
 
 <script>
 const CATS = [
   { id:'deal',    name:'Deal craft & closing',           hex:'#D99A3D', depth:1.00, demand:0.85,
-    lead:['$5M+','contracted revenue owned end-to-end — sales, renewals, expansion, pricing, billing'],
-    txt:'My deepest evidence, fully demanded. <b>$5M+ in contracted revenue owned end-to-end</b>, ACV and commitment length up 3–4× through pricing architecture, deals from $6K to $220K a year — and a #3-of-1,300 national ranking in my first sales seat.' },
+    lead:['$5M+','contracted revenue owned end-to-end - sales, renewals, expansion, pricing, billing'],
+    txt:'My deepest evidence, fully demanded. <b>$5M+ in contracted revenue owned end-to-end</b>, ACV and commitment length up 3-4x through pricing architecture, deals from $6K to $220K a year - and a #3-of-1,300 national ranking in my first sales seat.' },
   { id:'pipe',    name:'Pipeline & relationships',       hex:'#9C8FD9', depth:0.72, demand:0.60,
     lead:['~40%','of revenue closed at Tourial came from pipeline I sourced myself'],
-    txt:'The engine I still run: conferences, warm rooms, and relationships over cold lists. <b>~40% of what I closed at Tourial was self-sourced</b>; I met Phonexa’s COO at a product-led-growth talk and closed a white-label deal in under three weeks — commercials negotiated over dinner.' },
+    txt:'The engine I still run: conferences, warm rooms, and relationships over cold lists. <b>~40% of what I closed at Tourial was self-sourced</b>; I met Phonexa’s COO at a product-led-growth talk and closed a white-label deal in under three weeks - commercials negotiated over dinner.' },
   { id:'sys',     name:'GTM & revenue systems',          hex:'#6F9CD9', depth:0.62, demand:0.62,
     lead:['$3M+','ARR flowed through the revenue systems I architected'],
-    txt:'Matched shapes — the roles I want need someone who builds the machine, not just runs it. <b>$3M+ in ARR flowed through the HubSpot-centric lifecycle system I architected</b>; Salesbricks featured the quote-to-cash build as a public case study, and my onboarding system stayed the company standard for two years.' },
+    txt:'Matched shapes - the roles I want need someone who builds the machine, not just runs it. <b>$3M+ in ARR flowed through the HubSpot-centric lifecycle system I architected</b>; Salesbricks featured the quote-to-cash build as a public case study, and my onboarding system stayed the company standard for two years.' },
   { id:'life',    name:'Customer lifecycle & retention', hex:'#36B37E', depth:0.55, demand:0.42,
     lead:['$150K→$1M+','peak active ARR grown across 70+ customer logos'],
-    txt:'Surplus — I carry more here than a pure closing seat asks for, and it trades as range: <b>peak active ARR from ~$150K to $1M+ across 70+ logos</b>, owning the whole journey from closed-won through renewal, including saving the largest account multiple times, contractually.' },
+    txt:'Surplus - I carry more here than a pure closing seat asks for, and it trades as range: <b>peak active ARR from ~$150K to $1M+ across 70+ logos</b>, owning the whole journey from closed-won through renewal, including saving the largest account multiple times, contractually.' },
   { id:'founder', name:'Founder-adjacent operating',     hex:'#C9505F', depth:0.65, demand:0.92,
     lead:['Promoted','Strategic AE → Head of Revenue & GTM Operations (equity + comp)'],
-    txt:'The axis my targeting is built around — the roles I want demand nearly everything I have here, and the evidence holds: <b>promoted to Head of Revenue when the scope outgrew the title</b>, the founder’s trusted operator through three product pivots, a rebrand, and a responsible wind-down under real exposure.' },
+    txt:'The axis my targeting is built around - the roles I want demand nearly everything I have here, and the evidence holds: <b>promoted to Head of Revenue when the scope outgrew the title</b>, the founder’s trusted operator through three product pivots, a rebrand, and a responsible wind-down under real exposure.' },
   { id:'ai',      name:'AI-native building',             hex:'#4FB3C4', depth:0.48, demand:0.72,
     lead:['180+','issues shipped solo building an AI-native CRM (40+ tool MCP suite)'],
-    txt:'On paper, demand outruns depth — it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 40+ tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
+    txt:'On paper, demand outruns depth - it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 40+ tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
 ];
 
 const svg = document.getElementById('radar');
@@ -155,7 +165,7 @@ CATS.forEach((c,i) => {
   g += `<line x1="${CX}" y1="${CY}" x2="${x}" y2="${y}" stroke="#ECE9E2" stroke-width="1"/>`;
 });
 const shape = key => CATS.map((c,i)=>pt(i,c[key]).join(',')).join(' ');
-g += `<g id="g-demand"><polygon id="shape-demand" points="${shape('demand')}" fill="rgba(217,138,91,0.10)" stroke="#D98A5B" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"/></g>`;
+g += `<g id="g-demand"><polygon id="shape-demand" points="${shape('demand')}" fill="rgba(244,80,92,0.10)" stroke="#F4505C" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"/></g>`;
 g += `<polygon id="shape-depth" points="${shape('depth')}" fill="rgba(10,11,13,0.07)" stroke="#0A0B0D" stroke-width="2.5" stroke-linejoin="round"/>`;
 CATS.forEach((c,i) => {
   const [dx,dy] = pt(i,c.depth);
@@ -196,13 +206,13 @@ function renderReading(c, pinned) {
       <div><b>${pct(c.demand)}</b>role demand</div>
     </div>
     <p class="txt">${c.txt}</p>
-    <p class="cue">${pinned ? 'Pinned — click the chart again to unpin.' : 'Click the axis to pin this reading.'}</p>`;
+    <p class="cue">${pinned ? 'Pinned - tap the chart again to unpin.' : 'Tap the axis to pin this reading.'}</p>`;
 }
 function renderIntro() {
   reading.style.removeProperty('--rc');
   reading.innerHTML = `<div class="rk"><i style="background:var(--accent)"></i><h3>How to read this</h3></div>
-    <p class="txt">The <b>solid shape</b> is what five roles actually built — evidence, not adjectives. The <b>dashed shape</b> is the role I'm aiming at. Where they match, I'm a safe bet; where the dashed edge reaches past the solid one, that's the edge I'm growing into; where solid reaches past dashed, that's surplus you get for free.</p>
-    <p class="cue">Hover any axis of the chart for the story behind it.</p>`;
+    <p class="txt">The <b>solid shape</b> is what five roles actually built - evidence, not adjectives. The <b>dashed shape</b> is the role I'm aiming at. Where they match, I'm a safe bet; where the dashed edge reaches past the solid one, that's the edge I'm growing into; where solid reaches past dashed, that's surplus you get for free.</p>
+    <p class="cue">Hover or tap any axis of the chart for the story behind it.</p>`;
 }
 renderIntro();
 
@@ -232,6 +242,13 @@ rgrid.addEventListener('mouseover', e => {
   renderReading(CATS.find(x=>x.id===r.dataset.cat), false); setActive(r.dataset.cat);
 });
 rgrid.addEventListener('mouseleave', () => { if(!pinnedCat){ renderIntro(); setActive(null); } });
+/* touch: tap a receipt row to pin/unpin its reading */
+rgrid.addEventListener('click', e => {
+  const r = e.target.closest('.rrow'); if(!r) return;
+  pinnedCat = (pinnedCat === r.dataset.cat) ? null : r.dataset.cat;
+  if(pinnedCat){ renderReading(CATS.find(x=>x.id===pinnedCat), true); setActive(pinnedCat); }
+  else { renderIntro(); setActive(null); }
+});
 
 /* demand reveal toggle */
 const revealBtn = document.getElementById('reveal');

@@ -1,0 +1,195 @@
+/* ============================================================
+   Shared brand system - coopmcp.com + mattsterbenz.com
+   Derived from company-intel DESIGN.md + design-tokens.css + BRAND.md.
+   One source of truth: keep the copy in both site repos identical.
+   Hard rules encoded here:
+   - One tier of ink. No gray text, ever. Hierarchy = size + weight.
+   - Sentence case labels. No uppercase letter-spaced eyebrows.
+   - Coral #F4505C is Coop's mark + the family accent. Semantic use only.
+   - Everything eases. Linear easing is banned.
+   - Hanken Grotesk, self-hosted. Never Google-loaded.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-latin-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-latin-ext-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+  /* Surfaces */
+  --bg-base: #F1EFEA;        /* page canvas - warm cream */
+  --bg-raised: #FFFFFF;      /* cards, panels */
+  --bg-inset: #E9E6DF;       /* inputs, inset wells */
+  --bg-dark: #1E1B17;        /* espresso - dark bands, primary buttons */
+  --bg-dark-hover: #2A2620;
+
+  /* Ink - ONE tier. Never gray on text. */
+  --ink: #0A0B0D;
+  --ink-on-dark: #F5F4F2;
+  --link-blue: #4573D2;
+
+  /* Brand */
+  --coral: #F4505C;          /* Coop's mark + family accent */
+  --coral-hover: #D93B47;
+  --coral-ink: #BD3942;      /* deep coral - text-sized accents on light */
+  --coral-soft: rgba(244, 80, 92, 0.08);
+  --coral-soft-2: rgba(244, 80, 92, 0.14);
+
+  /* Semantic */
+  --teal: #36B37E;
+  --teal-deep: #064E3B;
+  --amber: #F5A623;
+  --red: #E8384F;
+  --claude-orange: #D97757;  /* the Claude handoff only - never for Coop actions */
+
+  /* Borders */
+  --border: #E2DED5;
+  --border-subtle: #ECE9E2;
+  --border-strong: #C8C2B6;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-btn: 10px;
+  --radius-full: 9999px;
+
+  /* Warm shadows */
+  --shadow-xs: 0 1px 2px rgba(24, 20, 16, 0.03);
+  --shadow-sm: 0 1px 2px rgba(24, 20, 16, 0.04), 0 2px 8px rgba(24, 20, 16, 0.05);
+  --shadow-md: 0 2px 4px rgba(24, 20, 16, 0.04), 0 10px 28px rgba(24, 20, 16, 0.08);
+  --shadow-lg: 0 6px 12px rgba(24, 20, 16, 0.05), 0 28px 64px rgba(24, 20, 16, 0.12);
+
+  /* Motion - everything eases */
+  --motion-xs: 120ms;
+  --motion-sm: 200ms;
+  --motion-md: 300ms;
+  --motion-lg: 400ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Type */
+  --font-sans: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+
+  --max: 1080px;
+  --nav-h: 64px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Type scale. Hierarchy is size + weight, never color. ---- */
+h1, h2, h3, h4 { color: var(--ink); line-height: 1.12; letter-spacing: -0.022em; font-weight: 800; }
+h1 { font-size: clamp(2.5rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); letter-spacing: -0.018em; }
+h3 { font-size: clamp(1.15rem, 2.2vw, 1.35rem); font-weight: 700; letter-spacing: -0.012em; line-height: 1.25; }
+h4 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.008em; line-height: 1.3; }
+
+p { color: var(--ink); }
+a { color: var(--ink); text-decoration-color: var(--border-strong); text-underline-offset: 3px; transition: color var(--motion-sm) var(--ease-out), text-decoration-color var(--motion-sm) var(--ease-out); }
+a:hover { color: var(--coral-ink); text-decoration-color: var(--coral); }
+
+em { font-style: normal; color: var(--coral-ink); }
+strong { font-weight: 700; }
+
+::selection { background: var(--coral-soft-2); }
+
+/* ---- Kicker: the ONLY label treatment. Sentence case, one cue. ---- */
+.kicker {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--coral-ink);
+  letter-spacing: 0;
+  text-transform: none;
+  margin-bottom: 0.9rem;
+}
+
+/* ---- Buttons. Sentence case. Espresso primary, outline secondary. ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--radius-btn);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--motion-sm) var(--ease-out), color var(--motion-sm) var(--ease-out),
+    border-color var(--motion-sm) var(--ease-out), transform var(--motion-sm) var(--ease-out),
+    box-shadow var(--motion-sm) var(--ease-out);
+}
+.btn-primary { background: var(--bg-dark); color: var(--ink-on-dark); }
+.btn-primary:hover { background: var(--bg-dark-hover); color: var(--ink-on-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-coral { background: var(--coral); color: #fff; }
+.btn-coral:hover { background: var(--coral-hover); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-outline { background: transparent; color: var(--ink); border-color: var(--border-strong); }
+.btn-outline:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-1px); }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--motion-md) var(--ease-out), transform var(--motion-md) var(--ease-out);
+}
+.card-hover:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+/* ---- Layout ---- */
+.container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+.section { padding: 5.5rem 0; }
+.section-raised { background: var(--bg-raised); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+.section-dark { background: var(--bg-dark); color: var(--ink-on-dark); }
+.section-dark h1, .section-dark h2, .section-dark h3, .section-dark p, .section-dark a { color: var(--ink-on-dark); }
+
+/* ---- Scroll reveal (JS adds .in). Respect reduced motion. ---- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-stagger > * { opacity: 0; transform: translateY(18px); transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }
+.reveal-stagger.in > * { opacity: 1; transform: none; }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 70ms; }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 140ms; }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 210ms; }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: 280ms; }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; transition: none !important; }
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* ---- Focus visible ---- */
+:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; border-radius: 2px; }
