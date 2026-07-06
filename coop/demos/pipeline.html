@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pipeline kanban demo — Coop.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --font-display: 'Barlow', sans-serif;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1200px;
+    --nav-h: 60px;
+    --bg: #FFFFFF;
+    --raised: #F6F8F9;
+    --inset: #EEF1F3;
+    --header: #151B26;
+    --text: #0A0B0D;
+    --text-2: #6F7782;
+    --text-3: #8A8E94;
+    --on-dark: #F5F4F2;
+    --on-dark-muted: #A3AEBE;
+    --border-subtle: #EAECEF;
+    --coral: #FC636B;
+    --teal: #36B37E;
+    --blue: #4573D2;
+    --amber: #F5A623;
+    --red: #E8384F;
+    --purple: #7C6EF0;
+    --shadow-sm: 0 1px 3px rgba(30,31,33,.05),0 1px 2px rgba(0,0,0,.03);
+    --shadow-md: 0 4px 14px rgba(30,31,33,.07),0 1px 3px rgba(0,0,0,.03);
+    --shadow-lg: 0 10px 36px rgba(30,31,33,.14),0 2px 8px rgba(0,0,0,.06);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* NAV (shared) */
+  .coop-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); background: rgba(247,245,240,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+  .coop-nav-inner { max-width: var(--max); width: 100%; margin: 0 auto; padding: 0 28px; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+  .coop-nav-back { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; display: flex; align-items: center; gap: 0.35rem; white-space: nowrap; flex-shrink: 0; }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .coop-nav-tabs a { font-size: 0.84rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px; transition: color 0.15s, background 0.15s; }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; font-weight: 500; background: var(--ink); color: var(--white); text-decoration: none; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  .page-head { padding: calc(var(--nav-h) + 3rem) 28px 1.75rem; max-width: var(--max); margin: 0 auto; }
+  .crumb { font-size: 0.78rem; color: var(--ink-muted); margin-bottom: 0.65rem; }
+  .crumb a { color: inherit; text-decoration: none; }
+  .crumb a:hover { color: var(--accent); }
+  .page-h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin-bottom: 0.5rem; }
+  .page-sub { font-family: var(--font-serif); font-weight: 500; font-size: clamp(1rem, 1.3vw, 1.15rem); color: var(--ink-soft); font-style: italic; max-width: 640px; }
+
+  .demo-section { padding: 1rem 28px 4rem; max-width: var(--max); margin: 0 auto; }
+
+  .demo-stage {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .kanban-head {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--raised);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .pipeline-tabs { display: flex; gap: 4px; }
+  .pipeline-tab {
+    font-size: 12.5px; font-weight: 600;
+    padding: 5px 11px; border-radius: 6px;
+    color: var(--text-2); cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+  }
+  .pipeline-tab.active {
+    color: var(--text);
+    background: var(--bg);
+    border-color: var(--border-subtle);
+  }
+  .head-meta { font-size: 11.5px; color: var(--text-3); margin-left: 8px; }
+  .head-meta b { color: var(--text); font-weight: 600; }
+  .reset-pipeline {
+    margin-left: auto;
+    font-size: 11.5px; color: var(--text-2);
+    background: none; border: 1px solid var(--border-subtle);
+    padding: 5px 11px; border-radius: 6px; cursor: pointer;
+    font-family: inherit;
+  }
+  .reset-pipeline:hover { background: var(--inset); color: var(--text); }
+
+  /* Kanban body */
+  .kanban-body {
+    padding: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    min-height: 480px;
+    overflow-x: auto;
+  }
+  @media (max-width: 900px) {
+    .kanban-body { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+  }
+  @media (max-width: 540px) {
+    .kanban-body { grid-template-columns: minmax(220px, 1fr); }
+  }
+
+  .col {
+    background: var(--raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px 10px;
+    display: flex; flex-direction: column;
+    min-height: 420px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .col.drag-over {
+    background: rgba(252,99,107,.04);
+    border-color: var(--coral);
+    border-style: dashed;
+  }
+  .col-head {
+    font-size: 12px; font-weight: 600;
+    color: var(--text-2);
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 10px;
+    padding: 0 2px;
+  }
+  .col-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .col-count {
+    margin-left: auto;
+    font-size: 11px; color: var(--text-3);
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    padding: 1px 7px; border-radius: 9999px;
+  }
+  .col-cards {
+    display: flex; flex-direction: column; gap: 8px;
+    flex: 1;
+    min-height: 60px;
+  }
+  .col-empty {
+    font-size: 11.5px; color: var(--text-3);
+    text-align: center;
+    padding: 18px 8px;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 9px;
+    padding: 10px 11px;
+    cursor: grab;
+    user-select: none;
+    transition: box-shadow 0.15s, transform 0.15s, opacity 0.15s;
+    position: relative;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--text-3);
+  }
+  .card:active { cursor: grabbing; }
+  .card.dragging { opacity: 0.4; transform: rotate(-1.5deg); }
+
+  .card-head { display: flex; align-items: center; gap: 8px; }
+  .card-logo {
+    width: 26px; height: 26px; border-radius: 6px;
+    color: #fff; font-weight: 700; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-co { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -.01em; }
+  .card-role { font-size: 11.5px; color: var(--text-2); margin-top: 1px; line-height: 1.35; }
+  .card-foot {
+    margin-top: 9px;
+    display: flex; align-items: center; gap: 6px;
+    flex-wrap: wrap;
+  }
+  .score-chip {
+    font-size: 11px; font-weight: 600;
+    padding: 2px 7px; border-radius: 9999px;
+    color: var(--teal); background: rgba(54,179,126,.1);
+  }
+  .score-chip.amber { color: var(--amber); background: rgba(245,166,35,.1); }
+  .score-chip.red { color: var(--red); background: rgba(232,56,79,.1); }
+  .stage-time {
+    font-size: 10.5px; color: var(--text-3);
+    display: flex; align-items: center; gap: 3px;
+  }
+  .stage-time .dot {
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--text-3);
+  }
+  .action-pill {
+    margin-left: auto;
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 11.5px;
+    padding: 2px 9px; border-radius: 9999px;
+    border: 1px solid transparent;
+  }
+  .action-pill.my-court {
+    color: #c8401a; background: rgba(200,64,26,0.08);
+    border-color: rgba(200,64,26,0.2);
+  }
+  .action-pill.their-court {
+    color: #0E2E45; background: rgba(14,46,69,0.06);
+    border-color: rgba(14,46,69,0.15);
+  }
+
+  /* Stage tick toast */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--text); color: var(--on-dark);
+    padding: 10px 16px; border-radius: 9999px;
+    font-size: 12.5px; font-weight: 500;
+    opacity: 0; pointer-events: none;
+    transition: all 0.3s cubic-bezier(.16,1,.3,1);
+    z-index: 200;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: var(--shadow-lg);
+  }
+  .toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast b { color: var(--amber); font-weight: 600; }
+
+  /* EXPLAINER / JUMPER */
+  .explainer { margin-top: 1.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 1.75rem; }
+  .explainer h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--ink); letter-spacing: -.01em; margin-bottom: 0.6rem; }
+  .explainer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1rem; }
+  .ex-item { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.55; }
+  .ex-item b { color: var(--ink); font-weight: 600; display: block; margin-bottom: 0.15rem; }
+  .ex-item .num { display: inline-block; font-family: var(--font-serif); font-style: italic; font-size: 0.78rem; color: var(--accent); font-weight: 700; margin-right: 0.35rem; }
+
+  .demo-jumper { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .demo-jumper .label { font-size: 0.84rem; color: var(--ink-muted); font-weight: 500; }
+  .demo-jumper a { font-size: 0.86rem; color: var(--ink-soft); text-decoration: none; padding: 0.45rem 0.85rem; border-radius: 6px; border: 1px solid var(--border); transition: all .15s; font-weight: 500; }
+  .demo-jumper a:hover { background: var(--white); color: var(--accent); border-color: var(--accent); }
+  .demo-jumper a.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+  .foot { text-align: center; padding: 2rem 28px; font-size: 0.78rem; color: var(--ink-muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+  .foot a { color: var(--ink-soft); text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .explainer-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .coop-nav { height: auto; padding: 0.6rem 0; }
+    .coop-nav-inner { flex-wrap: wrap; }
+    .page-head { padding-top: calc(var(--nav-h) + 4rem); }
+  }
+</style>
+</head>
+<body>
+
+<nav class="coop-nav">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/" class="active">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="crumb"><a href="/coop/demos/">Demos</a> / Pipeline kanban</div>
+  <h1 class="page-h1">The pipeline that doesn't go stale</h1>
+  <p class="page-sub">Drag a card. The stage timer ticks. The "whose court" pill flips. Last-activity rolls up. No spreadsheet bookkeeping.</p>
+</header>
+
+<section class="demo-section">
+  <div class="demo-stage">
+    <div class="kanban-head">
+      <div class="pipeline-tabs">
+        <button class="pipeline-tab active">Opportunities</button>
+        <button class="pipeline-tab">Companies</button>
+        <button class="pipeline-tab">All</button>
+      </div>
+      <span class="head-meta"><b id="totalEntries">8</b> entries · drag to move stage</span>
+      <button class="reset-pipeline" id="resetBtn">Reset</button>
+    </div>
+    <div class="kanban-body" id="kanban"></div>
+  </div>
+
+  <div class="explainer">
+    <h3>What's happening</h3>
+    <p style="font-size: 0.92rem; color: var(--ink-soft); max-width: 660px;">
+      Try dragging any card into a different column. Coop catches the stage change and ticks the timer back to zero, flips the action-status pill to whoever's on the hook next, and stamps a "last activity" timestamp on the entry. Same thing happens when you swipe Apply on a queue card or get a reply on a tracked email thread.
+    </p>
+    <div class="explainer-grid">
+      <div class="ex-item"><span class="num">01.</span><b>Generic stage timestamps</b>Every stage in your pipeline is timestamped on entry — no hardcoded "appliedAt" field that breaks when you rename a column.</div>
+      <div class="ex-item"><span class="num">02.</span><b>Whose court is it</b>The action-status pill defaults to whoever owes the next move. Applied → their court. Offer in hand → your court.</div>
+      <div class="ex-item"><span class="num">03.</span><b>Last activity rolls up</b>The card surfaces the freshest signal — last email, last meeting, last drag — without forcing you to log anything.</div>
+    </div>
+  </div>
+
+  <div class="demo-jumper">
+    <span class="label">Other demos:</span>
+    <a href="/coop/demos/queue.html">Apply Queue</a>
+    <a href="/coop/demos/chat.html">Coop with full context</a>
+    <a href="/coop/demos/pipeline.html" class="active">Drag-drop pipeline</a>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<footer class="foot">
+  Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a> ·
+  <a href="/coop/">Overview</a> ·
+  <a href="/coop/features">Features</a> ·
+  <a href="/coop/beta">Beta access</a>
+</footer>
+
+<script>
+  const STAGES = [
+    { key: 'applied',       label: 'Applied',                color: '#60a5fa', defaultAction: 'their-court' },
+    { key: 'conversations', label: 'Conversations',          color: '#fb923c', defaultAction: 'their-court' },
+    { key: 'offer_stage',   label: 'Offer Stage',            color: '#a3e635', defaultAction: 'my-court' },
+    { key: 'rejected',      label: "Rejected / DQ'd",        color: '#f87171', defaultAction: 'their-court' },
+  ];
+
+  const SEED = [
+    { id: 'a', co: 'Notion',     role: 'VP Marketing',                 logoBg: 'linear-gradient(135deg,#7C6EF0,#4573D2)', letter: 'N', score: 8.4, tone: 'teal',  stage: 'conversations', days: 6,  action: 'my-court' },
+    { id: 'b', co: 'Databricks', role: 'Staff PMM',                    logoBg: 'linear-gradient(135deg,#FC636B,#F5A623)', letter: 'D', score: 7.8, tone: 'teal',  stage: 'conversations', days: 2,  action: 'their-court' },
+    { id: 'c', co: 'Stripe',     role: 'Sr. PMM, Payments',            logoBg: 'linear-gradient(135deg,#635BFF,#7C6EF0)', letter: 'S', score: 6.2, tone: 'amber', stage: 'applied',       days: 11, action: 'their-court' },
+    { id: 'd', co: 'Linear',     role: 'Head of Product Marketing',    logoBg: 'linear-gradient(135deg,#5E6AD2,#7C6EF0)', letter: 'L', score: 8.7, tone: 'teal',  stage: 'offer_stage',   days: 1,  action: 'my-court' },
+    { id: 'e', co: 'Vercel',     role: 'Sr. PMM',                      logoBg: 'linear-gradient(135deg,#000000,#333333)', letter: 'V', score: 7.4, tone: 'teal',  stage: 'applied',       days: 4,  action: 'their-court' },
+    { id: 'f', co: 'Asana',      role: 'Director, PMM',                logoBg: 'linear-gradient(135deg,#F06A6A,#FC636B)', letter: 'A', score: 4.8, tone: 'red',   stage: 'rejected',      days: 14, action: 'their-court' },
+    { id: 'g', co: 'Figma',      role: 'PMM, Design Systems',          logoBg: 'linear-gradient(135deg,#A259FF,#F24E1E)', letter: 'F', score: 7.1, tone: 'teal',  stage: 'applied',       days: 8,  action: 'their-court' },
+    { id: 'h', co: 'Retool',     role: 'Head of PMM',                  logoBg: 'linear-gradient(135deg,#3A2D62,#5F4499)', letter: 'R', score: 7.6, tone: 'teal',  stage: 'conversations', days: 3,  action: 'my-court' },
+  ];
+
+  let entries = JSON.parse(JSON.stringify(SEED));
+  const kanbanEl = document.getElementById('kanban');
+  const toastEl = document.getElementById('toast');
+  const totalEl = document.getElementById('totalEntries');
+  const resetBtn = document.getElementById('resetBtn');
+
+  function dayLabel(d) {
+    if (d === 0) return 'just moved';
+    if (d === 1) return '1d in stage';
+    return d + 'd in stage';
+  }
+
+  function render() {
+    kanbanEl.innerHTML = '';
+    totalEl.textContent = entries.length;
+    STAGES.forEach(stage => {
+      const col = document.createElement('div');
+      col.className = 'col';
+      col.dataset.stage = stage.key;
+      const stageEntries = entries.filter(e => e.stage === stage.key);
+      col.innerHTML = `
+        <div class="col-head">
+          <span class="col-dot" style="background:${stage.color}"></span>
+          ${stage.label}
+          <span class="col-count">${stageEntries.length}</span>
+        </div>
+        <div class="col-cards"></div>
+      `;
+      const cardsEl = col.querySelector('.col-cards');
+      if (stageEntries.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'col-empty';
+        empty.textContent = 'Drop here';
+        cardsEl.appendChild(empty);
+      }
+      stageEntries.forEach(e => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.draggable = true;
+        card.dataset.id = e.id;
+        card.innerHTML = `
+          <div class="card-head">
+            <div class="card-logo" style="background:${e.logoBg}">${e.letter}</div>
+            <div>
+              <div class="card-co">${e.co}</div>
+              <div class="card-role">${e.role}</div>
+            </div>
+          </div>
+          <div class="card-foot">
+            <span class="score-chip ${e.tone}">${e.score.toFixed(1)}</span>
+            <span class="stage-time"><span class="dot"></span>${dayLabel(e.days)}</span>
+            <span class="action-pill ${e.action}">${e.action === 'my-court' ? 'My court' : 'Their court'}</span>
+          </div>
+        `;
+        cardsEl.appendChild(card);
+
+        card.addEventListener('dragstart', (ev) => {
+          card.classList.add('dragging');
+          ev.dataTransfer.setData('text/plain', e.id);
+          ev.dataTransfer.effectAllowed = 'move';
+        });
+        card.addEventListener('dragend', () => card.classList.remove('dragging'));
+      });
+
+      col.addEventListener('dragover', (ev) => {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = 'move';
+        col.classList.add('drag-over');
+      });
+      col.addEventListener('dragleave', (ev) => {
+        if (!col.contains(ev.relatedTarget)) col.classList.remove('drag-over');
+      });
+      col.addEventListener('drop', (ev) => {
+        ev.preventDefault();
+        col.classList.remove('drag-over');
+        const id = ev.dataTransfer.getData('text/plain');
+        const entry = entries.find(x => x.id === id);
+        if (!entry || entry.stage === stage.key) return;
+        const fromStage = STAGES.find(s => s.key === entry.stage);
+        entry.stage = stage.key;
+        entry.days = 0;
+        entry.action = stage.defaultAction;
+        render();
+        showToast(`${entry.co} → ${stage.label}`, fromStage?.label || '');
+      });
+
+      kanbanEl.appendChild(col);
+    });
+  }
+
+  let toastTimer;
+  function showToast(text, from) {
+    toastEl.innerHTML = `<span>↻</span> ${text}${from ? ` <b>· from ${from}</b>` : ''}`;
+    toastEl.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('visible'), 2200);
+  }
+
+  resetBtn.addEventListener('click', () => {
+    entries = JSON.parse(JSON.stringify(SEED));
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>

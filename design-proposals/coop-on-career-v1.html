@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mockup — Coop integrated with career site (v1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --deep: #1a1410;
+    --on-deep: #f5ede3;
+    --on-deep-muted: rgba(245,237,227,0.62);
+    --font-display: 'Barlow', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1180px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* SCRATCH BANNER */
+  .scratch-bar {
+    background: rgba(200,64,26,0.08); border-bottom: 1px solid var(--accent-soft);
+    padding: 0.5rem 1.5rem; font-size: 0.75rem; color: var(--accent); text-align: center;
+    font-weight: 500;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 50; height: 60px;
+    background: rgba(247,245,240,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 1.5rem; display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; }
+  .logo .dot { color: var(--accent); }
+  .nav-links { display: flex; gap: 0.25rem; align-items: center; }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; padding: 0.4rem 0.85rem; border-radius: 5px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .nav-links a.active { color: var(--ink); font-weight: 700; }
+  .nav-cta {
+    font-size: 0.78rem; font-weight: 600; background: var(--ink); color: var(--white);
+    padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 5rem 1.5rem 1rem;
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3.5rem; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.78rem; font-weight: 500; color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.4rem 0.9rem; border-radius: 999px; margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); }
+  .hero-h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.6rem, 5vw, 3.7rem);
+    line-height: 1.02; letter-spacing: -0.03em;
+    color: var(--ink); margin-bottom: 1.5rem;
+  }
+  .hero-h1 em { font-style: normal; color: var(--accent); }
+  .hero-lede {
+    font-size: 1.15rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.65; margin-bottom: 2rem; max-width: 560px;
+  }
+  .hero-lede strong { font-weight: 600; color: var(--ink); }
+  .hero-ctas { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary {
+    font-size: 0.92rem; font-weight: 500; text-decoration: none;
+    padding: 0.75rem 1.4rem; border-radius: 8px; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--ink); color: var(--white); border: 1px solid var(--ink); }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-secondary { background: var(--white); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  /* RIGHT VISUAL — Coop product card */
+  .coop-card {
+    position: relative; border-radius: 16px; overflow: hidden;
+    background: var(--deep); padding: 2rem 1.75rem 1.75rem;
+    box-shadow: 0 24px 60px rgba(26,20,16,0.18), 0 4px 12px rgba(26,20,16,0.08);
+  }
+  .coop-card::before {
+    content:''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(200,64,26,0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .coop-card-inner { position: relative; z-index: 1; }
+  .coop-card-eyebrow {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; font-weight: 600; color: var(--accent);
+    margin-bottom: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .coop-card-eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .coop-card-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.25rem; color: var(--on-deep); line-height: 1.25;
+    margin-bottom: 0.5rem; letter-spacing: -0.01em;
+  }
+  .coop-card-sub {
+    font-size: 0.88rem; color: var(--on-deep-muted); line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  /* mini-graph */
+  .mini-graph { position: relative; aspect-ratio: 1; margin: 0.5rem -0.5rem 1rem; }
+  .mini-graph svg { width: 100%; height: 100%; display: block; }
+  .mg-edge { stroke: rgba(245,237,227,0.18); stroke-width: 1; fill: none; }
+  .mg-edge-label {
+    font-family: var(--font-body); font-size: 9px; font-weight: 400;
+    fill: rgba(245,237,227,0.6);
+  }
+  .mg-center {
+    fill: var(--accent); filter: drop-shadow(0 4px 16px rgba(200,64,26,0.4));
+  }
+  .mg-center-label {
+    font-family: var(--font-display); font-weight: 700;
+    fill: var(--on-deep); font-size: 12px; text-anchor: middle;
+  }
+  .mg-center-sub {
+    font-family: var(--font-body); font-weight: 400;
+    fill: rgba(245,237,227,0.78); font-size: 8px; text-anchor: middle;
+  }
+  .mg-node-label {
+    font-family: var(--font-body); font-weight: 600;
+    fill: var(--on-deep); font-size: 9px; text-anchor: middle;
+  }
+
+  .coop-card-meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+    padding-top: 1rem; border-top: 1px solid rgba(245,237,227,0.1);
+  }
+  .meta-stat {}
+  .meta-stat-num {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.4rem; color: var(--on-deep); letter-spacing: -0.02em;
+  }
+  .meta-stat-lbl { font-size: 0.72rem; color: var(--on-deep-muted); margin-top: 0.15rem; }
+
+  /* PROOF BAND */
+  .proof {
+    background: var(--white); border-top: 1px solid var(--border);
+    margin-top: 4rem; padding: 2.25rem 1.5rem;
+  }
+  .proof-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: auto 1fr auto; gap: 2.5rem; align-items: center;
+  }
+  .proof-eyebrow {
+    font-size: 0.72rem; font-weight: 600; color: var(--ink-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .proof-line {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.15rem;
+    color: var(--ink); line-height: 1.45; letter-spacing: -0.01em;
+  }
+  .proof-line span { color: var(--accent); }
+  .proof-cta { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 500; color: var(--ink); text-decoration: none; font-size: 0.95rem; }
+  .proof-cta:hover { color: var(--accent); }
+
+  /* THREE-UP UNDER HERO */
+  .three-up {
+    max-width: var(--max); margin: 0 auto;
+    padding: 4rem 1.5rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .tu-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem 1.6rem;
+  }
+  .tu-eyebrow {
+    font-size: 0.72rem; font-weight: 600; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem;
+  }
+  .tu-h {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+    color: var(--ink); margin-bottom: 0.5rem; letter-spacing: -0.01em;
+  }
+  .tu-body {
+    font-size: 0.92rem; font-weight: 300; color: var(--ink-soft); line-height: 1.65;
+    margin-bottom: 1rem;
+  }
+  .tu-link {
+    font-size: 0.85rem; font-weight: 500; color: var(--accent);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;
+  }
+  .tu-link:hover { text-decoration: underline; }
+
+  /* NOTES */
+  .notes {
+    max-width: var(--max); margin: 2rem auto;
+    padding: 1.75rem 1.5rem 4rem; color: var(--ink-soft);
+    font-size: 0.9rem; line-height: 1.65;
+  }
+  .notes h3 {
+    font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    color: var(--ink); margin-bottom: 0.6rem; letter-spacing: 0;
+  }
+  .notes ul { padding-left: 1.25rem; margin-top: 0.4rem; }
+  .notes li { margin-bottom: 0.35rem; }
+  .notes-divider { height: 1px; background: var(--border); margin: 2rem 0; }
+</style>
+</head>
+<body>
+
+<div class="scratch-bar">design-proposals/coop-on-career-v1.html · scratch mockup, not part of the live site</div>
+
+<!-- NAV (matches existing) -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">Matt<span class="dot">.</span></div>
+    <div class="nav-links">
+      <a href="#" class="active">About</a>
+      <a href="#">Work</a>
+      <a href="#">Building</a>
+      <a href="#">Principles</a>
+      <a href="#">Coop</a>
+    </div>
+    <a href="#" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- HERO — split: positioning + Coop card -->
+<section class="hero">
+  <div>
+    <span class="hero-eyebrow">Currently building Coop.ai · in private beta</span>
+    <h1 class="hero-h1">
+      I close revenue. <em>And I build the systems behind it.</em>
+    </h1>
+    <p class="hero-lede">
+      Most recently I got tired of running my own job search out of a spreadsheet — so I shipped <strong>Coop.ai</strong>, a personal CRM and research layer that runs entirely as a Chrome extension. Same operator instinct, applied to my own pipeline.
+    </p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">See Coop in action →</a>
+      <a href="#" class="btn-secondary">My work →</a>
+    </div>
+  </div>
+
+  <!-- Coop product card on the right -->
+  <div class="coop-card">
+    <div class="coop-card-inner">
+      <div class="coop-card-eyebrow">Live now · Coop.ai</div>
+      <div class="coop-card-title">Every email, meeting, and posting auto-attached to the right opportunity.</div>
+      <div class="coop-card-sub">A Chrome extension stitching Gmail, Calendar, Granola, and the job site you're on into one workspace. Built and used daily in my own search.</div>
+
+      <!-- Mini hexagon graph -->
+      <div class="mini-graph">
+        <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+          <!-- edges -->
+          <g>
+            <line class="mg-edge" x1="180" y1="180" x2="180" y2="50"/>
+            <line class="mg-edge" x1="180" y1="180" x2="294" y2="116"/>
+            <line class="mg-edge" x1="180" y1="180" x2="294" y2="244"/>
+            <line class="mg-edge" x1="180" y1="180" x2="180" y2="310"/>
+            <line class="mg-edge" x1="180" y1="180" x2="66" y2="244"/>
+            <line class="mg-edge" x1="180" y1="180" x2="66" y2="116"/>
+          </g>
+
+          <!-- center -->
+          <circle class="mg-center" cx="180" cy="180" r="48"/>
+          <text class="mg-center-label" x="180" y="178">Helix Labs</text>
+          <text class="mg-center-sub" x="180" y="192">Solutions Architect</text>
+
+          <!-- Top: Serper (search) -->
+          <g>
+            <circle cx="180" cy="50" r="28" fill="#3F4DBF" stroke="rgba(255,255,255,0.08)"/>
+            <text class="mg-node-label" x="180" y="49">$80M</text>
+            <text class="mg-node-label" x="180" y="60" font-weight="400" fill="rgba(245,237,227,0.7)" font-size="8">Series B</text>
+            <g transform="translate(206,28)">
+              <rect width="20" height="20" rx="4" fill="#fff"/>
+              <g fill="none" stroke="#5468FF" stroke-width="1.7" stroke-linecap="round">
+                <circle cx="9" cy="9" r="4"/>
+                <line x1="12" y1="12" x2="16" y2="16"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- Upper-right: Gmail -->
+          <g>
+            <circle cx="294" cy="116" r="28" fill="#B8362C" stroke="rgba(255,255,255,0.08)"/>
+            <text class="mg-node-label" x="294" y="115">Sarah</text>
+            <text class="mg-node-label" x="294" y="126" font-weight="400" fill="rgba(245,237,227,0.7)" font-size="8">2h ago</text>
+            <g transform="translate(320,94)">
+              <rect width="20" height="20" rx="4" fill="#fff"/>
+              <g stroke="#EA4335" stroke-width="1.5" fill="none" stroke-linejoin="round">
+                <rect x="3" y="6" width="14" height="9" rx="0.8"/>
+                <path d="M3 6.5 L10 11.5 L17 6.5"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- Lower-right: Calendar -->
+          <g>
+            <circle cx="294" cy="244" r="28" fill="#3870C9" stroke="rgba(255,255,255,0.08)"/>
+            <text class="mg-node-label" x="294" y="243">Tue 2pm</text>
+            <text class="mg-node-label" x="294" y="254" font-weight="400" fill="rgba(245,237,227,0.7)" font-size="8">intro call</text>
+            <g transform="translate(320,222)">
+              <rect width="20" height="20" rx="4" fill="#fff"/>
+              <rect x="3" y="4" width="14" height="13" rx="1.2" fill="#fff" stroke="#4285F4" stroke-width="1"/>
+              <rect x="3" y="4" width="14" height="3.6" fill="#4285F4"/>
+              <text x="10" y="14" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" font-weight="700" fill="#4285F4">31</text>
+            </g>
+          </g>
+
+          <!-- Bottom: Granola -->
+          <g>
+            <circle cx="180" cy="310" r="28" fill="#C44A37" stroke="rgba(255,255,255,0.08)"/>
+            <text class="mg-node-label" x="180" y="309">Q2 sync</text>
+            <text class="mg-node-label" x="180" y="320" font-weight="400" fill="rgba(245,237,227,0.7)" font-size="8">"GTM lean"</text>
+            <g transform="translate(206,288)">
+              <rect width="20" height="20" rx="4" fill="#ED5C46"/>
+              <text x="10" y="15" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="800" fill="#fff">g</text>
+            </g>
+          </g>
+
+          <!-- Lower-left: Anthropic -->
+          <g>
+            <circle cx="66" cy="244" r="28" fill="#9F4D2F" stroke="rgba(255,255,255,0.08)"/>
+            <text class="mg-node-label" x="66" y="243">8.4</text>
+            <text class="mg-node-label" x="66" y="254" font-weight="400" fill="rgba(245,237,227,0.7)" font-size="8">match</text>
+            <g transform="translate(20,222)">
+              <rect width="20" height="20" rx="4" fill="#F2EBE4"/>
+              <g fill="#C15F3C">
+                <rect x="9.2" y="4" width="1.6" height="12" rx="0.6"/>
+                <rect x="4" y="9.2" width="12" height="1.6" rx="0.6"/>
+                <rect x="9.2" y="4" width="1.6" height="12" rx="0.6" transform="rotate(45 10 10)"/>
+                <rect x="9.2" y="4" width="1.6" height="12" rx="0.6" transform="rotate(-45 10 10)"/>
+              </g>
+            </g>
+          </g>
+
+          <!-- Upper-left: LinkedIn / detection -->
+          <g>
+            <circle cx="66" cy="116" r="28" fill="#28507A" stroke="rgba(255,255,255,0.08)"/>
+            <text class="mg-node-label" x="66" y="115">JD</text>
+            <text class="mg-node-label" x="66" y="126" font-weight="400" fill="rgba(245,237,227,0.7)" font-size="8">$180K–$220K</text>
+            <g transform="translate(20,94)">
+              <rect width="20" height="20" rx="4" fill="#0A66C2"/>
+              <g fill="#fff">
+                <rect x="4" y="8" width="2.3" height="8" rx="0.3"/>
+                <circle cx="5.15" cy="5.5" r="1.3"/>
+                <path d="M9 8 H11.5 V9 C12 8.4 13 8 13.6 8 C15.5 8 16 9 16 11 V16 H13.6 V11.5 C13.6 10.7 13.3 10.4 12.7 10.4 C12 10.4 11.6 10.8 11.6 11.5 V16 H9 Z"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="coop-card-meta">
+        <div class="meta-stat">
+          <div class="meta-stat-num">7</div>
+          <div class="meta-stat-lbl">integrations stitched</div>
+        </div>
+        <div class="meta-stat">
+          <div class="meta-stat-num">5 weeks</div>
+          <div class="meta-stat-lbl">from idea to daily use</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAND — narrative bridge -->
+<section class="proof">
+  <div class="proof-inner">
+    <div class="proof-eyebrow">The connection</div>
+    <div class="proof-line">
+      The thing GTM leaders say they want — <span>operators who actually build the systems</span> instead of just describing them — is the same instinct that produced Coop. Same person. Different deliverable.
+    </div>
+    <a href="#" class="proof-cta">Read the origin story →</a>
+  </div>
+</section>
+
+<!-- THREE-UP CARDS — work / building / how to reach me -->
+<section class="three-up">
+
+  <div class="tu-card">
+    <div class="tu-eyebrow">The work</div>
+    <div class="tu-h">GTM operator & builder</div>
+    <p class="tu-body">Product marketing, RevOps, and sales engineering. Closed revenue. Built the playbooks. Hired and ran the teams.</p>
+    <a href="#" class="tu-link">Case studies →</a>
+  </div>
+
+  <div class="tu-card">
+    <div class="tu-eyebrow">What I'm building</div>
+    <div class="tu-h">Coop.ai — personal CRM for job searches</div>
+    <p class="tu-body">A Chrome extension that auto-detects companies, scores roles against your preferences, and runs an AI advisor with real context about your pipeline. In private beta.</p>
+    <a href="#" class="tu-link">See Coop →</a>
+  </div>
+
+  <div class="tu-card">
+    <div class="tu-eyebrow">What I'm looking for</div>
+    <div class="tu-h">VP / Head of GTM roles</div>
+    <p class="tu-body">Hybrid or remote, San Francisco–based. Companies where product-led and sales-led motions overlap and need someone who's run both. Teams that build their own tooling.</p>
+    <a href="#" class="tu-link">Get in touch →</a>
+  </div>
+
+</section>
+
+<!-- DESIGNER NOTES (visible in scratch only) -->
+<div class="notes">
+  <h3>Design notes (scratch only, won't ship)</h3>
+  <p><strong>What changed vs current home:</strong></p>
+  <ul>
+    <li><strong>Hero is now split-screen.</strong> Resume positioning lives on the left; a live Coop product card lives on the right. The case study isn't tucked into "Tools & Projects" anymore — it's the hero proof point.</li>
+    <li><strong>Headline pivot:</strong> "I close revenue. <em>And I build the systems behind it.</em>" — promotes the builder identity from sub-claim to co-headline. The Coop card immediately backs it up so it doesn't read as marketing fluff.</li>
+    <li><strong>Coop card uses the integrations graph,</strong> recycled from /coop/integrations.html. Same visual signature, same warm/dark palette as the rest of the /coop/ subsite — so when readers click through, the design language is consistent.</li>
+    <li><strong>The "proof band"</strong> below the hero is a single sentence that explicitly connects "operator who ships" → "Coop is what that looks like." Closes the gap between resume and case study.</li>
+    <li><strong>Three-up cards replace the long Tools & Projects section</strong> with a cleaner "what I do / what I build / what I want" trio. Each card links somewhere meaningful (case studies, Coop, contact).</li>
+  </ul>
+  <div class="notes-divider"></div>
+  <p><strong>What's preserved:</strong> Same visual tokens (Barlow + Inter, cream surface, rust accent #c8401a). Same nav structure with Coop as a tab. Same end goals (Get in Touch CTA, case studies link).</p>
+  <p><strong>What's NOT in this mockup yet:</strong> highlights, principles, testimonials, looking-for grid, contact form, footer. Those existing sections would still live below the three-up.</p>
+  <p><strong>If you like this direction, the lift to ship it:</strong> mostly an in-place hero rewrite of mattsterbenz.com/index.html. The Coop card SVG can be reused as-is. A few hours of work, not days.</p>
+</div>
+
+</body>
+</html>

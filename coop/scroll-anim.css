@@ -1,0 +1,140 @@
+/* ─────────────────────────────────────────────────────────────
+   Coop scroll-anim — on-brand motion layer
+   loaded on every /coop/* page
+   ───────────────────────────────────────────────────────────── */
+
+/* 1. Scroll progress bar — thin coral line at the very top */
+.coop-scroll-bar {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: linear-gradient(90deg, #c8401a 0%, #E89846 60%, #c8401a 100%);
+  background-size: 200% 100%;
+  z-index: 999;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(200, 64, 26, 0.35);
+  animation: shimmerProgress 4s ease-in-out infinite;
+}
+@keyframes shimmerProgress {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* 2. Fade-up reveal — used by IntersectionObserver */
+[data-anim="up"] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-anim="up"].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Children stagger inside revealed parents */
+[data-anim-stagger] > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-anim-stagger].is-revealed > *:nth-child(1) { transition-delay: 0.00s; opacity:1; transform:translateY(0); }
+[data-anim-stagger].is-revealed > *:nth-child(2) { transition-delay: 0.08s; opacity:1; transform:translateY(0); }
+[data-anim-stagger].is-revealed > *:nth-child(3) { transition-delay: 0.16s; opacity:1; transform:translateY(0); }
+[data-anim-stagger].is-revealed > *:nth-child(4) { transition-delay: 0.24s; opacity:1; transform:translateY(0); }
+[data-anim-stagger].is-revealed > *:nth-child(5) { transition-delay: 0.32s; opacity:1; transform:translateY(0); }
+[data-anim-stagger].is-revealed > *:nth-child(n+6) { transition-delay: 0.4s; opacity:1; transform:translateY(0); }
+
+/* 3. Em underline draw — distinctive Fraunces-italic accent stroke
+   Added by JS as a wrapping span around an em that's in viewport.
+   The em itself stays unchanged so existing styling is intact. */
+.coop-em-wrap {
+  position: relative;
+  display: inline-block;
+}
+.coop-em-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -0.04em;
+  height: 0.12em;
+  background: #c8401a;
+  border-radius: 999px;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  opacity: 0.85;
+}
+.coop-em-wrap.is-drawn::after {
+  transform: scaleX(1);
+}
+
+/* 4. Hero ring tick — animate score from low to final */
+@keyframes scoreFillRing {
+  from { stroke-dashoffset: 138; }
+  to   { stroke-dashoffset: 28; }
+}
+.coop-anim-ring .bar {
+  stroke-dasharray: 138;
+  stroke-dashoffset: 138;
+  animation: scoreFillRing 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+
+/* 5. Body-aware respect for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coop-scroll-bar { display: none; }
+  [data-anim="up"],
+  [data-anim-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .coop-em-wrap::after { transform: scaleX(1); transition: none; }
+}
+
+/* 6. Hero floating accents — subtle parallax-ish drift on the page surface */
+.coop-floater {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  animation: floaterDrift 22s ease-in-out infinite alternate;
+}
+.coop-floater.f-coral { background: #c8401a; }
+.coop-floater.f-saffron { background: #E89846; }
+.coop-floater.f-ocean { background: #0E2E45; opacity: 0.32; }
+@keyframes floaterDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-30px, 20px) scale(1.06); }
+  100% { transform: translate(40px, -10px) scale(0.94); }
+}
+
+/* 7. Section tag eyebrow line grow */
+.section-tag, .feature-num, .hero-label, .hero-eyebrow {
+  position: relative;
+  overflow: visible;
+}
+[data-anim-eyebrow] {
+  position: relative;
+  display: inline-block;
+}
+[data-anim-eyebrow]::before {
+  content: '';
+  position: absolute;
+  left: -8px; top: 50%;
+  width: 0; height: 1px;
+  background: #c8401a;
+  transform: translate(-100%, -50%);
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+[data-anim-eyebrow].is-revealed::before {
+  width: 28px;
+}
+
+/* 8. Subtle hover lift on standard cards (additive, doesn't conflict) */
+.benefit, .int-card, .feature-mockup {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.benefit:hover { transform: translateY(-3px); }

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coop.ai — Integrations</title>
+<meta name="description" content="Coop reads from the tools you already use — Gmail, Calendar, Granola, ATS pages — and stitches the signal onto whichever opportunity it belongs to." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/coop/scroll-anim.css" />
+<script defer src="/coop/scroll-anim.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --font-display: 'Barlow', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1100px;
+    --nav-h: 60px;
+    --deep: #1a1410;
+    --on-deep: #f5ede3;
+    --on-deep-muted: rgba(245,237,227,0.62);
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  .coop-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .coop-nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
+  }
+  .coop-nav-back {
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .coop-nav-tabs a {
+    font-size: 0.84rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.82rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    padding: 0.4rem 0.9rem; border-radius: 5px;
+    text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: calc(var(--nav-h) + 5rem) 28px 3.5rem;
+    max-width: var(--max); margin: 0 auto; text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.78rem; font-weight: 500; color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.35rem 0.85rem; border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05; letter-spacing: -0.03em;
+    color: var(--ink); margin-bottom: 1.25rem;
+    max-width: 820px; margin-left: auto; margin-right: auto;
+  }
+  .hero-h1 em { font-style: normal; color: var(--accent); }
+  .hero-lede {
+    font-size: 1.1rem; font-weight: 300; color: var(--ink-soft);
+    max-width: 620px; margin: 0 auto 2rem; line-height: 1.7;
+  }
+  .hero-ctas { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+  .btn-primary, .btn-secondary {
+    font-size: 0.92rem; font-weight: 500; text-decoration: none;
+    padding: 0.7rem 1.4rem; border-radius: 8px;
+    transition: all 0.15s; cursor: pointer;
+  }
+  .btn-primary { background: var(--ink); color: var(--white); border: 1px solid var(--ink); }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-secondary { background: var(--white); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  /* ── GRAPH SECTION (full-bleed dark) ── */
+  .graph-section {
+    background: var(--deep);
+    color: var(--on-deep);
+    padding: 5rem 28px 5rem;
+    position: relative; overflow: hidden;
+  }
+  .graph-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(200,64,26,0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .graph-inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
+  .graph-caption { text-align: center; max-width: 620px; margin: 0 auto 2.5rem; }
+  .graph-caption .label {
+    font-size: 0.78rem; font-weight: 500; color: var(--accent);
+    margin-bottom: 0.75rem; display: block;
+  }
+  .graph-caption h2 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    letter-spacing: -0.02em; line-height: 1.2;
+    color: var(--on-deep); margin-bottom: 0.9rem;
+  }
+  .graph-caption p {
+    font-size: 1rem; font-weight: 300; color: var(--on-deep-muted); line-height: 1.7;
+  }
+
+  .graph-stage {
+    position: relative; width: 100%; max-width: 1100px;
+    margin: 0 auto; aspect-ratio: 1100 / 720;
+  }
+  .graph-stage svg { width: 100%; height: 100%; display: block; }
+
+  .edge { stroke: rgba(245,237,227,0.22); stroke-width: 1; fill: none; }
+  .edge-label {
+    font-family: var(--font-body); font-size: 12px; font-weight: 400;
+    fill: rgba(245,237,227,0.78); letter-spacing: 0.005em;
+  }
+  .node-circle { stroke: rgba(255,255,255,0.1); stroke-width: 1; }
+  .node-center {
+    fill: var(--accent); filter: drop-shadow(0 6px 24px rgba(200,64,26,0.45));
+  }
+  .node-label-center {
+    font-family: var(--font-display); font-weight: 700;
+    fill: var(--on-deep); font-size: 19px; text-anchor: middle;
+  }
+  .node-sublabel-center {
+    font-family: var(--font-body); font-weight: 400;
+    fill: rgba(245,237,227,0.78); font-size: 12px; text-anchor: middle;
+  }
+  .node-label {
+    font-family: var(--font-body); font-weight: 600;
+    fill: var(--on-deep); font-size: 13px; text-anchor: middle;
+  }
+  .node-snippet {
+    font-family: var(--font-body); font-weight: 400;
+    fill: rgba(245,237,227,0.7); font-size: 10.5px; text-anchor: middle;
+  }
+
+  /* ── INTEGRATION CARDS ── */
+  .cards-section {
+    background: var(--white);
+    padding: 5rem 28px;
+  }
+  .cards-inner { max-width: var(--max); margin: 0 auto; }
+  .cards-header { text-align: center; max-width: 640px; margin: 0 auto 3rem; }
+  .cards-header .label {
+    font-size: 0.78rem; font-weight: 500; color: var(--accent);
+    margin-bottom: 0.75rem; display: block;
+  }
+  .cards-header h2 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.85rem;
+  }
+  .cards-header p {
+    font-size: 0.98rem; font-weight: 300; color: var(--ink-soft); line-height: 1.7;
+  }
+  .group-label {
+    font-family: var(--font-body); font-size: 0.78rem; font-weight: 600;
+    color: var(--ink-muted); margin: 2.5rem 0 1rem;
+    display: flex; align-items: center; gap: 0.65rem;
+  }
+  .group-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .group-label:first-of-type { margin-top: 0; }
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem;
+  }
+  .int-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem 1.4rem;
+    display: grid; grid-template-columns: 48px 1fr; gap: 1rem;
+    align-items: start;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .int-card:hover { border-color: var(--ink-muted); transform: translateY(-1px); }
+  .int-card-logo {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .int-card-logo svg { width: 100%; height: 100%; display: block; }
+  .int-card-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.05rem; color: var(--ink); margin-bottom: 0.25rem;
+  }
+  .int-card-tag {
+    display: inline-block; font-size: 0.72rem; font-weight: 500;
+    color: var(--ink-muted); background: var(--accent-soft);
+    padding: 0.15rem 0.5rem; border-radius: 4px;
+    margin-bottom: 0.6rem;
+  }
+  .int-card-body {
+    font-size: 0.92rem; font-weight: 300; color: var(--ink-soft); line-height: 1.65;
+  }
+
+  /* ── BOTTOM CTA ── */
+  .footer-cta {
+    background: var(--surface);
+    padding: 4rem 28px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+  .footer-cta h3 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.7rem; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 0.85rem;
+  }
+  .footer-cta p { color: var(--ink-soft); font-weight: 300; margin-bottom: 1.5rem; }
+
+  @media (max-width: 720px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .graph-stage { aspect-ratio: 4 / 5.5; }
+    .coop-nav-inner { flex-wrap: wrap; gap: 0.5rem; padding: 0.4rem 16px 0; }
+    .coop-nav { height: auto; padding: 0.4rem 0; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .hero { padding-top: calc(var(--nav-h) + 6rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Persistent nav -->
+<nav class="coop-nav" aria-label="Coop.ai navigation">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/">Demos</a></li>
+      <li><a href="/coop/integrations" class="active">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-eyebrow">Integrations</span>
+  <h1 class="hero-h1">Your inbox, calendar, and meeting notes <em>already know</em> who you're talking to.</h1>
+  <p class="hero-lede">
+    Coop reads from the tools you already use — your inbox, your calendar, your meeting notes, the job page you're on — and stitches the signal onto whichever company it belongs to. No copy-paste. No spreadsheet. No data leaves your browser.
+  </p>
+  <div class="hero-ctas">
+    <a href="/coop/beta" class="btn-primary">Get early access</a>
+    <a href="#breakdown" class="btn-secondary">See each integration →</a>
+  </div>
+</section>
+
+<!-- NETWORK GRAPH -->
+<section class="graph-section">
+  <div class="graph-inner">
+    <div class="graph-caption">
+      <span class="label">How a single opportunity gets enriched</span>
+      <h2>You bring the company. Coop brings the rest.</h2>
+      <p>Drop into a job posting or company site. By the time you've read the page, Coop has already pulled what your inbox, calendar, and meeting notes know about them — and scored the fit.</p>
+    </div>
+
+    <div class="graph-stage">
+      <svg viewBox="0 0 1100 720" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Edges (drawn first, behind nodes) -->
+        <g>
+          <!-- top: Serper -->
+          <line class="edge" x1="550" y1="360" x2="550" y2="80"/>
+          <text class="edge-label" x="565" y="220">$80M Series B last quarter</text>
+
+          <!-- upper-right: Gmail -->
+          <line class="edge" x1="550" y1="360" x2="792" y2="220"/>
+          <text class="edge-label" x="690" y="278">Sarah replied 2h ago</text>
+
+          <!-- lower-right: Calendar -->
+          <line class="edge" x1="550" y1="360" x2="792" y2="500"/>
+          <text class="edge-label" x="690" y="430">intro call Tue 2pm</text>
+
+          <!-- bottom: Granola -->
+          <line class="edge" x1="550" y1="360" x2="550" y2="640"/>
+          <text class="edge-label" x="565" y="510">"wants GTM-leaning hire"</text>
+
+          <!-- lower-left: Anthropic -->
+          <line class="edge" x1="550" y1="360" x2="308" y2="500"/>
+          <text class="edge-label" x="408" y="430" text-anchor="end">match score 8.4 — strong fit</text>
+
+          <!-- upper-left: In-page detection -->
+          <line class="edge" x1="550" y1="360" x2="308" y2="220"/>
+          <text class="edge-label" x="408" y="278" text-anchor="end">JD: $180k–$220k OTE</text>
+        </g>
+
+        <!-- Center node: the opportunity -->
+        <g>
+          <circle class="node-circle node-center" cx="550" cy="360" r="96"/>
+          <text class="node-label-center" x="550" y="354">Helix Labs</text>
+          <text class="node-sublabel-center" x="550" y="378">Solutions Architect</text>
+        </g>
+
+        <!-- ── Top: Serper / web research ── -->
+        <g>
+          <circle class="node-circle" cx="550" cy="80" r="54" fill="#3F4DBF"/>
+          <text class="node-label" x="550" y="78">Series B</text>
+          <text class="node-snippet" x="550" y="93">TechCrunch · Mar</text>
+          <!-- Serper logo badge -->
+          <g transform="translate(596, 38)">
+            <rect width="36" height="36" rx="7" fill="#fff"/>
+            <g fill="none" stroke="#5468FF" stroke-width="2.6" stroke-linecap="round">
+              <circle cx="15" cy="15" r="6.5"/>
+              <line x1="20" y1="20" x2="27" y2="27"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- ── Upper-right: Gmail ── -->
+        <g>
+          <circle class="node-circle" cx="792" cy="220" r="54" fill="#B8362C"/>
+          <text class="node-label" x="792" y="218">Sarah Chen</text>
+          <text class="node-snippet" x="792" y="233">recruiter</text>
+          <!-- Gmail badge -->
+          <g transform="translate(838, 178)">
+            <rect width="36" height="36" rx="7" fill="#fff"/>
+            <g fill="#fff" stroke="#EA4335" stroke-width="2.4" stroke-linejoin="round">
+              <rect x="6" y="11" width="24" height="16" rx="1.5"/>
+              <path d="M6 12 L18 21 L30 12" fill="none"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- ── Lower-right: Google Calendar ── -->
+        <g>
+          <circle class="node-circle" cx="792" cy="500" r="54" fill="#3870C9"/>
+          <text class="node-label" x="792" y="498">Tue 2pm</text>
+          <text class="node-snippet" x="792" y="513">w/ Sarah, Mike</text>
+          <!-- Calendar badge -->
+          <g transform="translate(838, 458)">
+            <rect width="36" height="36" rx="7" fill="#fff"/>
+            <rect x="6" y="7" width="24" height="22" rx="2" fill="#fff" stroke="#4285F4" stroke-width="1.6"/>
+            <rect x="6" y="7" width="24" height="6.5" fill="#4285F4"/>
+            <text x="18" y="25" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#4285F4">31</text>
+          </g>
+        </g>
+
+        <!-- ── Bottom: Granola ── -->
+        <g>
+          <circle class="node-circle" cx="550" cy="640" r="54" fill="#C44A37"/>
+          <text class="node-label" x="550" y="638">Q2 sync</text>
+          <text class="node-snippet" x="550" y="653">transcript</text>
+          <!-- Granola badge -->
+          <g transform="translate(596, 598)">
+            <rect width="36" height="36" rx="7" fill="#ED5C46"/>
+            <text x="18" y="26" text-anchor="middle" font-family="Inter,sans-serif" font-size="20" font-weight="800" fill="#fff">g</text>
+          </g>
+        </g>
+
+        <!-- ── Lower-left: Anthropic Claude ── -->
+        <g>
+          <circle class="node-circle" cx="308" cy="500" r="54" fill="#9F4D2F"/>
+          <text class="node-label" x="308" y="498">8.4</text>
+          <text class="node-snippet" x="308" y="513">scored by Claude</text>
+          <!-- Anthropic badge -->
+          <g transform="translate(236, 458)">
+            <rect width="36" height="36" rx="7" fill="#F2EBE4"/>
+            <g fill="#C15F3C">
+              <rect x="17" y="6" width="2" height="24" rx="1"/>
+              <rect x="6" y="17" width="24" height="2" rx="1"/>
+              <rect x="17" y="6" width="2" height="24" rx="1" transform="rotate(45 18 18)"/>
+              <rect x="17" y="6" width="2" height="24" rx="1" transform="rotate(-45 18 18)"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- ── Upper-left: In-page detection ── -->
+        <g>
+          <circle class="node-circle" cx="308" cy="220" r="54" fill="#28507A"/>
+          <text class="node-label" x="308" y="218">posting</text>
+          <text class="node-snippet" x="308" y="233">auto-captured</text>
+          <!-- LinkedIn / ATS badge -->
+          <g transform="translate(236, 178)">
+            <rect width="36" height="36" rx="7" fill="#0A66C2"/>
+            <g fill="#fff">
+              <rect x="8" y="15" width="3.8" height="13" rx="0.5"/>
+              <circle cx="9.9" cy="10.5" r="2.2"/>
+              <path d="M16 15 H19.5 V16.7 C20 15.7 21.7 15 23 15 C26.5 15 27.5 16.5 27.5 20 V28 H23.5 V20.5 C23.5 19.3 23 18.7 22 18.7 C20.7 18.7 20 19.4 20 20.5 V28 H16 Z"/>
+            </g>
+          </g>
+        </g>
+
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATION BREAKDOWN -->
+<section class="cards-section" id="breakdown">
+  <div class="cards-inner">
+    <div class="cards-header">
+      <span class="label">The integrations, plain-English</span>
+      <h2>Six places Coop reads from. Zero places it sends anything to.</h2>
+      <p>Coop's default brain is your Claude Desktop, plugged in via MCP — no API keys to set up. The data integrations pull your inbox, calendar, and meeting notes straight into Coop's browser-local store. Every byte stays in your browser.</p>
+    </div>
+
+    <div class="group-label">The trigger</div>
+    <div class="cards-grid">
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#0A66C2"/>
+            <g fill="#fff">
+              <rect x="11" y="20" width="5.4" height="18" rx="0.7"/>
+              <circle cx="13.7" cy="14.5" r="3.1"/>
+              <path d="M22 20 H27 V22.4 C27.7 21 30 20 32 20 C37 20 38.5 22 38.5 27 V38 H32.7 V27.5 C32.7 25.7 32 24.8 30.5 24.8 C28.7 24.8 27.7 25.8 27.7 27.5 V38 H22 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">In-page detection</div>
+          <span class="int-card-tag">Built in · no setup</span>
+          <p class="int-card-body">A content script reads LinkedIn, Greenhouse, Lever, Workday, and Ashby pages directly. The moment you open a job posting or company page, Coop pulls the title, JD, comp band, and requirements. No clicks. No paste.</p>
+        </div>
+      </div>
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#fff" stroke="#e2e2e2" stroke-width="1"/>
+            <g fill="none" stroke="#5468FF" stroke-width="3" stroke-linecap="round">
+              <circle cx="20" cy="20" r="9"/>
+              <line x1="27" y1="27" x2="36" y2="36"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">Web research <span style="font-weight: 400; color: var(--ink-muted);">(Serper)</span></div>
+          <span class="int-card-tag">Optional · BYO key for auto-fire</span>
+          <p class="int-card-body">Skip the key and ask Claude Desktop to research a company — it'll call Coop's MCP and pull firmographics, leadership, reviews, and recent news on demand. Add a Serper key to let Coop fire the same research automatically in the background. Cached indefinitely; force-refresh from the side panel.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="group-label">Your communication history</div>
+    <div class="cards-grid">
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#fff" stroke="#e2e2e2" stroke-width="1"/>
+            <g stroke="#EA4335" stroke-width="3" fill="none" stroke-linejoin="round">
+              <rect x="9" y="14" width="30" height="20" rx="2"/>
+              <path d="M9 16 L24 27 L39 16"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">Gmail</div>
+          <span class="int-card-tag">Chrome OAuth</span>
+          <p class="int-card-body">Reads threads where the sender or recipient domain matches the company. Surfaces who you've corresponded with, flags rejection language, and feeds the "last activity" + "Action on" signals on every kanban card.</p>
+        </div>
+      </div>
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#fff" stroke="#e2e2e2" stroke-width="1"/>
+            <rect x="9" y="11" width="30" height="28" rx="3" fill="#fff" stroke="#4285F4" stroke-width="2"/>
+            <rect x="9" y="11" width="30" height="9" fill="#4285F4"/>
+            <text x="24" y="34" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#4285F4">31</text>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">Google Calendar</div>
+          <span class="int-card-tag">Chrome OAuth</span>
+          <p class="int-card-body">Lists events whose attendees include the company's email domain. Powers "next meeting," the upcoming-events sidebar, and the relationship timeline. Past meetings backfill your history with the company automatically.</p>
+        </div>
+      </div>
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#ED5C46"/>
+            <text x="24" y="35" text-anchor="middle" font-family="Inter,sans-serif" font-size="28" font-weight="800" fill="#fff">g</text>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">Granola</div>
+          <span class="int-card-tag">REST API key</span>
+          <p class="int-card-body">Searches your meeting notes by company name and contact name. Pulls the transcript paragraph that mentions them — verbatim, in their own words. Indexed once with rate-limited backoff, then queried per opportunity.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="group-label">The brain · Claude Desktop by default</div>
+    <div class="cards-grid">
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#F2EBE4"/>
+            <g fill="#C15F3C">
+              <rect x="23" y="8" width="2.5" height="32" rx="1.2"/>
+              <rect x="8" y="23" width="32" height="2.5" rx="1.2"/>
+              <rect x="23" y="8" width="2.5" height="32" rx="1.2" transform="rotate(45 24 24)"/>
+              <rect x="23" y="8" width="2.5" height="32" rx="1.2" transform="rotate(-45 24 24)"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">Claude Desktop <span style="font-weight: 400; color: var(--ink-muted);">(MCP)</span></div>
+          <span class="int-card-tag">Default · no key needed</span>
+          <p class="int-card-body">Coop registers as an MCP connector in your Claude Desktop app. Ask Claude anything about an opportunity — score it, draft an outreach note, debrief a call — and it calls Coop in the background to assemble the context. <strong>Zero API keys to get started.</strong> Same Claude you already pay for.</p>
+        </div>
+      </div>
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#F2EBE4"/>
+            <g fill="#C15F3C" opacity="0.55">
+              <rect x="23" y="8" width="2.5" height="32" rx="1.2"/>
+              <rect x="8" y="23" width="32" height="2.5" rx="1.2"/>
+              <rect x="23" y="8" width="2.5" height="32" rx="1.2" transform="rotate(45 24 24)"/>
+              <rect x="23" y="8" width="2.5" height="32" rx="1.2" transform="rotate(-45 24 24)"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">Anthropic API key <span style="font-weight: 400; color: var(--ink-muted);">(opt-in)</span></div>
+          <span class="int-card-tag">Optional · unlocks auto-fire</span>
+          <p class="int-card-body">Add an Anthropic key to unlock background work that fires without opening Claude Desktop — fresh-data sweeps, queue auto-scoring, scheduled drafts. Same Claude under the hood; just the auto-fire path instead of the on-demand one.</p>
+        </div>
+      </div>
+
+      <div class="int-card">
+        <div class="int-card-logo">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="10" fill="#0d0d0d"/>
+            <g fill="#fff">
+              <ellipse cx="24" cy="24" rx="4.2" ry="13" transform="rotate(0 24 24)" opacity="0.95"/>
+              <ellipse cx="24" cy="24" rx="4.2" ry="13" transform="rotate(60 24 24)" opacity="0.85"/>
+              <ellipse cx="24" cy="24" rx="4.2" ry="13" transform="rotate(120 24 24)" opacity="0.75"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="int-card-title">OpenAI <span style="font-weight: 400; color: var(--ink-muted);">(opt-in)</span></div>
+          <span class="int-card-tag">Optional · alt provider</span>
+          <p class="int-card-body">Prefer GPT over Claude for the auto-fire path? Bring an OpenAI key and Coop routes background work through it instead. If you configure both providers, Coop cycles between them on rate-limits and the UI tells you which model answered.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta">
+  <h3>Bring the company. Coop brings the context.</h3>
+  <p>Connect Claude Desktop, install the extension, done. No backend. No telemetry. No data leaves your browser.</p>
+  <a href="/coop/beta" class="btn-primary">Get beta access →</a>
+</section>
+
+</body>
+</html>

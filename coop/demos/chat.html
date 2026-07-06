@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coop with full context — demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-deep: #8C2810;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --font-display: 'Barlow', sans-serif;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1040px;
+    --nav-h: 60px;
+    --bg: #FFFFFF;
+    --raised: #F6F8F9;
+    --inset: #EEF1F3;
+    --header: #151B26;
+    --text: #0A0B0D;
+    --text-2: #6F7782;
+    --text-3: #8A8E94;
+    --on-dark: #F5F4F2;
+    --on-dark-muted: #A3AEBE;
+    --border-subtle: #EAECEF;
+    --coral: #FC636B;
+    --teal: #36B37E;
+    --blue: #4573D2;
+    --amber: #F5A623;
+    --red: #E8384F;
+    --purple: #7C6EF0;
+    --shadow-sm: 0 1px 3px rgba(30,31,33,.05),0 1px 2px rgba(0,0,0,.03);
+    --shadow-md: 0 4px 14px rgba(30,31,33,.07),0 1px 3px rgba(0,0,0,.03);
+    --shadow-lg: 0 10px 36px rgba(30,31,33,.14),0 2px 8px rgba(0,0,0,.06);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .coop-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); background: rgba(247,245,240,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+  .coop-nav-inner { max-width: var(--max); width: 100%; margin: 0 auto; padding: 0 28px; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+  .coop-nav-back { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; display: flex; align-items: center; gap: 0.35rem; white-space: nowrap; flex-shrink: 0; }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .coop-nav-tabs a { font-size: 0.84rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px; transition: color 0.15s, background 0.15s; }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; font-weight: 500; background: var(--ink); color: var(--white); text-decoration: none; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  .page-head { padding: calc(var(--nav-h) + 3rem) 28px 1.75rem; max-width: var(--max); margin: 0 auto; }
+  .crumb { font-size: 0.78rem; color: var(--ink-muted); margin-bottom: 0.65rem; }
+  .crumb a { color: inherit; text-decoration: none; }
+  .crumb a:hover { color: var(--accent); }
+  .page-h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 4vw, 2.6rem); letter-spacing: -0.025em; line-height: 1.1; color: var(--ink); margin-bottom: 0.5rem; }
+  .page-sub { font-family: var(--font-serif); font-weight: 500; font-size: clamp(1rem, 1.3vw, 1.15rem); color: var(--ink-soft); font-style: italic; max-width: 640px; }
+
+  .demo-section { padding: 1rem 28px 4rem; max-width: var(--max); margin: 0 auto; }
+
+  .demo-stage {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    min-height: 600px;
+  }
+  @media (max-width: 720px) {
+    .demo-stage { grid-template-columns: 1fr; }
+    .context-rail { border-left: none !important; border-top: 1px solid var(--border-subtle); }
+  }
+
+  /* CHAT COL */
+  .chat-col { display: flex; flex-direction: column; min-width: 0; }
+
+  .chat-head {
+    background: var(--header); color: var(--on-dark);
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .coop-mark {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--coral), var(--amber));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 14px;
+    letter-spacing: -0.04em;
+    flex-shrink: 0;
+  }
+  .chat-head-title {
+    font-size: 14px; font-weight: 600; letter-spacing: -.01em;
+    flex: 1; min-width: 0;
+  }
+  .chat-head-title small { display: block; font-size: 11px; color: var(--on-dark-muted); font-weight: 400; margin-top: 1px; }
+  .chat-model {
+    font-size: 11px; padding: 4px 9px; border-radius: 9999px;
+    background: rgba(255,255,255,0.1); color: var(--on-dark-muted);
+    font-weight: 500;
+    cursor: pointer; transition: background 0.15s;
+    display: flex; align-items: center; gap: 4px;
+    flex-shrink: 0;
+  }
+  .chat-model:hover { background: rgba(255,255,255,0.15); }
+  .chat-model.fallback { background: rgba(245,166,35,.15); color: var(--amber); }
+
+  .source-pills {
+    padding: 10px 16px;
+    background: var(--raised);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .pill {
+    font-size: 11.5px; padding: 4px 10px; border-radius: 9999px;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-2);
+    display: flex; align-items: center; gap: 5px;
+    transition: all 0.2s;
+    opacity: 0.65;
+  }
+  .pill.lit {
+    opacity: 1;
+    border-color: var(--teal);
+    background: rgba(54,179,126,.06);
+    color: var(--teal);
+  }
+  .pill .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .5; }
+  .pill b { font-weight: 600; }
+
+  .scroll {
+    flex: 1; padding: 18px 18px 6px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 14px;
+    min-height: 320px;
+    max-height: 520px;
+  }
+  .bubble {
+    max-width: 88%; padding: 11px 14px;
+    border-radius: 12px;
+    font-size: 14px; line-height: 1.55;
+    word-break: break-word;
+  }
+  .bubble.user {
+    align-self: flex-end;
+    background: var(--text); color: var(--on-dark);
+    border-bottom-right-radius: 4px;
+  }
+  .bubble.coop {
+    align-self: flex-start;
+    background: var(--raised); color: var(--text);
+    border: 1px solid var(--border-subtle);
+    border-bottom-left-radius: 4px;
+    position: relative;
+  }
+  .bubble.coop em {
+    color: var(--text-2); font-style: italic;
+  }
+  .bubble.coop strong { color: var(--text); font-weight: 600; }
+
+  .score-inline {
+    margin-top: 10px;
+    padding: 10px 11px;
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    border-radius: 9px;
+    display: flex; align-items: center; gap: 11px;
+  }
+  .score-inline .num {
+    font-size: 26px; font-weight: 700; color: var(--teal);
+    line-height: 1; letter-spacing: -.02em;
+  }
+  .score-inline .num small { font-size: 11px; color: var(--text-3); font-weight: 500; }
+  .score-inline .text { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+  .score-inline .text b { display: block; color: var(--text); font-size: 13px; }
+
+  .fallback-note {
+    margin-top: 8px; font-size: 11px;
+    color: var(--text-3); display: flex; align-items: center; gap: 5px;
+    padding-left: 2px;
+  }
+  .fallback-note .arr { color: var(--amber); }
+
+  .typing {
+    align-self: flex-start;
+    background: var(--raised); padding: 11px 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px; border-bottom-left-radius: 4px;
+    display: flex; gap: 5px; align-items: center;
+  }
+  .typing span {
+    width: 6px; height: 6px; background: var(--text-3); border-radius: 50%;
+    animation: bounce 1.1s ease-in-out infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: .15s; }
+  .typing span:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+    30% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .composer {
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg);
+    padding: 11px 14px 14px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .suggested-label {
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 12.5px; color: var(--text-2);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .suggested-label::before {
+    content: ''; width: 12px; height: 1px;
+    background: var(--accent); flex-shrink: 0;
+  }
+  .suggested-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sug-btn {
+    background: var(--raised); border: 1px solid var(--border-subtle);
+    color: var(--text); font-family: inherit; font-size: 12.5px;
+    padding: 6px 11px; border-radius: 9999px;
+    cursor: pointer; transition: all 0.15s;
+    text-align: left;
+  }
+  .sug-btn:hover:not(:disabled) {
+    background: var(--inset);
+    border-color: var(--text-3);
+  }
+  .sug-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .sug-btn.tone-ocean { color: #0E2E45; border-color: rgba(14,46,69,0.25); background: rgba(14,46,69,0.04); }
+  .sug-btn.tone-ocean:hover:not(:disabled) { background: rgba(14,46,69,0.08); border-color: #0E2E45; }
+  .sug-btn.tone-saffron { color: #B66E1F; border-color: rgba(232,152,70,0.35); background: rgba(232,152,70,0.06); }
+  .sug-btn.tone-saffron:hover:not(:disabled) { background: rgba(232,152,70,0.12); border-color: #E89846; }
+  .sug-btn.coop-tone { color: var(--coral); border-color: rgba(252,99,107,.25); background: rgba(252,99,107,.05); }
+  .sug-btn.coop-tone:hover:not(:disabled) { background: rgba(252,99,107,.1); border-color: var(--coral); }
+
+  .composer-row {
+    display: flex; gap: 8px; align-items: center;
+    background: var(--raised); border: 1px solid var(--border-subtle);
+    border-radius: 10px; padding: 4px 4px 4px 12px;
+  }
+  .composer-input {
+    flex: 1; border: none; background: transparent;
+    font-family: inherit; font-size: 13.5px;
+    padding: 8px 0; color: var(--text);
+    outline: none;
+  }
+  .composer-input::placeholder { color: var(--text-3); }
+  .send-btn {
+    background: var(--text); color: var(--on-dark);
+    border: none; border-radius: 7px;
+    padding: 7px 13px; font-family: inherit;
+    font-size: 12.5px; font-weight: 600;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .send-btn:hover:not(:disabled) { background: var(--coral); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .reset-btn {
+    background: none; border: none;
+    color: var(--text-3); cursor: pointer;
+    font-family: inherit; font-size: 11.5px;
+    padding: 4px 8px; align-self: center;
+    transition: color 0.15s;
+  }
+  .reset-btn:hover { color: var(--coral); }
+
+  /* CONTEXT RAIL */
+  .context-rail {
+    background: var(--raised);
+    border-left: 1px solid var(--border-subtle);
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 14px;
+    overflow-y: auto;
+  }
+  .ctx-label {
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 13px; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .ctx-label::before {
+    content: ''; width: 4px; height: 14px;
+    border-radius: 2px;
+    background: var(--text-3);
+    flex-shrink: 0;
+  }
+  .ctx-section.tone-ocean .ctx-label::before { background: #0E2E45; }
+  .ctx-section.tone-coral .ctx-label::before { background: var(--coral); }
+  .ctx-section.tone-saffron .ctx-label::before { background: #E89846; }
+  .ctx-section.tone-purple .ctx-label::before { background: var(--purple); }
+  .ctx-section { display: flex; flex-direction: column; gap: 4px; }
+  .ctx-section.tone-ocean .ctx-item { border-left: 2px solid rgba(14,46,69,0.18); }
+  .ctx-section.tone-coral .ctx-item { border-left: 2px solid rgba(252,99,107,0.22); }
+  .ctx-section.tone-saffron .ctx-item { border-left: 2px solid rgba(232,152,70,0.25); }
+  .ctx-section.tone-purple .ctx-item { border-left: 2px solid rgba(124,110,240,0.22); }
+  .ctx-item {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 7px;
+    padding: 7px 10px;
+    font-size: 11.5px; color: var(--text-2);
+  }
+  .ctx-item b { color: var(--text); font-weight: 600; }
+  .ctx-item small { display: block; color: var(--text-3); margin-top: 2px; font-size: 10.5px; }
+  .ctx-item.dim { opacity: 0.55; }
+
+  /* EXPLAINER + JUMPER (shared) */
+  .explainer { margin-top: 1.5rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 1.75rem; }
+  .explainer h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--ink); letter-spacing: -.01em; margin-bottom: 0.6rem; }
+  .explainer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1rem; }
+  .ex-item { font-size: 0.86rem; color: var(--ink-soft); line-height: 1.55; }
+  .ex-item b { color: var(--ink); font-weight: 600; display: block; margin-bottom: 0.15rem; }
+  .ex-item .num { display: inline-block; font-family: var(--font-serif); font-style: italic; font-size: 0.78rem; color: var(--accent); font-weight: 700; margin-right: 0.35rem; }
+
+  .demo-jumper { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .demo-jumper .label { font-size: 0.84rem; color: var(--ink-muted); font-weight: 500; }
+  .demo-jumper a { font-size: 0.86rem; color: var(--ink-soft); text-decoration: none; padding: 0.45rem 0.85rem; border-radius: 6px; border: 1px solid var(--border); transition: all .15s; font-weight: 500; }
+  .demo-jumper a:hover { background: var(--white); color: var(--accent); border-color: var(--accent); }
+  .demo-jumper a.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+  .foot { text-align: center; padding: 2rem 28px; font-size: 0.78rem; color: var(--ink-muted); border-top: 1px solid var(--border); margin-top: 3rem; }
+  .foot a { color: var(--ink-soft); text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .explainer-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .coop-nav { height: auto; padding: 0.6rem 0; }
+    .coop-nav-inner { flex-wrap: wrap; }
+    .page-head { padding-top: calc(var(--nav-h) + 4rem); }
+  }
+</style>
+</head>
+<body>
+
+<nav class="coop-nav">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/" class="active">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="crumb"><a href="/coop/demos/">Demos</a> / Coop with full context</div>
+  <h1 class="page-h1">Ask, don't brief</h1>
+  <p class="page-sub">Coop already has your profile, the role, the comp band, every email thread, every meeting transcript. You stop explaining and start asking.</p>
+</header>
+
+<section class="demo-section">
+  <div class="demo-stage">
+    <div class="chat-col">
+      <div class="chat-head">
+        <div class="coop-mark">c</div>
+        <div class="chat-head-title">
+          Coop
+          <small>Databricks · Staff Product Marketing Manager</small>
+        </div>
+        <div class="chat-model" id="modelBadge">Claude · Desktop</div>
+      </div>
+      <div class="source-pills">
+        <div class="pill" data-src="profile"><span class="dot"></span><b>Operating principles</b></div>
+        <div class="pill" data-src="job"><span class="dot"></span><b>Job posting</b></div>
+        <div class="pill" data-src="emails"><span class="dot"></span><b>4 emails</b></div>
+        <div class="pill" data-src="meetings"><span class="dot"></span><b>2 transcripts</b></div>
+        <div class="pill" data-src="research"><span class="dot"></span><b>Company research</b></div>
+      </div>
+      <div class="scroll" id="scroll">
+        <div class="bubble coop">
+          <strong>Hi.</strong> I've already loaded your operating principles, the Databricks job posting, the four email threads you have with people there, both of your Granola transcripts from calls with Priya, and the company research file. <em>Ask me anything — I'm not starting from scratch.</em>
+        </div>
+      </div>
+      <div class="composer">
+        <div class="suggested-label">Try one of these</div>
+        <div class="suggested-list" id="suggestions">
+          <button class="sug-btn tone-ocean" data-q="lead">Given my call with Priya last week, what should I lead with in my application?</button>
+          <button class="sug-btn tone-saffron" data-q="floor">Is this comp band above my floor?</button>
+          <button class="sug-btn" data-q="fit">How does this role compare to what I told you I was hunting for?</button>
+          <button class="sug-btn coop-tone" data-q="draft">Draft me a short intro note to send Priya.</button>
+        </div>
+        <div class="composer-row">
+          <input class="composer-input" placeholder="Ask Coop anything about Databricks…" id="composerInput" disabled />
+          <button class="send-btn" disabled>Send</button>
+        </div>
+        <button class="reset-btn" id="resetBtn">↶ Reset conversation</button>
+      </div>
+    </div>
+
+    <aside class="context-rail">
+      <div class="ctx-section tone-ocean">
+        <div class="ctx-label">What Coop is reading</div>
+        <div class="ctx-item">
+          <b>Databricks</b>
+          <small>Staff PMM · Hybrid SF · $210k–$260k</small>
+        </div>
+      </div>
+
+      <div class="ctx-section tone-coral">
+        <div class="ctx-label">Emails (Gmail)</div>
+        <div class="ctx-item">
+          <b>Priya Shankar</b>
+          <small>VP Product Marketing · 4 threads</small>
+        </div>
+        <div class="ctx-item">
+          <b>Aman Gupta</b>
+          <small>Recruiter · 1 thread</small>
+        </div>
+      </div>
+
+      <div class="ctx-section tone-saffron">
+        <div class="ctx-label">Meetings (Granola)</div>
+        <div class="ctx-item">
+          <b>Intro chat with Priya</b>
+          <small>April 22 · 38 min</small>
+        </div>
+        <div class="ctx-item">
+          <b>Deep-dive with Priya</b>
+          <small>May 6 · 51 min</small>
+        </div>
+      </div>
+
+      <div class="ctx-section tone-purple">
+        <div class="ctx-label">From your principles</div>
+        <div class="ctx-item">
+          <small>Comp floor $200k base. PLG sweet spot. Founder-led teams. Open to platform plays.</small>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="explainer">
+    <h3>What's happening</h3>
+    <p style="font-size: 0.92rem; color: var(--ink-soft); max-width: 660px;">
+      The pills along the top show exactly what's loaded for this conversation. Click a suggested question — Coop hands the context to your Claude Desktop and the answer comes back. No prompt-pasting, no rebuilding context, no API key to get started.
+    </p>
+    <div class="explainer-grid">
+      <div class="ex-item"><span class="num">01.</span><b>Claude Desktop by default</b>Coop registers as an MCP connector. The Claude you already use becomes the brain — no API keys, no proxied requests.</div>
+      <div class="ex-item"><span class="num">02.</span><b>Sources surfaced, not hidden</b>The pills tell you what Coop drew from for each answer. If a question only used emails, only the emails pill lights.</div>
+      <div class="ex-item"><span class="num">03.</span><b>Auto-fire is opt-in</b>Want background scoring without opening Claude Desktop? Bring your own Anthropic or OpenAI key and Coop will run those jobs without you. The UI tells you which path answered.</div>
+    </div>
+  </div>
+
+  <div class="demo-jumper">
+    <span class="label">Other demos:</span>
+    <a href="/coop/demos/queue.html">Apply Queue</a>
+    <a href="/coop/demos/chat.html" class="active">Coop with full context</a>
+    <a href="/coop/demos/pipeline.html">Drag-drop pipeline</a>
+  </div>
+</section>
+
+<footer class="foot">
+  Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a> ·
+  <a href="/coop/">Overview</a> ·
+  <a href="/coop/features">Features</a> ·
+  <a href="/coop/beta">Beta access</a>
+</footer>
+
+<script>
+  const RESPONSES = {
+    lead: {
+      sources: ['meetings', 'job', 'profile'],
+      model: 'Claude · Desktop',
+      fallback: false,
+      pre: '',
+      body: `<strong>Lead with lakehouse positioning.</strong> In your May 6 deep-dive, Priya said the team is rebuilding their enterprise narrative from the studs — and explicitly asked if you'd done foundational positioning work before. That's the through-line.<br><br>Your Snowflake case study answers it directly. Open with that, then bridge to the PLG motion you ran at Notion. <em>Don't lead with PLG playbooks</em> — she's already flagged enterprise as the priority, and leading there could read as a misread of what they need right now.`,
+      after: {
+        type: 'score',
+        score: 7.8,
+        verdict: 'Strong fit',
+        note: 'Platform scope + your direct rebuild experience.'
+      }
+    },
+    floor: {
+      sources: ['profile', 'job'],
+      model: 'Claude · Desktop',
+      fallback: false,
+      pre: '',
+      body: `<strong>Yes — $210k–$260k base clears your floor of $200k.</strong> Even the bottom of the band sits $10k above your line, and the midpoint ($235k) puts you in the upper third of where you said you'd be excited to land.<br><br>If you negotiate, your operating principles say to anchor to $240k+ when total scope reads "staff with directional ownership." This role does — Priya called it a "narrative architect" seat.`,
+      after: null
+    },
+    fit: {
+      sources: ['profile', 'job', 'research'],
+      model: 'Anthropic · API',
+      fallback: true,
+      pre: 'Heads up — this one fired in the background before you opened the chat, so it ran on your opt-in Anthropic key instead of going through Claude Desktop.',
+      body: `<strong>This is closer than most to your stated hunting profile.</strong><br><br>You told me four things matter: platform positioning scope, comp $200k+ base, late-stage public/pre-IPO, and founder-led product orgs. Three of four hit hard here.<br><br><em>The miss is founder-led</em> — Databricks is past that stage. But Priya's team functions like a founder-led pod inside the larger org. That's worth probing on your next call.`,
+      after: {
+        type: 'score',
+        score: 7.8,
+        verdict: 'Strong fit',
+        note: '3-of-4 on your stated hunting criteria.'
+      }
+    },
+    draft: {
+      sources: ['meetings', 'emails', 'profile'],
+      model: 'Claude · Desktop',
+      fallback: false,
+      pre: '',
+      body: `<strong>Draft (matches your "warm but pointed" voice):</strong><br><br><em>"Priya — quick follow-up from our chat on the 6th. I spent the weekend reading through their public positioning and you're right, it reads like three different companies. I put together a short take on how I'd reframe the enterprise story end-to-end — happy to send it ahead of the loop if useful. Either way, looking forward to next week."</em><br><br>I pulled tone from how you wrote her in the April thread (subject: "thinking about your role definition" — that one landed well based on her reply).`,
+      after: null
+    }
+  };
+
+  const scrollEl = document.getElementById('scroll');
+  const suggestionsEl = document.getElementById('suggestions');
+  const resetBtn = document.getElementById('resetBtn');
+  const modelBadge = document.getElementById('modelBadge');
+  const pills = Array.from(document.querySelectorAll('.pill'));
+
+  let busy = false;
+  const initialHTML = scrollEl.innerHTML;
+
+  function setPills(litList) {
+    pills.forEach(p => p.classList.toggle('lit', litList.includes(p.dataset.src)));
+  }
+
+  function appendUser(text) {
+    const el = document.createElement('div');
+    el.className = 'bubble user';
+    el.textContent = text;
+    scrollEl.appendChild(el);
+    scrollEl.scrollTop = scrollEl.scrollHeight;
+  }
+
+  function appendTyping() {
+    const el = document.createElement('div');
+    el.className = 'typing';
+    el.id = 'typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    scrollEl.appendChild(el);
+    scrollEl.scrollTop = scrollEl.scrollHeight;
+    return el;
+  }
+
+  function appendCoop(response) {
+    const el = document.createElement('div');
+    el.className = 'bubble coop';
+    let html = '';
+    if (response.pre) html += `<em>${response.pre}</em><br><br>`;
+    html += response.body;
+    if (response.after && response.after.type === 'score') {
+      html += `
+        <div class="score-inline">
+          <div class="num">${response.after.score.toFixed(1)}<small>/10</small></div>
+          <div class="text"><b>${response.after.verdict}</b>${response.after.note}</div>
+        </div>
+      `;
+    }
+    if (response.fallback) {
+      html += `<div class="fallback-note"><span class="arr">↻</span> Routed through <b>${response.model}</b> — opt-in auto-fire path</div>`;
+    }
+    el.innerHTML = html;
+    scrollEl.appendChild(el);
+    scrollEl.scrollTop = scrollEl.scrollHeight;
+  }
+
+  function setModelBadge(model, isFallback) {
+    modelBadge.textContent = model;
+    modelBadge.classList.toggle('fallback', !!isFallback);
+  }
+
+  async function ask(key, text) {
+    if (busy) return;
+    const r = RESPONSES[key];
+    if (!r) return;
+    busy = true;
+    document.querySelectorAll('.sug-btn').forEach(b => b.disabled = true);
+
+    appendUser(text);
+    setPills([]);
+
+    await new Promise(r => setTimeout(r, 320));
+    const typing = appendTyping();
+    setPills(r.sources);
+    setModelBadge(r.model, r.fallback);
+
+    await new Promise(r => setTimeout(r, 1100));
+    typing.remove();
+    appendCoop(r);
+
+    // re-enable except the one just answered
+    const used = document.querySelector(`.sug-btn[data-q="${key}"]`);
+    if (used) used.disabled = true;
+    document.querySelectorAll('.sug-btn:not([data-q="' + key + '"])').forEach(b => b.disabled = false);
+    busy = false;
+  }
+
+  suggestionsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sug-btn');
+    if (!btn) return;
+    ask(btn.dataset.q, btn.textContent.trim());
+  });
+
+  resetBtn.addEventListener('click', () => {
+    scrollEl.innerHTML = initialHTML;
+    setPills([]);
+    setModelBadge('Claude · Desktop', false);
+    document.querySelectorAll('.sug-btn').forEach(b => b.disabled = false);
+  });
+</script>
+
+</body>
+</html>

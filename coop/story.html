@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Why I built Coop.ai — Matt Sterbenz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/coop/scroll-anim.css" />
+<script defer src="/coop/scroll-anim.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --border-mid: rgba(0,0,0,0.15);
+    --font-display: 'Barlow', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1040px;
+    --nav-h: 60px;
+    --teal: #36B37E;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PERSISTENT NAV ── */
+  .coop-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .coop-nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1.5rem;
+  }
+  .coop-nav-back {
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs {
+    display: flex; align-items: center; gap: 0.25rem; list-style: none;
+  }
+  .coop-nav-tabs a {
+    font-size: 0.84rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.82rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    padding: 0.4rem 0.9rem; border-radius: 5px;
+    text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  /* ── PAGE LAYOUT ── */
+  .page-wrap {
+    max-width: 720px; margin: 0 auto;
+    padding: calc(var(--nav-h) + 4rem) 28px 5rem;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-eyebrow {
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1rem; display: block;
+  }
+  .page-h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+  }
+  .page-lede {
+    font-size: 1.1rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.75; margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border); padding-bottom: 2.5rem;
+  }
+
+  /* ── NARRATIVE BODY ── */
+  .narrative p {
+    font-size: 1.05rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.85; margin-bottom: 1.5rem;
+  }
+  .narrative p strong { font-weight: 500; color: var(--ink); }
+  .narrative p:first-child::first-letter {
+    font-family: var(--font-display);
+    font-weight: 800; font-size: 3rem; line-height: 1;
+    float: left; margin: 0.1rem 0.5rem 0 0; color: var(--ink);
+  }
+
+  /* ── CALLOUT BLOCK ── */
+  .callout {
+    margin: 2.5rem 0;
+    padding: 1.5rem 1.75rem;
+    background: var(--white);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+  }
+  .callout p {
+    font-family: var(--font-display);
+    font-weight: 700; font-size: 1.2rem;
+    line-height: 1.4; color: var(--ink);
+    margin: 0 !important;
+    letter-spacing: -0.01em;
+  }
+  .callout-sub {
+    font-size: 0.88rem; font-weight: 300; color: var(--ink-muted);
+    margin-top: 0.5rem !important; font-family: var(--font-body) !important;
+    font-weight: 300 !important; font-size: 0.88rem !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .narrative-divider {
+    width: 36px; height: 3px; background: var(--accent);
+    border-radius: 2px; margin: 3rem 0;
+  }
+
+  /* ── STATUS BADGE ── */
+  .status-note {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.88rem; font-weight: 400; color: var(--ink-soft);
+    background: var(--white); border: 1px solid var(--border);
+    padding: 0.5rem 1rem; border-radius: 6px; margin-bottom: 2rem;
+  }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--teal); flex-shrink: 0;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+  }
+
+  /* ── ABOUT MATT SECTION ── */
+  .about-section {
+    margin-top: 4rem; padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .about-grid { display: grid; grid-template-columns: auto 1fr; gap: 1.75rem; align-items: start; }
+  .about-photo {
+    width: 80px; height: 80px; border-radius: 50%;
+    object-fit: cover; object-position: top;
+    border: 2px solid var(--border);
+    background: var(--accent-soft);
+  }
+  .about-label {
+    font-size: 12px; font-weight: 500;
+    color: var(--accent); margin-bottom: 0.35rem; display: block;
+  }
+  .about-name {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;
+    color: var(--ink); margin-bottom: 0.2rem;
+  }
+  .about-role { font-size: 0.9rem; color: var(--ink-muted); margin-bottom: 0.85rem; }
+  .about-bio {
+    font-size: 0.97rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.75; margin-bottom: 1rem;
+  }
+  .about-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .about-link {
+    font-size: 0.85rem; font-weight: 500; color: var(--accent);
+    text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
+  }
+  .about-link:hover { text-decoration: underline; }
+
+  /* ── LOOKING FOR ── */
+  .looking-for {
+    margin-top: 2rem; padding: 1.5rem;
+    background: var(--white); border: 1px solid var(--border); border-radius: 8px;
+  }
+  .looking-for h3 {
+    font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
+    color: var(--ink); margin-bottom: 0.75rem;
+  }
+  .looking-for ul { list-style: none; padding: 0; }
+  .looking-for li {
+    font-size: 0.9rem; font-weight: 300; color: var(--ink-soft);
+    padding: 0.35rem 0; border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 0.5rem;
+    line-height: 1.5;
+  }
+  .looking-for li:last-child { border-bottom: none; }
+  .looking-for li::before {
+    content: "→"; color: var(--accent); font-weight: 600;
+    font-size: 0.85rem; flex-shrink: 0;
+  }
+
+  /* ── FOOTER ── */
+  .coop-footer {
+    max-width: var(--max); margin: 0 auto;
+    padding: 2rem 28px; border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .coop-footer p { font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 0.4rem; }
+  .coop-footer a { color: var(--ink-muted); text-decoration: none; }
+  .coop-footer a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    :root { --nav-h: 104px; }
+    .coop-nav { height: auto; min-height: var(--nav-h); }
+    .coop-nav-inner { flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 16px; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-photo { width: 64px; height: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Persistent nav -->
+<nav class="coop-nav" aria-label="Coop.ai navigation">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story" class="active">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<main class="page-wrap">
+
+  <span class="page-eyebrow">Origin story</span>
+  <h1 class="page-h1">Why I built Coop.ai</h1>
+  <p class="page-lede">
+    Five weeks of late-night hacking. One very specific frustration. A tool I now use every single day.
+  </p>
+
+  <div class="status-note">
+    <span class="status-dot"></span>
+    In private beta — used every day in Matt's own search
+  </div>
+
+  <div class="narrative">
+
+    <p>
+      The moment that triggered it was small and stupid. I was sitting in front of a job posting at 11pm with eight tabs open — LinkedIn, the company site, Glassdoor, Blind, two news articles, my resume in Google Docs, and a ChatGPT window where I'd pasted my background for the fourth time that week. I was about to ask the same question I'd already asked about three other companies that day: "is this actually a fit, or am I forcing it." And I realized I'd been doing this for weeks. The same setup. The same paste. The same context rebuild. Every single time.
+    </p>
+
+    <p>
+      The spreadsheet was the second insult. I had a Google Sheet with columns for stage, next steps, comp, key contacts, drop-down statuses — the works. It was beautiful for about a week, then it started rotting. By week three I had no idea what stage half the companies were actually in. I'd had a meeting with someone at one of them and the row still said "applied." The sheet was a snapshot of intentions, not a system that kept up with reality.
+    </p>
+
+    <p>
+      So I started hacking. The first version was just a Chrome extension that detected the company on the page and pulled in firmographics on whatever was in front of me. Tabs collapsed into one click. Within a few days I added save-to-list. Within a week I had a Kanban. Within two weeks I'd wired up Gmail so emails would attach themselves to companies by domain, and Granola so meeting transcripts would do the same. I was building it the way you build something for yourself: no roadmap, no users, just the next thing that annoyed me.
+    </p>
+
+    <p>
+      The real unlock came later, and it wasn't a feature. It was the realization that the AI part — the chat I'd bolted on as an afterthought — was the whole point. When I gave Coop, the advisor inside the extension, full context — my profile, the company data, the job description, the emails I'd already exchanged with people there, the meeting transcripts from calls I'd already had — the conversations changed completely. I stopped explaining and started asking. "Given what we already talked about with these folks, what should I lead with in the application?" And Coop would actually know. Not from a prompt I'd just pasted, but from data the extension had been quietly assembling the whole time.
+    </p>
+
+    <p>
+      That's the part the spreadsheet and the bookmark extension and the standalone ChatGPT window can never give you. It's not the research, it's not the Kanban, it's not even the scoring. It's that <strong>the advisor has the same picture you do</strong>. The full timeline. The actual relationship history. You stop being the integration layer between four tools and a model.
+    </p>
+
+    <div class="narrative-divider"></div>
+
+    <p>
+      The thing it taught me about building with LLMs is the bit I keep coming back to. I had Coop's opinions hardcoded for a long time. Salary floors got rewritten in the prompt as "WALK AWAY BELOW $X." Work arrangement mismatches got an automatic three-point penalty in the post-processor. Dealbreakers got severity-scaled in code. The result was that when I asked Coop to draft a cover letter for a role slightly below my floor, he'd give me a six-paragraph fit lecture instead of a draft. The model was being told, by my code, to refuse before it ever saw my actual question.
+    </p>
+
+    <p>
+      I ripped all of it out. Every interpretation Coop applies to my data now lives in a single editable textarea in settings called Operating Principles. The code emits neutral facts — "base salary floor: $100K" — and the textarea tells Coop how to read them. If I want him sharper, I rewrite the textarea. If I want him to never refuse a draft request, I write that. No code change, no deploy.
+    </p>
+
+    <div class="callout">
+      <p>Code carries mechanics, settings carry opinions.</p>
+      <p class="callout-sub">Anywhere a tool needs to interpret user data, the interpretation should be a thing the user can rewrite without touching code. Building it any other way means you're shipping your taste as if it were the user's, and you find out about it three weeks later when the tool starts arguing with the person paying for it.</p>
+    </div>
+
+    <p>
+      Coop is in private beta. I built it for my own search and use it daily; if you want in, the beta access page is a real form. The reason I wrote any of this down, though, is that the principle above is bigger than the tool itself. Coop is the first place I tested it end-to-end. It's the one I'll carry into everything I build next.
+    </p>
+
+  </div>
+
+  <!-- About Matt -->
+  <div class="about-section">
+    <div class="about-grid">
+      <img src="https://mattsterbenz.com/images/matt-headshot.jpg" class="about-photo" alt="Matt Sterbenz" onerror="this.style.display='none'" />
+      <div>
+        <span class="about-label">About the builder</span>
+        <div class="about-name">Matt Sterbenz</div>
+        <div class="about-role">GTM Operator &amp; Builder</div>
+        <p class="about-bio">
+          I sell, retain, and operate the systems behind the revenue. My background is GTM — product marketing, sales engineering, revenue ops — across companies from seed-stage to post-IPO. Coop is what I built when I got fed up with the state of job-search tooling — first for my own search, now in private beta with a small group.
+        </p>
+        <div class="about-links">
+          <a href="https://mattsterbenz.com/" class="about-link">Work &amp; case studies →</a>
+          <a href="https://mattsterbenz.com/#contact" class="about-link">Get in touch →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="looking-for">
+      <h3>What I'm looking for</h3>
+      <ul>
+        <li>GTM leadership (VP / Director of Product Marketing, RevOps, Sales Engineering) — or a Strategic Account Executive seat at a company where sales is treated as a thinking function, not pure dial-and-close</li>
+        <li>Companies where product-led and sales-led motions overlap and need someone who's run both</li>
+        <li>Teams that build their own tooling and don't apologize for it</li>
+        <li>Hybrid or remote</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<footer class="coop-footer">
+  <p>Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a></p>
+  <p><a href="/coop/">Home</a> · <a href="/coop/features">Features</a> · <a href="/coop/integrations">Integrations</a> · <a href="/coop/beta">Beta access</a></p>
+</footer>
+
+</body>
+</html>

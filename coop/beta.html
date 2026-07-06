@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coop.ai — Beta access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/coop/scroll-anim.css" />
+<script defer src="/coop/scroll-anim.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --border-mid: rgba(0,0,0,0.15);
+    --font-display: 'Barlow', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1040px;
+    --nav-h: 60px;
+    --teal: #36B37E;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PERSISTENT NAV ── */
+  .coop-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .coop-nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1.5rem;
+  }
+  .coop-nav-back {
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .coop-nav-tabs a {
+    font-size: 0.84rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.82rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    padding: 0.4rem 0.9rem; border-radius: 5px;
+    text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  /* ── PAGE LAYOUT ── */
+  .page-wrap {
+    max-width: 720px; margin: 0 auto;
+    padding: calc(var(--nav-h) + 4rem) 28px 5rem;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-eyebrow {
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1rem; display: block;
+  }
+  .page-h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.1; letter-spacing: -0.025em;
+    color: var(--ink); margin-bottom: 1rem;
+  }
+  .page-lede {
+    font-size: 1.05rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.75; margin-bottom: 2.5rem;
+    max-width: 560px;
+  }
+
+  /* ── FORM CARD ── */
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--border-mid);
+    border-radius: 10px;
+    padding: 2rem 2rem 1.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Honeypot — hidden from real users */
+  .bot-field { display: none; }
+
+  .field-group { margin-bottom: 1.25rem; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  label {
+    display: block;
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-soft);
+    margin-bottom: 0.4rem;
+  }
+  label .opt {
+    font-weight: 400; color: var(--ink-muted); margin-left: 0.3rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.95rem; font-weight: 300;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1.5px solid var(--border-mid);
+    border-radius: 6px;
+    padding: 0.65rem 0.85rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    -webkit-appearance: none;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(13,13,13,0.06);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.65;
+  }
+
+  .submit-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-body); font-size: 0.95rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    padding: 0.75rem 1.6rem; border-radius: 6px;
+    border: none; cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 0.5rem;
+  }
+  .submit-btn:hover { background: var(--accent); }
+
+  /* ── WHY A BETA ── */
+  .why-section {
+    border-top: 1px solid var(--border);
+    padding-top: 2.5rem; margin-top: 1rem;
+  }
+  .why-title {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.1rem;
+    color: var(--ink); margin-bottom: 0.75rem; letter-spacing: -0.01em;
+  }
+  .why-body {
+    font-size: 0.97rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.8; max-width: 560px;
+  }
+  .why-body strong { font-weight: 500; color: var(--ink); }
+
+  /* ── HONEST NOTE ── */
+  .honest-note {
+    margin-top: 1.5rem; padding: 1.25rem 1.5rem;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+  }
+  .honest-note p {
+    font-size: 0.92rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.7; margin: 0;
+  }
+  .honest-note p strong { font-weight: 500; color: var(--ink); }
+
+  /* ── BUILDER FOOTER ── */
+  .builder-footer {
+    margin-top: 3rem; padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .bf-photo {
+    width: 48px; height: 48px; border-radius: 50%;
+    object-fit: cover; object-position: top;
+    border: 1px solid var(--border); flex-shrink: 0;
+    background: var(--accent-soft);
+  }
+  .bf-text { flex: 1; }
+  .bf-name {
+    font-size: 0.92rem; font-weight: 500; color: var(--ink); margin-bottom: 0.2rem;
+  }
+  .bf-role { font-size: 0.82rem; color: var(--ink-muted); }
+  .bf-link {
+    font-size: 0.82rem; font-weight: 500; color: var(--accent);
+    text-decoration: none; white-space: nowrap;
+  }
+  .bf-link:hover { text-decoration: underline; }
+
+  /* ── FOOTER ── */
+  .coop-footer {
+    max-width: var(--max); margin: 0 auto;
+    padding: 2rem 28px; border-top: 1px solid var(--border);
+    text-align: center;
+  }
+  .coop-footer p { font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 0.4rem; }
+  .coop-footer a { color: var(--ink-muted); text-decoration: none; }
+  .coop-footer a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    :root { --nav-h: 104px; }
+    .coop-nav { height: auto; min-height: var(--nav-h); }
+    .coop-nav-inner { flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 16px; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .field-row { grid-template-columns: 1fr; }
+    .form-card { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Persistent nav -->
+<nav class="coop-nav" aria-label="Coop.ai navigation">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta" class="active">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<main class="page-wrap">
+
+  <span class="page-eyebrow">Beta access</span>
+  <h1 class="page-h1">Want in?</h1>
+  <p class="page-lede">
+    Coop is in private beta. Fill the form below and you're in line for the next group — no waitlist theater, no drip campaign. When the next install build lands, you'll hear from me directly.
+  </p>
+
+  <div class="form-card">
+    <form
+      name="beta-access"
+      method="POST"
+      action="/coop/beta-thanks"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+    >
+      <!-- Required hidden field for Netlify -->
+      <input type="hidden" name="form-name" value="beta-access" />
+
+      <!-- Honeypot field — hidden from humans -->
+      <p class="bot-field">
+        <label>Don't fill this out: <input name="bot-field" /></label>
+      </p>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name" />
+        </div>
+        <div class="field-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="role">Role / Title <span class="opt">(optional)</span></label>
+          <input type="text" id="role" name="role" placeholder="e.g. Head of Marketing" />
+        </div>
+        <div class="field-group">
+          <label for="company">Company <span class="opt">(optional)</span></label>
+          <input type="text" id="company" name="company" placeholder="e.g. Acme Corp" />
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="use_case">What would you most use Coop for? <span class="opt">(optional)</span></label>
+        <textarea id="use_case" name="use_case" rows="3" placeholder="e.g. tracking 20+ active opportunities, organizing recruiter outreach, scoring JDs against my preferences…"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Add me to the beta list →</button>
+    </form>
+  </div>
+
+  <!-- Why a beta -->
+  <div class="why-section">
+    <h2 class="why-title">Why private beta?</h2>
+    <p class="why-body">
+      Coop runs as a Chrome extension that plugs into your Claude Desktop via MCP — <strong>no API keys required to get going</strong>. Bring your own Anthropic or OpenAI key later if you want background automation. The data stays in your browser either way. <strong>Made sense to me when I was running 30 active threads at once and the spreadsheet stopped helping.</strong>
+    </p>
+    <p class="why-body" style="margin-top:0.85rem">
+      The private beta lets me bring people in as the rough edges get sanded — and figure out who Coop is most useful for before I decide what "shipping more broadly" looks like. No pricing, no fixed timeline. Just real users in real searches.
+    </p>
+
+    <div class="honest-note">
+      <p>
+        <strong>What you're signing up for:</strong> to be contacted if and when there's a version ready for others to install. That's it. No newsletter, no drip campaign, no "you're on the waitlist" holding page. I'll reach out personally when there's something worth sharing.
+      </p>
+    </div>
+  </div>
+
+  <!-- Builder footer -->
+  <div class="builder-footer">
+    <img src="https://mattsterbenz.com/images/matt-headshot.jpg" class="bf-photo" alt="Matt Sterbenz" onerror="this.style.display='none'" />
+    <div class="bf-text">
+      <div class="bf-name">Matt Sterbenz</div>
+      <div class="bf-role">GTM Operator &amp; Builder</div>
+    </div>
+    <a href="https://mattsterbenz.com/" class="bf-link">mattsterbenz.com →</a>
+  </div>
+
+</main>
+
+<footer class="coop-footer">
+  <p>Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a></p>
+  <p><a href="/coop/">Home</a> · <a href="/coop/story">Story</a> · <a href="/coop/features">Features</a> · <a href="/coop/integrations">Integrations</a></p>
+</footer>
+
+</body>
+</html>

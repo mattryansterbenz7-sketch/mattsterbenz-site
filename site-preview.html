@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Site preview — ready to deploy?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --paper: #fdfcf8;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --ocean: #0E2E45;
+    --saffron: #E89846;
+    --green: #2D7A4F;
+    --green-soft: #E1F0E7;
+    --amber: #B17A1F;
+    --amber-soft: #F8EBD2;
+    --gray: #888;
+    --gray-soft: #EDEDE8;
+    --border: rgba(0,0,0,0.09);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 15px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  /* ── Header ── */
+  .head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap;
+  }
+  .head-left { max-width: 640px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; font-weight: 500; color: var(--ink);
+    background: var(--white); border: 1px solid var(--border);
+    padding: 0.35rem 0.85rem 0.35rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+  }
+  .kicker::before {
+    content:''; width:7px; height:7px; border-radius:50%;
+    background: var(--accent); box-shadow: 0 0 0 3px rgba(200,64,26,0.15);
+  }
+  h1 {
+    font-family: 'Barlow', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.05;
+    letter-spacing: -0.025em; margin-bottom: 0.6rem;
+  }
+  h1 em {
+    font-style: normal; font-weight: 800;
+    color: var(--accent);
+  }
+  .lede {
+    font-size: 1.05rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .head-right {
+    display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;
+    text-align: right;
+  }
+  .deploy-card {
+    background: var(--ocean); color: #fff;
+    padding: 0.85rem 1.1rem; border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(14,46,69,0.15);
+    min-width: 280px;
+  }
+  .deploy-card-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+    color: rgba(255,255,255,0.6); margin-bottom: 0.3rem;
+  }
+  .deploy-card code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 500; color: var(--saffron);
+    user-select: all;
+  }
+  .deploy-meta {
+    font-size: 0.78rem; color: var(--ink-muted);
+  }
+
+  /* ── Status legend ── */
+  .legend {
+    display: flex; gap: 0.65rem; flex-wrap: wrap;
+    margin-bottom: 2rem; padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .lg {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.78rem; font-weight: 500;
+    padding: 0.3rem 0.7rem; border-radius: 999px;
+  }
+  .lg-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .lg.new { background: var(--green-soft); color: var(--green); }
+  .lg.new .lg-dot { background: var(--green); }
+  .lg.partial { background: var(--amber-soft); color: var(--amber); }
+  .lg.partial .lg-dot { background: var(--amber); }
+  .lg.old { background: var(--gray-soft); color: var(--gray); }
+  .lg.old .lg-dot { background: var(--gray); }
+  .lg.scratch { background: rgba(200,64,26,0.1); color: var(--accent); }
+  .lg.scratch .lg-dot { background: var(--accent); }
+
+  /* ── Two columns ── */
+  .cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
+  }
+  .col-h {
+    font-family: 'Barlow', sans-serif; font-weight: 700;
+    font-size: 1rem; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink-muted); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .col-h::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── Page card ── */
+  .page-card {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .page-card:hover {
+    border-color: var(--ink); transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+  }
+  .page-card-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 0.75rem; margin-bottom: 0.3rem;
+  }
+  .page-card-name {
+    font-family: 'Barlow', sans-serif; font-weight: 700;
+    font-size: 1.02rem; color: var(--ink); letter-spacing: -0.005em;
+  }
+  .page-card-url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem; color: var(--ink-muted);
+    margin-top: 0.1rem;
+  }
+  .page-card-desc {
+    font-size: 0.85rem; color: var(--ink-soft); line-height: 1.55;
+    margin-top: 0.45rem;
+  }
+  .page-card-status {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 0.18rem 0.55rem; border-radius: 999px;
+    flex-shrink: 0; white-space: nowrap;
+  }
+  .page-card-status .dot { width:5px; height:5px; border-radius:50%; }
+  .ps.new { background: var(--green-soft); color: var(--green); }
+  .ps.new .dot { background: var(--green); }
+  .ps.partial { background: var(--amber-soft); color: var(--amber); }
+  .ps.partial .dot { background: var(--amber); }
+  .ps.old { background: var(--gray-soft); color: var(--gray); }
+  .ps.old .dot { background: var(--gray); }
+  .ps.scratch { background: rgba(200,64,26,0.1); color: var(--accent); }
+  .ps.scratch .dot { background: var(--accent); }
+
+  .page-card-arrow {
+    position: absolute; top: 1.1rem; right: 1.25rem;
+    color: var(--ink-muted); opacity: 0; transition: all 0.15s;
+    font-size: 1.1rem;
+  }
+  .page-card:hover .page-card-arrow { opacity: 1; transform: translateX(2px); }
+
+  /* ── Footer note ── */
+  .footnote {
+    margin-top: 3rem; padding: 1.5rem;
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65;
+  }
+  .footnote strong { color: var(--ink); font-weight: 600; }
+  .footnote ul { padding-left: 1.25rem; margin-top: 0.4rem; }
+  .footnote li { margin-bottom: 0.2rem; }
+
+  @media (max-width: 720px) {
+    .cols { grid-template-columns: 1fr; gap: 1.5rem; }
+    .head { flex-direction: column; align-items: flex-start; }
+    .head-right { align-items: flex-start; text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="head">
+    <div class="head-left">
+      <span class="kicker">Local preview · ready to deploy?</span>
+      <h1>Click through everything <em>before you push.</em></h1>
+      <p class="lede">Every page on both sites, in one click. Status badges show which pages got the new design language vs which are still on the old palette.</p>
+    </div>
+    <div class="head-right">
+      <div class="deploy-card">
+        <div class="deploy-card-label">DEPLOY WHEN READY</div>
+        <code>cd ~/Desktop/Coding/mattsterbenz-site && netlify deploy --prod</code>
+      </div>
+      <div class="deploy-meta">Netlify pushes whatever's in your folder right now — no git steps needed.</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <span class="lg new"><span class="lg-dot"></span>New design language</span>
+    <span class="lg partial"><span class="lg-dot"></span>Partial — content current, visual still old</span>
+    <span class="lg old"><span class="lg-dot"></span>Old style — needs polish pass</span>
+    <span class="lg scratch"><span class="lg-dot"></span>Scratch / not for deploy</span>
+  </div>
+
+  <!-- Two columns -->
+  <div class="cols">
+
+    <!-- Career site -->
+    <div>
+      <div class="col-h">Career site · mattsterbenz.com</div>
+
+      <a href="/" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Home</div>
+            <div class="page-card-url">/</div>
+          </div>
+          <span class="page-card-status ps partial"><span class="dot"></span>Hero new · sections old</span>
+        </div>
+        <div class="page-card-desc">
+          The big one. Hero is the dramatic redesign — Fraunces italic, deep ocean block, saffron stat chip, Coop bridge line. Below the hero: Highlights, Work in Detail, Tools & Projects (new Coop mockup), Principles, Looking For, Contact — all still in the old palette.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+
+      <a href="/extension-showcase.html" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Extension showcase</div>
+            <div class="page-card-url">/extension-showcase.html</div>
+          </div>
+          <span class="page-card-status ps old"><span class="dot"></span>Old style</span>
+        </div>
+        <div class="page-card-desc">
+          Standalone "Company Intel" full-screen showcase page. Pre-rebrand styling and content. Still references the old Company Intel name in places. Probably worth either updating or unlinking before deploy.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- Coop subsite -->
+    <div>
+      <div class="col-h">Coop subsite · /coop/</div>
+
+      <a href="/coop/" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Coop landing</div>
+            <div class="page-card-url">/coop/</div>
+          </div>
+          <span class="page-card-status ps new"><span class="dot"></span>New design</span>
+        </div>
+        <div class="page-card-desc">
+          Hero redesigned with the new language — Fraunces italic on "actually," pill chip eyebrow, sharper buttons, saffron credibility dot. The phone mockup on the right is current. Sections below the hero (benefits, integrations strip, etc.) are still old palette.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+
+      <a href="/coop/story" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Story</div>
+            <div class="page-card-url">/coop/story</div>
+          </div>
+          <span class="page-card-status ps partial"><span class="dot"></span>Content current · visual old</span>
+        </div>
+        <div class="page-card-desc">
+          Origin narrative ("Why I built Coop.ai"). Content fully updated to "private beta" framing — no more "personal tool only" diminishers. Visual still on old cream/rust palette.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+
+      <a href="/coop/features" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Features</div>
+            <div class="page-card-url">/coop/features</div>
+          </div>
+          <span class="page-card-status ps partial"><span class="dot"></span>Content current · visual old</span>
+        </div>
+        <div class="page-card-desc">
+          Long-scroll feature breakdown. Apollo references removed, research pipeline now leads with Serper, cache duration accurate. Visual still old palette. (You also flagged earlier this should split into a hub + 5 sub-pages — separate effort.)
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+
+      <a href="/coop/integrations" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Integrations</div>
+            <div class="page-card-url">/coop/integrations</div>
+          </div>
+          <span class="page-card-status ps new"><span class="dot"></span>New design</span>
+        </div>
+        <div class="page-card-desc">
+          The hex-network graph centerpiece. 6 integrations stitched onto a Helix Labs opportunity. Apollo dropped, OpenAI in the cards but not the graph. Cards grouped by The Trigger / Communication History / The Brain. Already in the dramatic dark style.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+
+      <a href="/coop/beta" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Beta access</div>
+            <div class="page-card-url">/coop/beta</div>
+          </div>
+          <span class="page-card-status ps partial"><span class="dot"></span>Content current · visual old</span>
+        </div>
+        <div class="page-card-desc">
+          Beta access form with Netlify Forms wired up. "Why private beta?" section rewritten to be opening-not-closing. Honest expectations preserved ("rough around the edges"). Visual still old palette.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+
+      <a href="/coop/beta-thanks" class="page-card">
+        <div class="page-card-row">
+          <div>
+            <div class="page-card-name">Beta thanks</div>
+            <div class="page-card-url">/coop/beta-thanks</div>
+          </div>
+          <span class="page-card-status ps old"><span class="dot"></span>Old style</span>
+        </div>
+        <div class="page-card-desc">
+          Confirmation page after submitting the beta form. Footer line updated, otherwise untouched.
+        </div>
+        <span class="page-card-arrow">→</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Scratch (under the columns, full width) -->
+  <div style="margin-top: 2.5rem;">
+    <div class="col-h">Scratch · won't deploy</div>
+    <a href="/design-proposals/coop-on-career-v1.html" class="page-card">
+      <div class="page-card-row">
+        <div>
+          <div class="page-card-name">Career-site + Coop redesign proposal</div>
+          <div class="page-card-url">/design-proposals/coop-on-career-v1.html</div>
+        </div>
+        <span class="page-card-status ps scratch"><span class="dot"></span>Scratch</span>
+      </div>
+      <div class="page-card-desc">
+        Mockup showing how the home page hero could be split-screen with Coop as the right-side anchor. Live now, scratch only — has a banner across the top calling out it's not part of the live site. Reference for a future home redesign.
+      </div>
+      <span class="page-card-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- Footer note -->
+  <div class="footnote">
+    <strong>Honest read on shipping today:</strong>
+    <ul>
+      <li><strong>Hero impact lands</strong> — both heroes (home + Coop landing) are in the new design language and that's what shows up in link previews and first impressions.</li>
+      <li><strong>Content is sound</strong> — Apollo removed, "private beta" framing consistent, no diminishing language anywhere.</li>
+      <li><strong>The seam is below the fold</strong> — once a recruiter scrolls past either hero, the visual reverts to the old palette. If they look closely, that's a tell. If they skim, they may not notice.</li>
+      <li><strong>If you have 60–90 minutes</strong>, doing the polish pass across the rest gets you a fully cohesive experience. Worth the wait if the shareable link is going on cover letters this week.</li>
+      <li><strong>If you need to push today</strong>, what's here won't hurt you. The hero alone is a meaningful upgrade over what was live.</li>
+    </ul>
+  </div>
+
+</div>
+
+</body>
+</html>

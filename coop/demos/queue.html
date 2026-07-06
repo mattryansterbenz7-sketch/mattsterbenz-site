@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Apply Queue demo — Coop.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-deep: #8C2810;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --border-mid: rgba(0,0,0,0.15);
+    --font-display: 'Barlow', sans-serif;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1040px;
+    --nav-h: 60px;
+    /* Coop product palette */
+    --bg: #FFFFFF;
+    --raised: #F6F8F9;
+    --inset: #EEF1F3;
+    --header: #151B26;
+    --text: #0A0B0D;
+    --text-2: #6F7782;
+    --text-3: #8A8E94;
+    --on-dark: #F5F4F2;
+    --on-dark-muted: #A3AEBE;
+    --border-subtle: #EAECEF;
+    --coral: #FC636B;
+    --teal: #36B37E;
+    --blue: #4573D2;
+    --amber: #F5A623;
+    --red: #E8384F;
+    --purple: #7C6EF0;
+    --shadow-sm: 0 1px 3px rgba(30,31,33,.05),0 1px 2px rgba(0,0,0,.03);
+    --shadow-md: 0 4px 14px rgba(30,31,33,.07),0 1px 3px rgba(0,0,0,.03);
+    --shadow-lg: 0 10px 36px rgba(30,31,33,.14),0 2px 8px rgba(0,0,0,.06);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV (matches /coop/) ── */
+  .coop-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .coop-nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1.5rem;
+  }
+  .coop-nav-back {
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-soft);
+    text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs {
+    display: flex; align-items: center; gap: 0.25rem; list-style: none;
+  }
+  .coop-nav-tabs a {
+    font-size: 0.84rem; font-weight: 500; color: var(--ink-soft);
+    text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.82rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    text-decoration: none; padding: 0.5rem 0.95rem; border-radius: 6px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  /* ── PAGE HEADER ── */
+  .page-head {
+    padding: calc(var(--nav-h) + 3rem) 28px 1.75rem;
+    max-width: var(--max); margin: 0 auto;
+  }
+  .crumb {
+    font-size: 0.78rem; color: var(--ink-muted); margin-bottom: 0.65rem;
+  }
+  .crumb a { color: inherit; text-decoration: none; }
+  .crumb a:hover { color: var(--accent); }
+  .page-h1 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    letter-spacing: -0.025em; line-height: 1.1;
+    color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .page-sub {
+    font-family: var(--font-serif); font-weight: 500;
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    color: var(--ink-soft); font-style: italic;
+    max-width: 640px;
+  }
+
+  /* ── DEMO STAGE ── */
+  .demo-section {
+    padding: 1rem 28px 4rem;
+    max-width: var(--max); margin: 0 auto;
+  }
+  .demo-stage {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    min-height: 560px;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── QUEUE HEADER ── */
+  .q-header {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--raised);
+  }
+  .q-header-title {
+    font-size: 14px; font-weight: 600; color: var(--text);
+  }
+  .q-header-count {
+    font-size: 12px; color: var(--text-2);
+    padding: 3px 8px; border-radius: 9999px;
+    background: var(--inset);
+  }
+  .q-header-count b { color: var(--text); font-weight: 600; }
+  .q-undo {
+    margin-left: auto;
+    font-size: 12px; color: var(--text-2);
+    background: none; border: 1px solid var(--border-subtle);
+    padding: 5px 11px; border-radius: 6px; cursor: pointer;
+    font-family: inherit;
+    transition: all .15s;
+    opacity: 0; pointer-events: none;
+  }
+  .q-undo.visible { opacity: 1; pointer-events: auto; }
+  .q-undo:hover { background: var(--inset); color: var(--text); }
+
+  /* ── REELS BODY ── */
+  .reels {
+    flex: 1;
+    position: relative;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(252,99,107,.04), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(54,179,126,.04), transparent 50%),
+      var(--bg);
+    overflow: hidden;
+  }
+  .card-stack {
+    position: absolute;
+    inset: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .swipe-card {
+    position: absolute;
+    width: min(420px, 92%);
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 22px 22px 18px;
+    transition: transform .4s cubic-bezier(.16,1,.3,1), opacity .35s ease;
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+  }
+  .swipe-card:active { cursor: grabbing; }
+  .swipe-card[data-depth="0"] { transform: translate(0,0) scale(1); z-index: 3; }
+  .swipe-card[data-depth="1"] { transform: translate(0,12px) scale(.96); z-index: 2; opacity: .85; pointer-events: none; }
+  .swipe-card[data-depth="2"] { transform: translate(0,24px) scale(.92); z-index: 1; opacity: .55; pointer-events: none; }
+  .swipe-card[data-depth="3"], .swipe-card[data-depth="4"] { transform: translate(0,36px) scale(.88); z-index: 0; opacity: 0; pointer-events: none; }
+  .swipe-card.swiped-left {
+    transform: translate(-140%, -60px) rotate(-18deg) !important;
+    opacity: 0 !important;
+    transition: transform .55s cubic-bezier(.16,1,.3,1), opacity .45s ease;
+  }
+  .swipe-card.swiped-right {
+    transform: translate(140%, -60px) rotate(18deg) !important;
+    opacity: 0 !important;
+    transition: transform .55s cubic-bezier(.16,1,.3,1), opacity .45s ease;
+  }
+
+  .card-row { display: flex; align-items: center; gap: 12px; }
+  .card-logo {
+    width: 44px; height: 44px; border-radius: 9px;
+    color: #fff; font-weight: 700; font-size: 17px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: -0.02em;
+  }
+  .card-co { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: -.01em; }
+  .card-role { font-size: 13.5px; color: var(--text-2); margin-top: 1px; }
+  .card-meta {
+    margin-top: 14px;
+    font-size: 12px; color: var(--text-3);
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .card-meta span { padding: 3px 8px; background: var(--raised); border: 1px solid var(--border-subtle); border-radius: 9999px; }
+
+  .card-score {
+    margin-top: 16px;
+    display: flex; align-items: stretch; gap: 13px;
+    padding: 12px; background: var(--raised);
+    border: 1px solid var(--border-subtle); border-radius: 10px;
+  }
+  .score-num {
+    font-size: 30px; font-weight: 700; line-height: 1;
+    color: var(--teal); letter-spacing: -.03em;
+    align-self: center;
+  }
+  .score-num small { font-size: 12px; color: var(--text-3); font-weight: 500; margin-left: 2px; }
+  .score-num.amber { color: var(--amber); }
+  .score-num.red { color: var(--red); }
+  .score-body { font-size: 12.5px; color: var(--text-2); line-height: 1.55; }
+  .score-body b { display: block; color: var(--text); font-size: 13px; margin-bottom: 1px; }
+
+  .card-flags {
+    margin-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .flag {
+    font-size: 11px; padding: 3px 8px; border-radius: 9999px;
+    border: 1px solid var(--border-subtle); background: var(--bg);
+    color: var(--text-2); font-weight: 500;
+  }
+  .flag.teal { color: var(--teal); border-color: rgba(54,179,126,.3); background: rgba(54,179,126,.06); }
+  .flag.amber { color: var(--amber); border-color: rgba(245,166,35,.3); background: rgba(245,166,35,.06); }
+  .flag.red { color: var(--red); border-color: rgba(232,56,79,.3); background: rgba(232,56,79,.06); }
+
+  .card-quote {
+    margin-top: 12px; padding: 9px 12px;
+    background: var(--inset); border-radius: 8px;
+    border-left: 3px solid var(--text-3);
+    font-size: 12px; color: var(--text-2);
+    line-height: 1.5; font-style: italic;
+  }
+  .card-quote b {
+    display: block; font-style: italic;
+    font-family: var(--font-serif); font-weight: 500;
+    color: var(--text); font-size: 12px;
+    margin-bottom: 3px;
+  }
+  /* color-rotate the source-quote */
+  .card-quote.q-principles { background: rgba(200,64,26,0.05); border-left-color: #c8401a; }
+  .card-quote.q-principles b { color: #c8401a; }
+  .card-quote.q-meetings   { background: rgba(14,46,69,0.05);  border-left-color: #0E2E45; }
+  .card-quote.q-meetings   b { color: #0E2E45; }
+  .card-quote.q-profile    { background: rgba(232,152,70,0.07); border-left-color: #E89846; }
+  .card-quote.q-profile    b { color: #B66E1F; }
+  .card-quote.q-read       { background: rgba(124,110,240,0.06); border-left-color: var(--purple); }
+  .card-quote.q-read       b { color: var(--purple); }
+
+  /* Swipe-overlay hints */
+  .swipe-hint {
+    position: absolute; top: 20px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+    padding: 6px 14px; border-radius: 8px;
+    opacity: 0; transition: opacity .15s;
+    pointer-events: none;
+  }
+  .swipe-hint.left {
+    left: 20px;
+    color: var(--red); border: 2px solid var(--red);
+    transform: rotate(-10deg);
+  }
+  .swipe-hint.right {
+    right: 20px;
+    color: var(--teal); border: 2px solid var(--teal);
+    transform: rotate(10deg);
+  }
+
+  /* ── BUTTONS ── */
+  .q-actions {
+    border-top: 1px solid var(--border-subtle);
+    padding: 14px 18px;
+    display: flex; gap: 12px; justify-content: center;
+    background: var(--raised);
+  }
+  .q-btn {
+    flex: 1; max-width: 180px;
+    padding: 11px 18px;
+    border: none; border-radius: 9px;
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+  }
+  .q-btn-pass {
+    background: var(--bg); color: var(--text-2);
+    border: 1px solid var(--border-subtle);
+  }
+  .q-btn-pass:hover:not(:disabled) { background: var(--inset); color: var(--text); }
+  .q-btn-apply {
+    background: var(--text); color: var(--on-dark);
+  }
+  .q-btn-apply:hover:not(:disabled) { background: var(--coral); }
+  .q-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .q-btn .key {
+    font-size: 10px; opacity: 0.55; font-weight: 500;
+    padding: 1px 5px; border-radius: 3px;
+    border: 1px solid currentColor;
+  }
+
+  /* Empty state */
+  .empty-state {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px;
+    text-align: center;
+    padding: 40px;
+  }
+  .empty-state.visible { display: flex; }
+  .empty-state .icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(54,179,126,.12);
+    color: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+  }
+  .empty-state h3 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.4rem; color: var(--text);
+    letter-spacing: -.02em;
+  }
+  .empty-state p {
+    color: var(--text-2); font-size: 14px; max-width: 320px;
+  }
+  .empty-state button {
+    margin-top: 8px;
+    background: var(--text); color: var(--on-dark);
+    border: none; border-radius: 8px;
+    padding: 10px 18px; font-family: inherit;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+  }
+  .empty-state button:hover { background: var(--coral); }
+
+  /* ── EXPLAINER STRIP BELOW DEMO ── */
+  .explainer {
+    margin-top: 1.5rem;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.75rem;
+  }
+  .explainer h3 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 1.05rem; color: var(--ink);
+    letter-spacing: -.01em; margin-bottom: 0.6rem;
+  }
+  .explainer-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem; margin-top: 1rem;
+  }
+  .ex-item {
+    font-size: 0.86rem; color: var(--ink-soft); line-height: 1.55;
+  }
+  .ex-item b { color: var(--ink); font-weight: 600; display: block; margin-bottom: 0.15rem; }
+  .ex-item .num {
+    display: inline-block;
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 0.78rem; color: var(--accent); font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  /* ── OTHER DEMOS LINKS ── */
+  .demo-jumper {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .demo-jumper .label {
+    font-size: 0.84rem; color: var(--ink-muted); font-weight: 500;
+  }
+  .demo-jumper a {
+    font-size: 0.86rem; color: var(--ink-soft); text-decoration: none;
+    padding: 0.45rem 0.85rem; border-radius: 6px;
+    border: 1px solid var(--border);
+    transition: all .15s;
+    font-weight: 500;
+  }
+  .demo-jumper a:hover { background: var(--white); color: var(--accent); border-color: var(--accent); }
+  .demo-jumper a.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+  /* ── FOOTER ── */
+  .foot {
+    text-align: center; padding: 2rem 28px;
+    font-size: 0.78rem; color: var(--ink-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+  .foot a { color: var(--ink-soft); text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .explainer-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .coop-nav { height: auto; padding: 0.6rem 0; }
+    .coop-nav-inner { flex-wrap: wrap; }
+    .page-head { padding-top: calc(var(--nav-h) + 4rem); }
+    .swipe-card { padding: 18px 16px 14px; }
+    .q-btn { font-size: 13px; padding: 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="coop-nav">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/" class="active">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="crumb"><a href="/coop/demos/">Demos</a> / Apply Queue</div>
+  <h1 class="page-h1">Apply Queue</h1>
+  <p class="page-sub">Pre-scored. One tap to commit, one tap to pass. The pipeline moves itself.</p>
+</header>
+
+<section class="demo-section">
+  <div class="demo-stage">
+    <div class="q-header">
+      <span class="q-header-title">Apply Queue</span>
+      <span class="q-header-count"><b id="qRemaining">6</b> remaining</span>
+      <button class="q-undo" id="qUndo">↶ Undo</button>
+    </div>
+    <div class="reels" id="reels">
+      <div class="card-stack" id="stack"></div>
+      <div class="empty-state" id="empty">
+        <div class="icon">✓</div>
+        <h3>Queue cleared</h3>
+        <p>Five passed, three applied. The dashboard moved them into the right stages.</p>
+        <button id="resetBtn">Reset queue</button>
+      </div>
+    </div>
+    <div class="q-actions">
+      <button class="q-btn q-btn-pass" id="passBtn">
+        Pass <span class="key">←</span>
+      </button>
+      <button class="q-btn q-btn-apply" id="applyBtn">
+        Open Application <span class="key">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="explainer">
+    <h3>What's happening</h3>
+    <p style="font-size: 0.92rem; color: var(--ink-soft); max-width: 660px;">
+      Every saved opportunity that hasn't been triaged lands in the queue, pre-scored against your profile.
+      Pass moves it to Rejected. Apply opens the posting in a new tab, auto-binds Coop in the side panel,
+      and shifts the stage to <em>Applied</em>.
+    </p>
+    <div class="explainer-grid">
+      <div class="ex-item"><span class="num">01.</span><b>Pre-scored on save</b>The score, top three flags, and a one-line verdict are already on the card by the time you see it.</div>
+      <div class="ex-item"><span class="num">02.</span><b>Two-tap triage</b>Drag, swipe, click, or use ← / → arrow keys. Built for fast triage when 30 postings just dropped.</div>
+      <div class="ex-item"><span class="num">03.</span><b>The pipeline updates itself</b>Apply shifts the entry to the right stage with a timestamp. No spreadsheet bookkeeping.</div>
+    </div>
+  </div>
+
+  <div class="demo-jumper">
+    <span class="label">Other demos:</span>
+    <a href="/coop/demos/queue.html" class="active">Apply Queue</a>
+    <a href="/coop/demos/chat.html">Coop with full context</a>
+    <a href="/coop/demos/pipeline.html">Drag-drop pipeline</a>
+  </div>
+</section>
+
+<footer class="foot">
+  Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a> ·
+  <a href="/coop/">Overview</a> ·
+  <a href="/coop/features">Features</a> ·
+  <a href="/coop/beta">Beta access</a>
+</footer>
+
+<script>
+  const QUEUE = [
+    {
+      co: 'Notion', role: 'VP Marketing',
+      logoBg: 'linear-gradient(135deg,#7C6EF0,#4573D2)', logoLetter: 'N',
+      meta: ['Remote', '$230k–$280k', 'Series C'],
+      score: 8.4, tone: 'teal',
+      verdict: 'Strong fit',
+      verdictNote: 'Brand + PLG narrative scope matches your last two roles.',
+      flags: [
+        { type: 'teal', text: 'PLG motion' },
+        { type: 'teal', text: 'Salary match' },
+        { type: 'teal', text: 'Remote' },
+      ],
+      quote: { src: 'From your operating principles', text: '"Remote-first, PLG companies above $50M ARR — the sweet spot."', kind: 'principles' }
+    },
+    {
+      co: 'Databricks', role: 'Staff Product Marketing Manager',
+      logoBg: 'linear-gradient(135deg,#FC636B,#F5A623)', logoLetter: 'D',
+      meta: ['San Francisco · Hybrid', '$210k–$260k', 'Public'],
+      score: 7.8, tone: 'teal',
+      verdict: 'Strong fit',
+      verdictNote: 'Platform positioning + enterprise narrative — your Snowflake case study answers this directly.',
+      flags: [
+        { type: 'teal', text: 'Platform scope' },
+        { type: 'amber', text: 'Hybrid SF' },
+        { type: 'teal', text: 'Enterprise lift' },
+      ],
+      quote: { src: 'From recent meetings', text: '"Priya flagged this team is rebuilding their narrative — that\'s the work you\'ve done."', kind: 'meetings' }
+    },
+    {
+      co: 'Stripe', role: 'Senior PMM, Payments',
+      logoBg: 'linear-gradient(135deg,#635BFF,#7C6EF0)', logoLetter: 'S',
+      meta: ['San Francisco · Hybrid', '$190k–$240k', 'Late stage'],
+      score: 6.2, tone: 'amber',
+      verdict: 'Good fit, lateral move',
+      verdictNote: 'Payments is a stretch from your lane. Brand is strong, scope is right — but you\'d be learning the category.',
+      flags: [
+        { type: 'amber', text: 'New category' },
+        { type: 'teal', text: 'Brand prestige' },
+        { type: 'amber', text: 'Hybrid SF' },
+      ],
+      quote: { src: 'From your profile', text: '"Open to category switches if the scope is staff+ and comp clears $200k base."', kind: 'profile' }
+    },
+    {
+      co: 'Linear', role: 'Head of Product Marketing',
+      logoBg: 'linear-gradient(135deg,#5E6AD2,#7C6EF0)', logoLetter: 'L',
+      meta: ['Remote', '$220k–$270k', 'Series B'],
+      score: 8.7, tone: 'teal',
+      verdict: 'Top of the queue',
+      verdictNote: 'Founder-led, remote, dev-tools positioning. This is the shape you\'ve told Coop you\'re hunting.',
+      flags: [
+        { type: 'teal', text: 'Founder-led' },
+        { type: 'teal', text: 'Dev tools' },
+        { type: 'teal', text: 'Remote' },
+      ],
+      quote: { src: 'From your principles', text: '"Founder-led product orgs at the Series B/C stage."', kind: 'principles' }
+    },
+    {
+      co: 'Asana', role: 'Director, Product Marketing',
+      logoBg: 'linear-gradient(135deg,#F06A6A,#FC636B)', logoLetter: 'A',
+      meta: ['San Francisco · Hybrid', '$185k–$225k', 'Public'],
+      score: 4.8, tone: 'red',
+      verdict: 'Below your floor',
+      verdictNote: 'Comp at lower end of your range and hybrid SF is a dealbreaker per your principles. Likely a pass.',
+      flags: [
+        { type: 'red', text: 'Hybrid SF — dealbreaker' },
+        { type: 'amber', text: 'Comp below floor' },
+        { type: 'teal', text: 'Public co experience' },
+      ],
+      quote: { src: 'From your principles', text: '"Hard pass on hybrid SF unless comp clears $250k base."', kind: 'principles' }
+    },
+    {
+      co: 'Vercel', role: 'Senior Product Marketing Manager',
+      logoBg: 'linear-gradient(135deg,#000000,#333333)', logoLetter: 'V',
+      meta: ['Remote', '$200k–$240k', 'Series D'],
+      score: 7.4, tone: 'teal',
+      verdict: 'Strong fit',
+      verdictNote: 'Dev-tools, remote, PLG. Slightly junior to your last role but the team is small and the scope reads bigger than the title.',
+      flags: [
+        { type: 'teal', text: 'Dev tools' },
+        { type: 'teal', text: 'Remote' },
+        { type: 'amber', text: 'Title downshift' },
+      ],
+      quote: { src: 'Coop\'s read', text: '"This is the kind of small-team PMM role where you set the strategy."', kind: 'read' }
+    },
+  ];
+
+  const stackEl = document.getElementById('stack');
+  const emptyEl = document.getElementById('empty');
+  const remainingEl = document.getElementById('qRemaining');
+  const undoBtn = document.getElementById('qUndo');
+  const passBtn = document.getElementById('passBtn');
+  const applyBtn = document.getElementById('applyBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  let index = 0;
+  let history = []; // {idx, direction}
+
+  function render() {
+    stackEl.innerHTML = '';
+    const remaining = QUEUE.length - index;
+    remainingEl.textContent = remaining;
+
+    if (remaining <= 0) {
+      emptyEl.classList.add('visible');
+      passBtn.disabled = true;
+      applyBtn.disabled = true;
+      return;
+    }
+    emptyEl.classList.remove('visible');
+    passBtn.disabled = false;
+    applyBtn.disabled = false;
+
+    // render up to 3 visible cards (top + 2 behind for depth)
+    for (let depth = 2; depth >= 0; depth--) {
+      const i = index + depth;
+      if (i >= QUEUE.length) continue;
+      const card = QUEUE[i];
+      const el = document.createElement('div');
+      el.className = 'swipe-card';
+      el.dataset.depth = depth;
+      el.dataset.idx = i;
+      el.innerHTML = `
+        <div class="swipe-hint left">PASS</div>
+        <div class="swipe-hint right">APPLY</div>
+        <div class="card-row">
+          <div class="card-logo" style="background:${card.logoBg}">${card.logoLetter}</div>
+          <div>
+            <div class="card-co">${card.co}</div>
+            <div class="card-role">${card.role}</div>
+          </div>
+        </div>
+        <div class="card-meta">${card.meta.map(m => `<span>${m}</span>`).join('')}</div>
+        <div class="card-score">
+          <div class="score-num ${card.tone}">${card.score.toFixed(1)}<small>/10</small></div>
+          <div class="score-body"><b>${card.verdict}</b>${card.verdictNote}</div>
+        </div>
+        <div class="card-flags">${card.flags.map(f => `<span class="flag ${f.type}">${f.text}</span>`).join('')}</div>
+        <div class="card-quote q-${card.quote.kind || 'principles'}"><b>${card.quote.src}</b>${card.quote.text}</div>
+      `;
+      stackEl.appendChild(el);
+
+      if (depth === 0) attachDrag(el);
+    }
+
+    undoBtn.classList.toggle('visible', history.length > 0);
+  }
+
+  function swipe(direction) {
+    if (index >= QUEUE.length) return;
+    const top = stackEl.querySelector('[data-depth="0"]');
+    if (!top) return;
+    top.classList.add(direction === 'right' ? 'swiped-right' : 'swiped-left');
+    history.push({ idx: index, direction });
+    index += 1;
+    setTimeout(render, 380);
+  }
+
+  function undo() {
+    if (history.length === 0) return;
+    history.pop();
+    index = Math.max(0, index - 1);
+    render();
+  }
+
+  function reset() {
+    index = 0;
+    history = [];
+    render();
+  }
+
+  function attachDrag(el) {
+    let startX = 0, startY = 0, dx = 0, dy = 0, down = false;
+    const hintL = el.querySelector('.swipe-hint.left');
+    const hintR = el.querySelector('.swipe-hint.right');
+
+    function onDown(e) {
+      down = true;
+      const p = e.touches ? e.touches[0] : e;
+      startX = p.clientX; startY = p.clientY;
+      el.style.transition = 'none';
+    }
+    function onMove(e) {
+      if (!down) return;
+      const p = e.touches ? e.touches[0] : e;
+      dx = p.clientX - startX;
+      dy = p.clientY - startY;
+      const rot = dx / 18;
+      el.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+      hintL.style.opacity = dx < -30 ? Math.min(1, (-dx - 30) / 80) : 0;
+      hintR.style.opacity = dx > 30 ? Math.min(1, (dx - 30) / 80) : 0;
+    }
+    function onUp() {
+      if (!down) return;
+      down = false;
+      el.style.transition = '';
+      hintL.style.opacity = 0;
+      hintR.style.opacity = 0;
+      if (Math.abs(dx) > 100) {
+        swipe(dx > 0 ? 'right' : 'left');
+      } else {
+        el.style.transform = '';
+      }
+      dx = 0; dy = 0;
+    }
+
+    el.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    el.addEventListener('touchstart', onDown, { passive: true });
+    el.addEventListener('touchmove', onMove, { passive: true });
+    el.addEventListener('touchend', onUp);
+  }
+
+  passBtn.addEventListener('click', () => swipe('left'));
+  applyBtn.addEventListener('click', () => swipe('right'));
+  undoBtn.addEventListener('click', undo);
+  resetBtn.addEventListener('click', reset);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); swipe('left'); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); swipe('right'); }
+    else if ((e.key === 'z' || e.key === 'Z') && (e.metaKey || e.ctrlKey)) { e.preventDefault(); undo(); }
+  });
+
+  render();
+</script>
+
+</body>
+</html>

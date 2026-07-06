@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>You're on the list — Coop.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0d0d0d; --ink-soft: #444; --ink-muted: #888;
+    --surface: #f7f5f0; --white: #fff; --accent: #c8401a;
+    --accent-soft: #f2ebe4; --border: rgba(0,0,0,0.09);
+    --font-display: 'Barlow', sans-serif; --font-body: 'Inter', sans-serif;
+    --max: 1040px; --nav-h: 60px; --teal: #36B37E;
+  }
+  body {
+    font-family: var(--font-body); background: var(--surface);
+    color: var(--ink); line-height: 1.6; font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  .coop-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h); background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .coop-nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 28px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .coop-nav-back {
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none;
+  }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-cta {
+    font-size: 0.82rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    padding: 0.4rem 0.9rem; border-radius: 5px;
+    text-decoration: none; transition: background 0.15s;
+  }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  .thanks-wrap {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: calc(var(--nav-h) + 3rem) 28px 5rem;
+  }
+  .thanks-inner { max-width: 520px; text-align: center; }
+  .thanks-check {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #e6f7ee; display: flex; align-items: center;
+    justify-content: center; margin: 0 auto 1.5rem;
+    font-size: 1.5rem;
+  }
+  .thanks-h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    letter-spacing: -0.025em; color: var(--ink);
+    margin-bottom: 1rem; line-height: 1.1;
+  }
+  .thanks-body {
+    font-size: 1rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.75; margin-bottom: 2rem;
+  }
+  .thanks-body strong { font-weight: 500; color: var(--ink); }
+  .thanks-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
+    padding: 0.65rem 1.3rem; border-radius: 5px;
+    text-decoration: none; transition: all 0.15s;
+  }
+  .btn-primary { background: var(--ink); color: var(--white); }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline {
+    background: transparent; color: var(--ink);
+    border: 1.5px solid rgba(0,0,0,0.15);
+  }
+  .btn-outline:hover { border-color: var(--ink); }
+
+  .coop-footer {
+    padding: 2rem 28px; border-top: 1px solid var(--border); text-align: center;
+  }
+  .coop-footer p { font-size: 0.8rem; color: var(--ink-muted); }
+  .coop-footer a { color: var(--ink-muted); text-decoration: none; }
+  .coop-footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav class="coop-nav">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <a href="/coop/" class="coop-nav-cta">Back to Coop</a>
+  </div>
+</nav>
+
+<div class="thanks-wrap">
+  <div class="thanks-inner">
+    <div class="thanks-check">✓</div>
+    <h1 class="thanks-h1">You're on the list.</h1>
+    <p class="thanks-body">
+      Got it. <strong>I'll reach out personally</strong> if and when there's a version of Coop ready for others to install. No newsletter, no drip emails — just a direct message when there's something worth sharing.
+    </p>
+    <div class="thanks-actions">
+      <a href="https://mattsterbenz.com/" class="btn btn-primary">Visit mattsterbenz.com →</a>
+      <a href="/coop/features" class="btn btn-outline">See how Coop works</a>
+    </div>
+  </div>
+</div>
+
+<footer class="coop-footer">
+  <p>Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a></p>
+</footer>
+
+</body>
+</html>

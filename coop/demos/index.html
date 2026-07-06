@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Demos — Coop.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-deep: #8C2810;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --font-display: 'Barlow', sans-serif;
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1040px;
+    --nav-h: 60px;
+    --coral: #FC636B;
+    --teal: #36B37E;
+    --blue: #4573D2;
+    --amber: #F5A623;
+    --purple: #7C6EF0;
+    --bg: #FFFFFF;
+    --raised: #F6F8F9;
+    --inset: #EEF1F3;
+    --text: #0A0B0D;
+    --text-2: #6F7782;
+    --text-3: #8A8E94;
+    --border-subtle: #EAECEF;
+    --shadow-md: 0 4px 14px rgba(30,31,33,.07),0 1px 3px rgba(0,0,0,.03);
+    --shadow-lg: 0 10px 36px rgba(30,31,33,.14),0 2px 8px rgba(0,0,0,.06);
+    --radius-lg: 14px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--surface); color: var(--ink); line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+  /* NAV (shared) */
+  .coop-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); background: rgba(247,245,240,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: flex; align-items: center; }
+  .coop-nav-inner { max-width: var(--max); width: 100%; margin: 0 auto; padding: 0 28px; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+  .coop-nav-back { font-size: 0.82rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; display: flex; align-items: center; gap: 0.35rem; white-space: nowrap; flex-shrink: 0; }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .coop-nav-tabs a { font-size: 0.84rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px; transition: color 0.15s, background 0.15s; }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; font-weight: 500; background: var(--ink); color: var(--white); text-decoration: none; padding: 0.5rem 0.95rem; border-radius: 6px; white-space: nowrap; flex-shrink: 0; }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  /* HERO */
+  .hero {
+    padding: calc(var(--nav-h) + 4rem) 28px 1.5rem;
+    max-width: var(--max); margin: 0 auto;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 1rem; color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: ''; width: 24px; height: 1px;
+    background: var(--accent); display: inline-block;
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--ink); margin-bottom: 0.85rem;
+  }
+  .hero h1 em {
+    font-family: var(--font-serif); font-style: italic;
+    font-weight: 500; color: var(--accent);
+  }
+  .hero p {
+    font-family: var(--font-serif); font-weight: 500;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    color: var(--ink-soft); font-style: italic;
+    max-width: 660px; margin: 0 auto;
+    line-height: 1.45;
+  }
+  .hero-note {
+    margin-top: 1.5rem;
+    font-size: 0.84rem; color: var(--ink-muted);
+  }
+
+  /* DEMO GRID */
+  .demo-grid {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 2rem 28px 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 720px) {
+    .demo-grid { grid-template-columns: 1fr; }
+  }
+
+  .demo-card {
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s cubic-bezier(.16,1,.3,1), box-shadow 0.2s, border-color 0.2s;
+    display: flex; flex-direction: column;
+    cursor: pointer;
+  }
+  .demo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+  .demo-card.wide { grid-column: 1 / -1; }
+
+  .demo-preview {
+    height: 220px;
+    background: var(--raised);
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+    padding: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .demo-card.wide .demo-preview { height: 240px; }
+
+  /* Mini preview: Apply Queue */
+  .mini-queue-card {
+    position: absolute;
+    width: 70%; max-width: 240px;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.5s cubic-bezier(.16,1,.3,1);
+  }
+  .mini-queue-card[data-pos="0"] { z-index: 3; transform: rotate(-1deg) translateX(-12px); }
+  .mini-queue-card[data-pos="1"] { z-index: 2; transform: rotate(2deg) translateX(8px) translateY(4px) scale(0.95); }
+  .mini-queue-card[data-pos="2"] { z-index: 1; transform: rotate(-3deg) translateX(20px) translateY(10px) scale(0.92); opacity: 0.7; }
+  .demo-card:hover .mini-queue-card[data-pos="0"] { transform: translate(-120%, -30px) rotate(-18deg); opacity: 0; }
+  .mini-q-row { display: flex; align-items: center; gap: 8px; }
+  .mini-q-logo { width: 26px; height: 26px; border-radius: 6px; color: #fff; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .mini-q-co { font-size: 12px; font-weight: 600; color: var(--text); }
+  .mini-q-role { font-size: 10.5px; color: var(--text-2); }
+  .mini-q-score { display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 600; color: var(--teal); background: rgba(54,179,126,.1); padding: 2px 7px; border-radius: 9999px; }
+
+  /* Mini preview: Coop chat */
+  .mini-chat {
+    width: 90%;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .mini-chat-head {
+    background: #151B26; color: #F5F4F2;
+    padding: 8px 11px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .mini-chat-mark { width: 22px; height: 22px; border-radius: 5px; background: linear-gradient(135deg, var(--coral), var(--amber)); color: #fff; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+  .mini-chat-title { font-size: 11.5px; font-weight: 600; flex: 1; }
+  .mini-chat-pills { padding: 7px 9px; background: var(--raised); display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--border-subtle); }
+  .mini-chat-pills span { font-size: 9.5px; padding: 2px 7px; border-radius: 9999px; background: var(--bg); border: 1px solid var(--border-subtle); color: var(--text-2); }
+  .mini-chat-pills span.lit { color: var(--teal); border-color: rgba(54,179,126,.3); background: rgba(54,179,126,.06); }
+  .mini-chat-body { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .mini-chat-user, .mini-chat-coop { font-size: 11px; padding: 7px 9px; border-radius: 9px; max-width: 85%; line-height: 1.4; }
+  .mini-chat-user { align-self: flex-end; background: var(--text); color: var(--on-dark, #F5F4F2); border-bottom-right-radius: 3px; }
+  .mini-chat-coop { background: var(--raised); color: var(--text); border-bottom-left-radius: 3px; }
+  .mini-chat-coop b { font-weight: 600; }
+
+  /* Mini preview: Pipeline */
+  .mini-kanban {
+    width: 96%;
+    background: var(--bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .mini-kanban-head { padding: 7px 10px; background: var(--raised); border-bottom: 1px solid var(--border-subtle); font-size: 11px; font-weight: 600; color: var(--text-2); }
+  .mini-kanban-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px; }
+  .mini-col { background: var(--raised); border: 1px solid var(--border-subtle); border-radius: 6px; padding: 6px 5px; min-height: 110px; }
+  .mini-col-head { font-size: 9.5px; font-weight: 600; color: var(--text-2); display: flex; align-items: center; gap: 4px; margin-bottom: 5px; }
+  .mini-col-head .dot { width: 5px; height: 5px; border-radius: 50%; }
+  .mini-mini-card { background: var(--bg); border: 1px solid var(--border-subtle); border-radius: 5px; padding: 5px 6px; margin-bottom: 4px; transition: transform 0.4s cubic-bezier(.16,1,.3,1); }
+  .demo-card:hover .mini-mini-card.fly { transform: translate(60px, 0) rotate(-2deg); }
+  .mini-mini-co { font-size: 10px; font-weight: 600; color: var(--text); }
+  .mini-mini-meta { font-size: 9px; color: var(--text-3); margin-top: 1px; }
+
+  .demo-meta {
+    padding: 20px 22px 22px;
+  }
+  .demo-num {
+    font-family: var(--font-serif); font-style: italic; font-weight: 500;
+    font-size: 0.82rem; color: var(--ink-muted);
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-bottom: 0.5rem;
+  }
+  .demo-num::before {
+    content: ''; width: 18px; height: 1px;
+    background: currentColor; flex-shrink: 0;
+  }
+  .demo-card[data-tone="saffron"] .demo-num { color: #B66E1F; }
+  .demo-card[data-tone="ocean"]   .demo-num { color: #0E2E45; }
+  .demo-card[data-tone="teal"]    .demo-num { color: var(--teal); }
+  .demo-card[data-tone="saffron"] .demo-h em { color: #B66E1F; }
+  .demo-card[data-tone="ocean"]   .demo-h em { color: #0E2E45; }
+  .demo-card[data-tone="teal"]    .demo-h em { color: var(--teal); }
+  .demo-card[data-tone="saffron"] .demo-cta { color: #B66E1F; }
+  .demo-card[data-tone="ocean"]   .demo-cta { color: #0E2E45; }
+  .demo-card[data-tone="teal"]    .demo-cta { color: var(--teal); }
+  .demo-card[data-tone="saffron"]:hover { border-color: #E89846; }
+  .demo-card[data-tone="ocean"]:hover   { border-color: #0E2E45; }
+  .demo-card[data-tone="teal"]:hover    { border-color: var(--teal); }
+  .demo-card[data-tone="saffron"] .demo-preview { background: rgba(232,152,70,0.05); }
+  .demo-card[data-tone="ocean"]   .demo-preview { background: rgba(14,46,69,0.04); }
+  .demo-card[data-tone="teal"]    .demo-preview { background: rgba(54,179,126,0.04); }
+  .demo-h {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+  .demo-h em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .demo-body {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .demo-cta {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+    display: inline-flex; align-items: center;
+    gap: 0.35rem;
+    transition: gap 0.2s;
+  }
+  .demo-card:hover .demo-cta { gap: 0.65rem; }
+
+  /* CTA strip */
+  .cta-strip {
+    background: var(--ink); color: var(--white);
+    padding: 3rem 28px;
+    text-align: center;
+  }
+  .cta-strip h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .cta-strip p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.5rem;
+    max-width: 480px; margin-left: auto; margin-right: auto;
+  }
+  .cta-strip a {
+    display: inline-block;
+    background: var(--accent); color: var(--white);
+    padding: 0.7rem 1.4rem;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: background 0.15s;
+  }
+  .cta-strip a:hover { background: var(--accent-deep); }
+
+  .foot { text-align: center; padding: 2rem 28px; font-size: 0.78rem; color: var(--ink-muted); border-top: 1px solid var(--border); }
+  .foot a { color: var(--ink-soft); text-decoration: none; }
+  .foot a:hover { color: var(--accent); }
+
+  @media (max-width: 720px) {
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+    .coop-nav { height: auto; padding: 0.6rem 0; }
+    .coop-nav-inner { flex-wrap: wrap; }
+    .hero { padding-top: calc(var(--nav-h) + 5rem); }
+  }
+</style>
+</head>
+<body>
+
+<nav class="coop-nav">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features">Features</a></li>
+      <li><a href="/coop/demos/" class="active">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Interactive demos</div>
+  <h1>See it move, <em>then</em> read about it.</h1>
+  <p>Three small playgrounds pulled out of the real extension. Click, drag, type. They all work.</p>
+  <div class="hero-note">No sign-up · no data leaves the page · arrow keys work on the Apply Queue</div>
+</section>
+
+<section class="demo-grid">
+  <a class="demo-card wide" data-tone="saffron" href="/coop/demos/queue.html">
+    <div class="demo-preview">
+      <div class="mini-queue-card" data-pos="2">
+        <div class="mini-q-row">
+          <div class="mini-q-logo" style="background:linear-gradient(135deg,#635BFF,#7C6EF0)">S</div>
+          <div><div class="mini-q-co">Stripe</div><div class="mini-q-role">Sr. PMM, Payments</div></div>
+        </div>
+        <span class="mini-q-score" style="color:var(--amber);background:rgba(245,166,35,.1)">6.2</span>
+      </div>
+      <div class="mini-queue-card" data-pos="1">
+        <div class="mini-q-row">
+          <div class="mini-q-logo" style="background:linear-gradient(135deg,#FC636B,#F5A623)">D</div>
+          <div><div class="mini-q-co">Databricks</div><div class="mini-q-role">Staff PMM</div></div>
+        </div>
+        <span class="mini-q-score">7.8</span>
+      </div>
+      <div class="mini-queue-card" data-pos="0">
+        <div class="mini-q-row">
+          <div class="mini-q-logo" style="background:linear-gradient(135deg,#7C6EF0,#4573D2)">N</div>
+          <div><div class="mini-q-co">Notion</div><div class="mini-q-role">VP Marketing</div></div>
+        </div>
+        <span class="mini-q-score">8.4</span>
+      </div>
+    </div>
+    <div class="demo-meta">
+      <span class="demo-num">01 · Apply Queue</span>
+      <h3 class="demo-h">Swipe through your pipeline <em>like a reading list</em></h3>
+      <p class="demo-body">A Tinder-style triage feed of every saved opportunity. Pre-scored, two-tap, drains itself. Drag a card, click a button, or use your arrow keys.</p>
+      <span class="demo-cta">Try it →</span>
+    </div>
+  </a>
+
+  <a class="demo-card" data-tone="ocean" href="/coop/demos/chat.html">
+    <div class="demo-preview">
+      <div class="mini-chat">
+        <div class="mini-chat-head">
+          <div class="mini-chat-mark">c</div>
+          <div class="mini-chat-title">Coop — Databricks</div>
+        </div>
+        <div class="mini-chat-pills">
+          <span class="lit">principles</span>
+          <span class="lit">job</span>
+          <span>4 emails</span>
+          <span>2 transcripts</span>
+        </div>
+        <div class="mini-chat-body">
+          <div class="mini-chat-user">What should I lead with for Priya?</div>
+          <div class="mini-chat-coop"><b>Lakehouse positioning.</b> She flagged it in your May 6 call as the priority.</div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-meta">
+      <span class="demo-num">02 · Coop with full context</span>
+      <h3 class="demo-h">Ask, <em>don't brief</em></h3>
+      <p class="demo-body">Every email, transcript, and principle is already loaded. Pick a question, watch the sources light up, get an answer.</p>
+      <span class="demo-cta">Try it →</span>
+    </div>
+  </a>
+
+  <a class="demo-card" data-tone="teal" href="/coop/demos/pipeline.html">
+    <div class="demo-preview">
+      <div class="mini-kanban">
+        <div class="mini-kanban-head">Pipeline · 8 entries</div>
+        <div class="mini-kanban-cols">
+          <div class="mini-col">
+            <div class="mini-col-head"><span class="dot" style="background:#60a5fa"></span>Applied</div>
+            <div class="mini-mini-card"><div class="mini-mini-co">Stripe</div><div class="mini-mini-meta">11d</div></div>
+            <div class="mini-mini-card"><div class="mini-mini-co">Vercel</div><div class="mini-mini-meta">4d</div></div>
+          </div>
+          <div class="mini-col">
+            <div class="mini-col-head"><span class="dot" style="background:#fb923c"></span>Conv.</div>
+            <div class="mini-mini-card fly"><div class="mini-mini-co">Notion</div><div class="mini-mini-meta">6d</div></div>
+            <div class="mini-mini-card"><div class="mini-mini-co">Databricks</div><div class="mini-mini-meta">2d</div></div>
+          </div>
+          <div class="mini-col">
+            <div class="mini-col-head"><span class="dot" style="background:#a3e635"></span>Offer</div>
+            <div class="mini-mini-card"><div class="mini-mini-co">Linear</div><div class="mini-mini-meta">1d</div></div>
+          </div>
+          <div class="mini-col">
+            <div class="mini-col-head"><span class="dot" style="background:#f87171"></span>Rej.</div>
+            <div class="mini-mini-card"><div class="mini-mini-co">Asana</div><div class="mini-mini-meta">14d</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="demo-meta">
+      <span class="demo-num">03 · Pipeline</span>
+      <h3 class="demo-h">A kanban <em>that doesn't go stale</em></h3>
+      <p class="demo-body">Drag a card between columns. Stage timer ticks. "Whose court" pill flips. The pipeline updates itself.</p>
+      <span class="demo-cta">Try it →</span>
+    </div>
+  </a>
+</section>
+
+<section class="cta-strip">
+  <h2>Want to use the real thing?</h2>
+  <p>The real thing does a lot more than the playgrounds. It's a personal tool, not a product launch.</p>
+  <a href="/coop/beta">Get beta access →</a>
+</section>
+
+<footer class="foot">
+  Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a> ·
+  <a href="/coop/">Overview</a> ·
+  <a href="/coop/features">Features</a> ·
+  <a href="/coop/beta">Beta access</a>
+</footer>
+
+</body>
+</html>

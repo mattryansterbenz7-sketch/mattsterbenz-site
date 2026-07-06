@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coop.ai — Features</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/coop/scroll-anim.css" />
+<script defer src="/coop/scroll-anim.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0d0d;
+    --ink-soft: #444;
+    --ink-muted: #888;
+    --surface: #f7f5f0;
+    --white: #fff;
+    --accent: #c8401a;
+    --accent-soft: #f2ebe4;
+    --border: rgba(0,0,0,0.09);
+    --border-mid: rgba(0,0,0,0.15);
+    --font-display: 'Barlow', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --max: 1040px;
+    --nav-h: 60px;
+    /* Coop design tokens */
+    --bg: #FFFFFF;
+    --raised: #F6F8F9;
+    --inset: #EEF1F3;
+    --header: #151B26;
+    --text: #0A0B0D;
+    --text-2: #6F7782;
+    --text-3: #8A8E94;
+    --on-dark: #F5F4F2;
+    --on-dark-muted: #A3AEBE;
+    --border-subtle: #EAECEF;
+    --coral: #FC636B;
+    --teal: #36B37E;
+    --blue: #4573D2;
+    --amber: #F5A623;
+    --purple: #7C6EF0;
+    --shadow-sm: 0 1px 3px rgba(30,31,33,.05),0 1px 2px rgba(0,0,0,.03);
+    --shadow-md: 0 4px 14px rgba(30,31,33,.07),0 1px 3px rgba(0,0,0,.03);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── PERSISTENT NAV ── */
+  .coop-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: var(--nav-h);
+    background: rgba(247,245,240,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+  }
+  .coop-nav-inner {
+    max-width: var(--max); width: 100%; margin: 0 auto;
+    padding: 0 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1.5rem;
+  }
+  .coop-nav-back {
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; display: flex; align-items: center; gap: 0.35rem;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .coop-nav-back:hover { color: var(--accent); }
+  .coop-nav-tabs { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+  .coop-nav-tabs a {
+    font-size: 0.84rem; font-weight: 500; color: var(--ink-muted);
+    text-decoration: none; padding: 0.35rem 0.75rem; border-radius: 5px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .coop-nav-tabs a:hover { color: var(--ink); background: var(--accent-soft); }
+  .coop-nav-tabs a.active { color: var(--ink); font-weight: 600; }
+  .coop-nav-cta {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.82rem; font-weight: 500;
+    background: var(--ink); color: var(--white);
+    padding: 0.4rem 0.9rem; border-radius: 5px;
+    text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .coop-nav-cta:hover { background: var(--accent); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: calc(var(--nav-h) + 4rem) 28px 3rem;
+    max-width: var(--max); margin: 0 auto;
+  }
+  .page-eyebrow {
+    font-size: 0.78rem; font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 1rem; display: block;
+  }
+  .page-h1 {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.1; letter-spacing: -0.025em;
+    color: var(--ink); margin-bottom: 1rem;
+  }
+  .page-lede {
+    font-size: 1.05rem; font-weight: 300; color: var(--ink-soft);
+    max-width: 600px; line-height: 1.75;
+  }
+
+  /* ── FEATURE SECTIONS ── */
+  .feature-section {
+    padding: 4.5rem 28px;
+    border-top: 1px solid var(--border);
+  }
+  .feature-section:nth-child(odd) { background: var(--white); }
+  .feature-section:nth-child(even) { background: var(--surface); }
+  .feature-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start;
+  }
+  .feature-inner.flip { direction: rtl; }
+  .feature-inner.flip > * { direction: ltr; }
+  .feature-text {}
+  .feature-num {
+    font-size: 12px; font-weight: 500;
+    color: var(--ink-muted); margin-bottom: 0.5rem; display: block;
+  }
+  .feature-h2 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+    letter-spacing: -0.02em; line-height: 1.2;
+    color: var(--ink); margin-bottom: 0.85rem;
+  }
+  .divider { width: 32px; height: 3px; background: var(--accent); border-radius: 2px; margin: 0.75rem 0 1.25rem; }
+  .feature-body {
+    font-size: 0.97rem; font-weight: 300; color: var(--ink-soft);
+    line-height: 1.8; margin-bottom: 1rem;
+  }
+  .feature-body strong { font-weight: 500; color: var(--ink); }
+  .feature-detail {
+    font-size: 0.88rem; font-weight: 300; color: var(--ink-muted);
+    line-height: 1.7;
+  }
+  .feature-mockup { display: flex; justify-content: center; align-items: flex-start; }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 1: Side panel research (animated)
+  ══════════════════════════════════════════ */
+  .watch-stage {
+    position: relative; height: 400px; border-radius: var(--radius-lg);
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-md); overflow: hidden; width: 100%;
+  }
+  .linkedin-bg {
+    position: absolute; inset: 0; padding: 20px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+    background: #F3F2EF;
+  }
+  .lk-head { height: 12px; width: 160px; background: #0A66C2; border-radius: 4px; opacity: .85; }
+  .lk-line { height: 9px; background: #D6D9DC; border-radius: 4px; }
+  .lk-line.w1 { width: 60%; }
+  .lk-line.w2 { width: 46%; }
+  .lk-line.w3 { width: 70%; }
+  .lk-line.w4 { width: 38%; }
+  .watch-sp {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 310px;
+    background: var(--bg); border-left: 1px solid var(--border);
+    padding: 18px; transform: translateX(100%);
+    animation: watchPanel 12s ease-in-out infinite;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .watch-sp .sp-label { display: block; font-size: 12px; color: var(--text-3); font-weight: 600; }
+  .watch-sp .co-name { font-size: 20px; font-weight: 600; letter-spacing: -.02em; opacity: 0; animation: watchName 12s ease-out infinite; }
+  .watch-sp .spinner {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid var(--inset); border-top-color: var(--coral);
+    opacity: 0; animation: watchSpinShow 12s linear infinite;
+  }
+  @keyframes watchSpinShow {
+    0%,12%{opacity:0;transform:rotate(0)} 14%,22%{opacity:1;transform:rotate(360deg)} 24%,100%{opacity:0}
+  }
+  .watch-sp .w-field {
+    font-size: 11.5px; color: var(--text-2); opacity: 0;
+    display: flex; justify-content: space-between;
+    padding: 5px 9px; background: var(--raised); border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+  }
+  .watch-sp .w-field b { color: var(--text); font-size: 12px; }
+  .watch-sp .w-field:nth-of-type(1) { animation: watchField 12s ease-out infinite; animation-delay: 0s; }
+  .watch-sp .w-field:nth-of-type(2) { animation: watchField 12s ease-out infinite; animation-delay: .3s; }
+  .watch-sp .w-field:nth-of-type(3) { animation: watchField 12s ease-out infinite; animation-delay: .6s; }
+  .watch-sp .w-field:nth-of-type(4) { animation: watchField 12s ease-out infinite; animation-delay: .9s; }
+  @keyframes watchField {
+    0%,22%{opacity:0;transform:translateY(4px)} 28%,70%{opacity:1;transform:translateY(0)} 75%,100%{opacity:0}
+  }
+  .watch-sp .w-chip {
+    align-self: flex-start; font-size: 10.5px; font-weight: 600;
+    color: var(--teal); background: rgba(54,179,126,.12);
+    border: 1px solid rgba(54,179,126,.3); padding: 3px 9px; border-radius: 9999px;
+    opacity: 0; animation: watchChip 12s ease-out infinite;
+  }
+  @keyframes watchChip { 0%,32%{opacity:0;transform:scale(.9)} 36%,44%{opacity:1;transform:scale(1)} 48%,100%{opacity:0} }
+  .watch-sp .ring-slot {
+    display: flex; align-items: center; gap: 10px; padding: 9px 11px;
+    background: var(--raised); border: 1px solid var(--border-subtle); border-radius: 10px;
+    opacity: 0; animation: watchRing 12s ease-out infinite;
+  }
+  .watch-sp .ring-slot svg { width: 40px; height: 40px; }
+  .watch-sp .ring-slot b { display: block; font-size: 12.5px; color: var(--text); }
+  .watch-sp .ring-slot small { font-size: 10.5px; color: var(--text-3); }
+  .watch-sp .ring-slot circle.bar2 {
+    fill: none; stroke: var(--teal); stroke-width: 5; stroke-linecap: round;
+    transform: rotate(-90deg); transform-origin: center;
+    stroke-dasharray: 126; stroke-dashoffset: 126;
+    animation: watchRingFill 12s ease-out infinite;
+  }
+  .watch-sp .ring-slot circle.track2 { fill: none; stroke: var(--inset); stroke-width: 5; }
+  @keyframes watchRingFill { 0%,40%{stroke-dashoffset:126} 52%,70%{stroke-dashoffset:25} 75%,100%{stroke-dashoffset:126} }
+  @keyframes watchRing { 0%,40%{opacity:0} 46%,70%{opacity:1} 75%,100%{opacity:0} }
+  @keyframes watchPanel { 0%{transform:translateX(100%)} 6%,80%{transform:translateX(0)} 86%,100%{transform:translateX(100%)} }
+  @keyframes watchName { 0%,8%{opacity:0;transform:translateY(4px)} 12%,78%{opacity:1;transform:translateY(0)} 84%,100%{opacity:0} }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 2: Company detail 3-col
+  ══════════════════════════════════════════ */
+  .detail-preview {
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+    overflow: hidden; width: 100%;
+  }
+  .dp-head {
+    background: var(--header); color: var(--on-dark);
+    padding: 12px 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .dp-logo {
+    width: 30px; height: 30px; border-radius: 7px;
+    background: linear-gradient(135deg,#FC636B,#F5A623);
+    color: #fff; font-weight: 700; display: flex;
+    align-items: center; justify-content: center; font-size: 13px;
+  }
+  .dp-name { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+  .dp-name small { display: block; font-size: 10px; color: var(--on-dark-muted); font-weight: 400; margin-top: 1px; }
+  .dp-stage { margin-left: auto; font-size: 10px; padding: 3px 10px; border-radius: 9999px; background: rgba(165,212,107,.15); color: #a5d46b; border: 1px solid rgba(165,212,107,.3); }
+  .dp-cols { display: grid; grid-template-columns: 1fr 1.1fr 0.9fr; min-height: 280px; }
+  .dp-col { padding: 14px 14px 18px; border-right: 1px solid var(--border-subtle); }
+  .dp-col:last-child { border-right: none; }
+  .dp-col h5 { font-size: 12px; color: var(--text-3); font-weight: 600; margin: 0 0 8px; }
+  .dp-col h5:not(:first-child) { margin-top: 14px; }
+  .dp-kv { font-size: 11px; color: var(--text-2); display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed var(--border-subtle); }
+  .dp-kv b { color: var(--text); font-weight: 600; }
+  .dp-score { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--raised); border-radius: 8px; border: 1px solid var(--border-subtle); }
+  .dp-score .big { font-size: 24px; font-weight: 700; color: var(--teal); line-height: 1; }
+  .dp-score .big small { font-size: 10px; color: var(--text-3); font-weight: 500; }
+  .dp-score .txt { font-size: 11px; color: var(--text-2); line-height: 1.45; }
+  .dp-score .txt b { display: block; color: var(--text); font-size: 12px; margin-bottom: 1px; }
+  .dp-list { list-style: none; padding: 0; }
+  .dp-list li { font-size: 11px; color: var(--text-2); padding: 4px 0; line-height: 1.4; }
+  .dp-list li b { color: var(--text); font-weight: 600; display: block; font-size: 11.5px; }
+  .dp-chat-msg { font-size: 11.5px; color: var(--text); line-height: 1.5; padding: 9px 11px; background: var(--raised); border: 1px solid var(--border-subtle); border-radius: 9px; border-bottom-left-radius: 3px; margin-bottom: 7px; }
+  .dp-chat-msg.user { background: var(--inset); border-bottom-right-radius: 3px; border-bottom-left-radius: 9px; margin-left: 14px; }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 3: Kanban pipeline (animated)
+  ══════════════════════════════════════════ */
+  .big-kanban {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+    background: var(--raised); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); padding: 14px;
+    box-shadow: var(--shadow-sm); width: 100%;
+    opacity: 0; animation: fadeUp .7s ease-out .1s forwards;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+  .bk-col { background: var(--bg); border: 1px solid var(--border-subtle); border-radius: 9px; padding: 10px 9px; min-height: 220px; }
+  .bk-head { font-size: 12px; color: var(--text-3); font-weight: 600; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 2px; }
+  .bk-head .count { background: var(--inset); color: var(--text-2); padding: 1px 6px; border-radius: 9999px; font-size: 9px; }
+  .bk-head .stage-dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; display: inline-block; vertical-align: middle; }
+  .bk-card {
+    background: var(--raised); border: 1px solid var(--border); border-radius: 7px;
+    padding: 9px 10px; margin-bottom: 7px; cursor: pointer; position: relative;
+    opacity: 0; transform: translateY(-10px);
+    animation: cardDrop .6s cubic-bezier(.2,.8,.2,1) forwards;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+  .bk-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--text-3); }
+  @keyframes cardDrop { 0%{opacity:0;transform:translateY(-12px)} 60%{opacity:1;transform:translateY(2px)} 100%{opacity:1;transform:translateY(0)} }
+  .bk-col:nth-child(1) .bk-card:nth-child(2){animation-delay:.2s}
+  .bk-col:nth-child(1) .bk-card:nth-child(3){animation-delay:.3s}
+  .bk-col:nth-child(2) .bk-card:nth-child(2){animation-delay:.3s}
+  .bk-col:nth-child(2) .bk-card:nth-child(3){animation-delay:.4s}
+  .bk-col:nth-child(3) .bk-card:nth-child(2){animation-delay:.4s}
+  .bk-card .co { font-size: 11.5px; font-weight: 600; margin-bottom: 2px; }
+  .bk-card .ti { font-size: 10px; color: var(--text-3); line-height: 1.3; }
+  .bk-card .meta { display: flex; align-items: center; gap: 5px; margin-top: 7px; padding-top: 7px; border-top: 1px solid var(--border-subtle); }
+  .bk-card .score { font-size: 9.5px; color: var(--text-2); font-weight: 600; }
+  .bk-card .abadge { margin-left: auto; font-size: 12px; padding: 2px 5px; border-radius: 9999px; background: var(--coral); color: #fff; font-weight: 600; }
+  .bk-card .abadge.t { background: var(--inset); color: var(--text-2); }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 4: Apply Queue (phone)
+  ══════════════════════════════════════════ */
+  .queue-stage {
+    position: relative; height: 560px;
+    background: var(--raised); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); padding: 28px 18px;
+    box-shadow: var(--shadow-sm);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    width: 100%;
+  }
+  .q-counter { position: absolute; top: 18px; left: 0; right: 0; text-align: center; font-size: 12px; color: var(--text-3); font-weight: 600; }
+  .q-counter b { color: var(--text); }
+  .q-phone {
+    width: 260px; height: 480px;
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    border-radius: 30px; box-shadow: var(--shadow-md); padding: 18px 15px 15px; position: relative;
+  }
+  .q-phone::before { content: ""; position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 70px; height: 5px; background: var(--inset); border-radius: 9999px; }
+  .q-card {
+    position: absolute; inset: 32px 15px 15px;
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    border-radius: 16px; padding: 17px; box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column;
+  }
+  .q-card .logo { width: 30px; height: 30px; border-radius: 8px; color: #fff; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 9px; }
+  .q-card .co { font-size: 13.5px; font-weight: 600; }
+  .q-card .role { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
+  .q-card .meta { font-size: 10px; color: var(--text-3); margin-top: 3px; }
+  .q-card .score-row { display: flex; align-items: center; gap: 9px; margin-top: 12px; padding: 9px; background: var(--raised); border-radius: 9px; }
+  .q-card .score-big { font-size: 20px; font-weight: 700; color: var(--teal); line-height: 1; }
+  .q-card .score-big small { font-size: 9px; color: var(--text-3); font-weight: 500; }
+  .q-card .score-text { font-size: 11px; color: var(--text-2); }
+  .q-card .score-text b { display: block; color: var(--text); font-size: 11.5px; }
+  .q-card .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+  .q-card .tags span { font-size: 9.5px; padding: 3px 7px; border-radius: 9999px; background: var(--inset); color: var(--text-2); }
+  .q-btns { position: absolute; left: 15px; right: 15px; bottom: 15px; display: flex; gap: 7px; }
+  .q-btns button { flex: 1; border: none; border-radius: 9px; padding: 10px 0; font-weight: 600; font-size: 12px; font-family: inherit; }
+  .q-btns .pass { background: rgba(252,99,107,.1); color: var(--coral); }
+  .q-btns .apply { background: var(--teal); color: #fff; }
+  .q-card.c1 { animation: queueCard 18s infinite; }
+  .q-card.c2 { animation: queueCard 18s infinite; animation-delay: -12s; }
+  .q-card.c3 { animation: queueCard 18s infinite; animation-delay: -6s; }
+  @keyframes queueCard {
+    0%{transform:translateY(36px) rotate(0);opacity:0}
+    4%,28%{transform:translateY(0) rotate(0);opacity:1}
+    33%{transform:translateX(300px) rotate(13deg);opacity:0}
+    33.1%,100%{transform:translateY(36px) rotate(0);opacity:0}
+  }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 5: Coop chat with context
+  ══════════════════════════════════════════ */
+  .chat-panel {
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); padding: 18px;
+    box-shadow: var(--shadow-md); width: 100%;
+  }
+  .chat-header { display: flex; align-items: center; gap: 9px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 14px; }
+  .coop-avatar { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 38% 38%,#2A3349,#121824); flex-shrink: 0; }
+  .chat-title { font-size: 13px; font-weight: 600; }
+  .chat-title small { display: block; font-size: 10.5px; color: var(--text-3); font-weight: 400; margin-top: 1px; }
+  .chat-model { margin-left: auto; font-size: 10.5px; color: var(--text-3); border: 1px solid var(--border-subtle); padding: 2px 7px; border-radius: 9999px; }
+  .source-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .spill {
+    font-size: 10px; letter-spacing: .02em; padding: 3px 8px; border-radius: 9999px;
+    background: var(--bg); border: 1px solid var(--border-subtle); color: var(--text-2);
+    display: inline-flex; align-items: center; gap: 4px;
+    opacity: 0; transform: translateY(3px);
+    animation: pillIn .5s forwards ease-out;
+  }
+  .spill::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--purple); }
+  .spill.email::before { background: var(--blue); }
+  .spill.granola::before { background: var(--teal); }
+  .spill.job::before { background: var(--amber); }
+  .spill.princ::before { background: var(--coral); }
+  .spill:nth-child(1){animation-delay:.1s} .spill:nth-child(2){animation-delay:.25s}
+  .spill:nth-child(3){animation-delay:.4s} .spill:nth-child(4){animation-delay:.55s}
+  @keyframes pillIn { to{opacity:1;transform:translateY(0)} }
+  .bubble { display: block; font-size: 13px; line-height: 1.55; border-radius: 13px; padding: 10px 13px; margin-bottom: 9px; max-width: 88%; }
+  .bubble.user { background: var(--inset); color: var(--text); margin-left: auto; border-bottom-right-radius: 3px; }
+  .bubble.coop-b { background: var(--raised); border: 1px solid var(--border-subtle); color: var(--text); border-bottom-left-radius: 3px; }
+  .score-block { margin-top: 9px; padding: 9px 11px; background: var(--bg); border: 1px solid var(--border-subtle); border-radius: 9px; display: flex; align-items: center; gap: 10px; }
+  .score-block .big { font-size: 20px; font-weight: 700; color: var(--teal); line-height: 1; }
+  .score-block .big small { font-size: 10px; color: var(--text-3); font-weight: 500; }
+  .score-block .verdict { font-size: 11.5px; color: var(--text-2); }
+  .score-block .verdict b { color: var(--text); font-size: 12px; display: block; margin-bottom: 1px; }
+  .typing { display: inline-flex; gap: 3px; padding: 9px 12px; background: var(--raised); border: 1px solid var(--border-subtle); border-radius: 13px; border-bottom-left-radius: 3px; }
+  .typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--text-3); display: inline-block; animation: typedot 1.2s infinite ease-in-out; }
+  .typing span:nth-child(2){animation-delay:.18s} .typing span:nth-child(3){animation-delay:.36s}
+  @keyframes typedot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+
+  /* ══════════════════════════════════════════
+     MOCKUP 6: Operating principles textarea
+  ══════════════════════════════════════════ */
+  .op-mock {
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+    overflow: hidden; width: 100%;
+  }
+  .op-head {
+    background: var(--raised); border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 16px; display: flex; align-items: center; gap: 9px;
+  }
+  .op-head-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .op-head-sub { font-size: 10.5px; color: var(--text-3); margin-top: 1px; }
+  .op-body { padding: 16px; }
+  .op-textarea {
+    width: 100%; min-height: 180px; background: var(--raised);
+    border: 1px solid var(--border-subtle); border-radius: 8px;
+    padding: 12px 14px; font-size: 12.5px; color: var(--text-2);
+    line-height: 1.7; font-family: var(--font-body); resize: none;
+    outline: none;
+  }
+  .op-footer { padding: 10px 16px; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; }
+  .op-footer-note { font-size: 10.5px; color: var(--text-3); }
+  .op-save { background: var(--coral); color: #fff; font-size: 11.5px; font-weight: 600; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; font-family: inherit; }
+
+  /* ══════════════════════════════════════════
+     MOCKUP 7: Under the hood / local-first
+  ══════════════════════════════════════════ */
+  .underhood {
+    background: var(--header); color: var(--on-dark);
+    border-radius: var(--radius-lg); padding: 24px 26px;
+    width: 100%; box-shadow: var(--shadow-md);
+  }
+  .underhood h4 { font-size: 12px; color: var(--on-dark-muted); font-weight: 600; margin: 0 0 14px; }
+  .underhood ul { list-style: none; padding: 0; }
+  .underhood li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: 13px; display: flex; justify-content: space-between; gap: 14px; }
+  .underhood li:last-child { border-bottom: none; }
+  .underhood li span:first-child { color: var(--on-dark-muted); }
+  .underhood li span:last-child { color: var(--on-dark); font-weight: 500; text-align: right; }
+  .chain {
+    margin-top: 18px; background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius); padding: 13px 15px;
+    font-family: 'SF Mono','JetBrains Mono',monospace;
+    font-size: 11.5px; color: var(--on-dark-muted); line-height: 1.7;
+  }
+  .chain b { color: var(--on-dark); font-weight: 600; }
+
+  /* ── FINAL CTA ── */
+  .cta-section { padding: 5rem 28px; text-align: center; border-top: 1px solid var(--border); background: var(--surface); }
+  .cta-inner { max-width: var(--max); margin: 0 auto; }
+  .cta-section h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.8rem,3.5vw,2.4rem); letter-spacing: -0.02em; color: var(--ink); margin-bottom: 1rem; }
+  .cta-section p { font-size: 1rem; font-weight: 300; color: var(--ink-soft); max-width: 440px; margin: 0 auto 2rem; line-height: 1.7; }
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; padding: 0.7rem 1.4rem; border-radius: 5px; text-decoration: none; transition: all 0.18s; }
+  .btn-primary { background: var(--ink); color: var(--white); }
+  .btn-primary:hover { background: var(--accent); }
+
+  /* ── FOOTER ── */
+  .coop-footer { padding: 2rem 28px; border-top: 1px solid var(--border); text-align: center; }
+  .coop-footer p { font-size: 0.8rem; color: var(--ink-muted); margin-bottom: 0.4rem; }
+  .coop-footer a { color: var(--ink-muted); text-decoration: none; }
+  .coop-footer a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 760px) {
+    .feature-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .feature-inner.flip { direction: ltr; }
+    .dp-cols { grid-template-columns: 1fr; }
+    .dp-col { border-right: none; border-bottom: 1px solid var(--border-subtle); }
+    .big-kanban { grid-template-columns: 1fr; }
+    :root { --nav-h: 104px; }
+    .coop-nav { height: auto; min-height: var(--nav-h); }
+    .coop-nav-inner { flex-wrap: wrap; gap: 0.4rem; padding: 0.5rem 16px; }
+    .coop-nav-tabs { order: 3; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0.1rem; padding: 0.4rem 0 0; margin: 0; border-top: 1px solid var(--border); justify-content: flex-start; }
+    .coop-nav-tabs a { font-size: 0.78rem; padding: 0.3rem 0.55rem; white-space: nowrap; }
+    .coop-nav-cta { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .big-kanban, .bk-card, .q-card, .spill,
+    .watch-sp, .watch-sp .co-name, .watch-sp .w-field,
+    .watch-sp .w-chip, .watch-sp .ring-slot,
+    .watch-sp .ring-slot circle.bar2 { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .watch-sp { transform: translateX(0); }
+    .q-card.c2, .q-card.c3 { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Coop avatar SVG symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="coop-mark" viewBox="0 0 64 64">
+      <defs>
+        <radialGradient id="coop-fill-feat" cx="38%" cy="38%" r="75%">
+          <stop offset="0%" stop-color="#2A3349"/>
+          <stop offset="55%" stop-color="#1A2133"/>
+          <stop offset="100%" stop-color="#121824"/>
+        </radialGradient>
+      </defs>
+      <g class="coop-body">
+        <path d="M18 10 C 9 12, 6 22, 7 32 C 8 44, 13 55, 26 57 C 38 59, 50 56, 55 46 C 60 35, 58 20, 50 13 C 42 6, 28 7, 18 10 Z" fill="url(#coop-fill-feat)" stroke="#2A3142" stroke-width="1"/>
+        <path d="M34 8 Q35 4 38 3" stroke="#FC636B" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <circle cx="38" cy="2.8" r="1.4" fill="#FC636B"/>
+        <circle cx="25" cy="32" r="3.2" fill="#F5F4F2"/>
+        <circle cx="40" cy="30.5" r="3.2" fill="#F5F4F2"/>
+        <path d="M23 41 Q33 47 41 41" stroke="#F5F4F2" stroke-width="2" stroke-linecap="round" fill="none" opacity=".88"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Persistent nav -->
+<nav class="coop-nav" aria-label="Coop.ai navigation">
+  <div class="coop-nav-inner">
+    <a href="https://mattsterbenz.com/" class="coop-nav-back">← Matt Sterbenz</a>
+    <ul class="coop-nav-tabs">
+      <li><a href="/coop/">Coop</a></li>
+      <li><a href="/coop/story">Story</a></li>
+      <li><a href="/coop/features" class="active">Features</a></li>
+      <li><a href="/coop/demos/">Demos</a></li>
+      <li><a href="/coop/integrations">Integrations</a></li>
+      <li><a href="/coop/beta">Beta access</a></li>
+    </ul>
+    <a href="/coop/beta" class="coop-nav-cta">Get beta access →</a>
+  </div>
+</nav>
+
+<!-- Page header -->
+<div class="page-header">
+  <span class="page-eyebrow">Product walkthrough</span>
+  <h1 class="page-h1">How Coop works</h1>
+  <p class="page-lede">Seven pieces, one idea: the advisor already has the full picture before you ask.</p>
+</div>
+
+<!-- 1: Detect & Research -->
+<section class="feature-section" id="detect">
+  <div class="feature-inner">
+    <div class="feature-text">
+      <span class="feature-num">01 — Detect &amp; research</span>
+      <h2 class="feature-h2">Land on a page. Get the company.</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        Visit any company page — LinkedIn, Greenhouse, Lever, Workday, Ashby, or a generic site — and the side panel detects it automatically. <strong>One click triggers research.</strong> Nothing fires without a click.
+      </p>
+      <p class="feature-body">
+        Research runs through your Claude Desktop by default. Coop pulls firmographics, leadership, reviews, recent news, and open roles; Claude shapes the answer. Nothing to set up first. Cached indefinitely; force-refresh from the side panel.
+      </p>
+      <p class="feature-detail">Detectors: LinkedIn profiles, job postings, company pages — plus Greenhouse, Lever, Workday, Ashby, and a domain-name fallback for anything else.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="watch-stage" aria-label="Side panel research animation">
+        <div class="linkedin-bg">
+          <div class="lk-head"></div>
+          <div class="lk-line w1"></div>
+          <div class="lk-line w3"></div>
+          <div class="lk-line w2"></div>
+          <div class="lk-line w4"></div>
+          <div class="lk-line w1"></div>
+          <div class="lk-line w3"></div>
+        </div>
+        <div class="watch-sp">
+          <span class="sp-label">Coop · side panel</span>
+          <div class="co-name">Databricks</div>
+          <div class="spinner"></div>
+          <div class="w-field"><span>Employees</span><b>7,100</b></div>
+          <div class="w-field"><span>Funding</span><b>Series I</b></div>
+          <div class="w-field"><span>Industry</span><b>Data / AI</b></div>
+          <div class="w-field"><span>HQ</span><b>San Francisco</b></div>
+          <span class="w-chip">Research complete</span>
+          <div class="ring-slot">
+            <svg viewBox="0 0 48 48">
+              <circle class="track2" cx="24" cy="24" r="20"/>
+              <circle class="bar2" cx="24" cy="24" r="20"/>
+              <text x="24" y="28" text-anchor="middle" font-size="11" font-weight="700" fill="#0A0B0D">8</text>
+            </svg>
+            <div><b>Strong fit</b><small>PLG motion matches your lane</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2: Save & Score -->
+<section class="feature-section" id="score">
+  <div class="feature-inner flip">
+    <div class="feature-text">
+      <span class="feature-num">02 — Save &amp; score</span>
+      <h2 class="feature-h2">One record per company. Scored against what you actually want.</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        Save any company or job posting and it becomes a single record — no duplicate sync between a "company" store and a "job" store. Attach a job description and Coop scores it 1–10 against your background, target roles, salary floor, and work arrangement.
+      </p>
+      <p class="feature-body">
+        <strong>The score reflects how you actually feel, not just what the JD says.</strong> A rating you set (1–5 stars) post-processes the score — a role you're excited about gets a lift; one you're lukewarm on gets a haircut. The breakdown shows strong fits, red flags, and qualification matches with full reasoning behind each.
+      </p>
+      <p class="feature-detail">Score colors: ≥7.5 green · 6.0–7.4 amber · 4.5–5.9 orange · below 4.5 red.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="detail-preview" aria-label="Company detail three-column view">
+        <div class="dp-head">
+          <div class="dp-logo">D</div>
+          <div class="dp-name">Databricks<small>databricks.com · San Francisco</small></div>
+          <div class="dp-stage">Interviewing</div>
+        </div>
+        <div class="dp-cols">
+          <div class="dp-col">
+            <h5>Firmographics</h5>
+            <div class="dp-kv"><span>Employees</span><b>7,100</b></div>
+            <div class="dp-kv"><span>Funding</span><b>Series I</b></div>
+            <div class="dp-kv"><span>Industry</span><b>Data / AI</b></div>
+            <div class="dp-kv"><span>Founded</span><b>2013</b></div>
+            <h5>Leadership</h5>
+            <ul class="dp-list">
+              <li><b>Ali Ghodsi</b>CEO, co-founder</li>
+              <li><b>Naveen Rao</b>VP of AI</li>
+            </ul>
+          </div>
+          <div class="dp-col">
+            <h5>Job match</h5>
+            <div class="dp-score">
+              <div class="big">8<small>/10</small></div>
+              <div class="txt"><b>Strong fit</b>PLG motion, platform narrative, staff scope.</div>
+            </div>
+            <h5>Recent emails</h5>
+            <ul class="dp-list">
+              <li><b>Priya Natarajan</b>Re: scheduling intro call</li>
+              <li><b>Recruiter</b>Application update</li>
+            </ul>
+          </div>
+          <div class="dp-col">
+            <h5>Coop</h5>
+            <div class="dp-chat-msg user">how's this role actually look for me?</div>
+            <div class="dp-chat-msg">Strong read — the lakehouse positioning work maps directly to your PMM background. One flag: heavy enterprise enablement focus in the JD.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3: Pipeline -->
+<section class="feature-section" id="pipeline">
+  <div class="feature-inner">
+    <div class="feature-text">
+      <span class="feature-num">03 — Pipeline</span>
+      <h2 class="feature-h2">A Kanban that doesn't go stale</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        Every saved company moves through a fully customizable Kanban. Stages are user-defined. Drag-drop reordering. Stage timestamps record themselves in a generic map — so if you rename stages or add new ones, history doesn't break.
+      </p>
+      <p class="feature-body">
+        Each card tracks whose court the ball is in (my court / their court), surfaces last activity from emails and meetings, and shows the current score at a glance. Gmail and Granola attach automatically — you don't manually log contact.
+      </p>
+      <p class="feature-detail">Kanban and grid views. Filterable by stage, score, and action owner. Stat cards at the top are clickable and drill into the underlying list.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="big-kanban" aria-label="Kanban pipeline mockup">
+        <div class="bk-col">
+          <div class="bk-head"><span><span class="stage-dot" style="background:#4573D2"></span>Interested</span><span class="count">3</span></div>
+          <div class="bk-card">
+            <div class="co">Linear</div>
+            <div class="ti">Head of PMM</div>
+            <div class="meta"><span class="score">9.1</span><span class="abadge">my court</span></div>
+          </div>
+          <div class="bk-card">
+            <div class="co">Vercel</div>
+            <div class="ti">Director, Product Marketing</div>
+            <div class="meta"><span class="score">7.4</span><span class="abadge t">their court</span></div>
+          </div>
+          <div class="bk-card">
+            <div class="co">Notion</div>
+            <div class="ti">VP Marketing</div>
+            <div class="meta"><span class="score">8.2</span><span class="abadge">my court</span></div>
+          </div>
+        </div>
+        <div class="bk-col">
+          <div class="bk-head"><span><span class="stage-dot" style="background:#F5A623"></span>Applied</span><span class="count">2</span></div>
+          <div class="bk-card">
+            <div class="co">Databricks</div>
+            <div class="ti">Staff PMM</div>
+            <div class="meta"><span class="score">8.0</span><span class="abadge t">their court</span></div>
+          </div>
+          <div class="bk-card">
+            <div class="co">Stripe</div>
+            <div class="ti">Sr. PMM, Payments</div>
+            <div class="meta"><span class="score">7.8</span><span class="abadge t">their court</span></div>
+          </div>
+        </div>
+        <div class="bk-col">
+          <div class="bk-head"><span><span class="stage-dot" style="background:#36B37E"></span>Intro</span><span class="count">1</span></div>
+          <div class="bk-card">
+            <div class="co">Ramp</div>
+            <div class="ti">PMM Lead</div>
+            <div class="meta"><span class="score">8.6</span><span class="abadge">my court</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4: Apply Queue -->
+<section class="feature-section" id="queue">
+  <div class="feature-inner flip">
+    <div class="feature-text">
+      <span class="feature-num">04 — Apply Queue</span>
+      <h2 class="feature-h2">Triage your pipeline one card at a time.</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        Every saved opportunity that hasn't been triaged lands in a personal queue, pre-scored and annotated with the two or three things that actually matter. Pass or apply in one tap.
+      </p>
+      <p class="feature-body">
+        Open Application auto-binds Coop in the side panel so you always have full context while you're filling out forms. The queue drains as you triage — the rest of the pipeline moves itself.
+      </p>
+      <p class="feature-detail">Scores show strong fits, red flags, and qualification signals. The queue reorders by score so the best opportunities surface first.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="queue-stage" aria-label="Apply Queue swipe mockup">
+        <div class="q-counter">Apply Queue · <b>6</b> remaining</div>
+        <div class="q-phone">
+          <div class="q-card c3">
+            <div class="logo" style="background:linear-gradient(135deg,#7C6EF0,#4573D2)">N</div>
+            <div class="co">Notion</div>
+            <div class="role">VP Marketing</div>
+            <div class="meta">Remote · $230k–$280k</div>
+            <div class="score-row">
+              <div class="score-big">8<small>/10</small></div>
+              <div class="score-text"><b>Strong fit</b>Brand + PLG narrative scope matches.</div>
+            </div>
+            <div class="tags"><span>PLG motion</span><span>Salary match</span><span>Remote</span></div>
+          </div>
+          <div class="q-card c2">
+            <div class="logo" style="background:linear-gradient(135deg,#36B37E,#4573D2)">S</div>
+            <div class="co">Stripe</div>
+            <div class="role">Sr. PMM, Payments</div>
+            <div class="meta">San Francisco · Hybrid · $190k–$240k</div>
+            <div class="score-row">
+              <div class="score-big">7<small>/10</small></div>
+              <div class="score-text"><b>Good fit</b>Payments focus is a stretch from your lane.</div>
+            </div>
+            <div class="tags"><span>Fintech</span><span>Hybrid</span></div>
+          </div>
+          <div class="q-card c1">
+            <div class="logo" style="background:linear-gradient(135deg,#FC636B,#F5A623)">D</div>
+            <div class="co">Databricks</div>
+            <div class="role">Staff PMM</div>
+            <div class="meta">San Francisco · Hybrid · $210k–$260k</div>
+            <div class="score-row">
+              <div class="score-big">8<small>/10</small></div>
+              <div class="score-text"><b>Strong fit</b>PLG motion, platform story, staff scope.</div>
+            </div>
+            <div class="tags"><span>PLG</span><span>Salary match</span><span>Enterprise flag</span></div>
+          </div>
+          <div class="q-btns">
+            <button class="pass">Pass</button>
+            <button class="apply">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5: Coop with full context -->
+<section class="feature-section" id="coop">
+  <div class="feature-inner">
+    <div class="feature-text">
+      <span class="feature-num">05 — Coop, with full context</span>
+      <h2 class="feature-h2">The advisor already has the picture. You ask the question.</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        Coop auto-binds to whatever entry you're viewing. When you open the chat, he already has your professional profile, the company research, the job description, fit scoring, every email thread with people at that company (via Gmail OAuth), every calendar event, and every Granola meeting transcript.
+      </p>
+      <p class="feature-body">
+        <strong>You stop explaining and start asking.</strong> "Given what we talked about with Karri last week, what should I lead with in my application?" And Coop actually knows — not from a prompt you pasted, but from data the extension assembled in the background. You can manually pin Coop to a specific entry with a paperclip button when you want focus across surfaces.
+      </p>
+      <p class="feature-detail">Default brain: your Claude Desktop, plugged in via MCP. Zero API keys to start — Coop hands Claude the assembled context and the answer comes back inside the app you already use. Opt-in API keys (Anthropic, OpenAI) unlock the background auto-fire path.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="chat-panel" aria-label="Coop chat with full context">
+        <div class="chat-header">
+          <div class="coop-avatar">
+            <svg width="28" height="28" viewBox="0 0 64 64"><use href="#coop-mark"/></svg>
+          </div>
+          <div class="chat-title">Coop<small>Databricks · Staff PMM</small></div>
+          <span class="chat-model">Claude · Desktop</span>
+        </div>
+        <div class="source-pills">
+          <span class="spill princ">operating principles</span>
+          <span class="spill job">job posting</span>
+          <span class="spill email">4 emails</span>
+          <span class="spill granola">2 transcripts</span>
+        </div>
+        <div class="bubble user">Given my call with Priya last week, what should I lead with in my application?</div>
+        <div class="bubble coop-b">
+          Lead with the lakehouse positioning work — Priya flagged that the team is rebuilding the enterprise narrative from scratch and explicitly asked if you'd done that kind of foundational positioning work before. Your Notion case study answers that directly.
+          <div class="score-block">
+            <div class="big">8<small>/10</small></div>
+            <div class="verdict"><b>Strong fit</b>Scope, PLG motion, salary above floor.</div>
+          </div>
+          Skip the PLG playbook framing for this one — she's focused on enterprise, and leading there risks sounding like a misread of what they need right now.
+        </div>
+        <span class="typing" aria-hidden="true"><span></span><span></span><span></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6: Operating Principles -->
+<section class="feature-section" id="principles">
+  <div class="feature-inner flip">
+    <div class="feature-text">
+      <span class="feature-num">06 — Operating principles</span>
+      <h2 class="feature-h2">Code carries mechanics. Settings carry opinions.</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        A single user-editable textarea in settings carries every interpretation Coop applies to your data. Salary floors, dealbreakers, draft-vs-evaluate behavior, how aggressive you want scoring to be — all of it lives in plain text you can rewrite.
+      </p>
+      <p class="feature-body">
+        The code emits neutral facts. The textarea tells Coop how to read them. If you want him sharper, rewrite the textarea. If you want him to never refuse a draft request, write that. <strong>No code change, no deploy.</strong>
+      </p>
+      <p class="feature-detail">This design comes directly from a painful lesson: hardcoding opinions into prompts means the tool argues with the person using it. Ripping that out and handing interpretation to a user-editable config is one of the best decisions in the whole build.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="op-mock" aria-label="Operating principles settings">
+        <div class="op-head">
+          <div>
+            <div class="op-head-title">Operating Principles</div>
+            <div class="op-head-sub">How Coop interprets your data — rewrite anytime</div>
+          </div>
+        </div>
+        <div class="op-body">
+          <textarea class="op-textarea" readonly>Base salary floor: $180K. Below this, flag but don't refuse drafts — I'll decide.
+
+Work arrangement: strongly prefer remote or hybrid (SF). Pure on-site is a soft no but ask me first.
+
+Role scope: I want to own narrative, not support field enablement. If a JD leans heavily on sales support, flag it with a specific quote from the posting.
+
+Draft behavior: when I ask for a draft, give me the draft. Don't open with a fit lecture. Fit commentary can go at the end, briefly.
+
+Dealbreakers: companies with active layoffs in the last 90 days. Always surface this if you find it in research.
+
+Voice: direct, specific, no filler. No "hope this finds you well." No "circle back." If I write something that sounds like LinkedIn ghostwriting, flag it.</textarea>
+        </div>
+        <div class="op-footer">
+          <span class="op-footer-note">Changes apply to all future Coop conversations</span>
+          <button class="op-save">Save principles</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7: Local-first -->
+<section class="feature-section" id="local">
+  <div class="feature-inner">
+    <div class="feature-text">
+      <span class="feature-num">07 — Local-first architecture</span>
+      <h2 class="feature-h2">No backend. No accounts. Your data never leaves the browser.</h2>
+      <div class="divider"></div>
+      <p class="feature-body">
+        Coop is a Chrome extension with no server-side component. All pipeline data lives in <code style="font-size:0.9em;background:var(--inset);padding:1px 5px;border-radius:3px">chrome.storage.local</code>. The AI work runs through your own Claude Desktop via MCP — Coop never hosts a model, never proxies a request, never sees a token.
+      </p>
+      <p class="feature-body">
+        Gmail access uses Chrome's built-in OAuth (<code style="font-size:0.9em;background:var(--inset);padding:1px 5px;border-radius:3px">chrome.identity</code>). Granola connects via REST API key. Optional Anthropic and OpenAI keys (only if you want background automation) stay in <code style="font-size:0.9em;background:var(--inset);padding:1px 5px;border-radius:3px">chrome.storage.local</code> — never hardcoded, never leaving the machine.
+      </p>
+      <p class="feature-detail">Manifest V3 service worker handles all side effects. Every UI surface talks to it through <code style="font-size:0.9em">chrome.runtime.sendMessage</code>. Research cached indefinitely. No model call ever fires without an explicit user action — or, if you've opted into auto-fire, a fresh-data trigger you configured.</p>
+    </div>
+    <div class="feature-mockup">
+      <div class="underhood" aria-label="Architecture specs">
+        <h4>Architecture</h4>
+        <ul>
+          <li><span>Storage</span><span>chrome.storage.local — all data on-device</span></li>
+          <li><span>Auth (Gmail)</span><span>chrome.identity OAuth — no tokens on server</span></li>
+          <li><span>Background</span><span>Manifest V3 service worker</span></li>
+          <li><span>Research cache</span><span>Indefinite TTL, force-refresh on demand</span></li>
+          <li><span>Default brain</span><span>Your Claude Desktop, via MCP</span></li>
+          <li><span>Backend</span><span>None</span></li>
+        </ul>
+        <div class="chain">
+          Default brain:<br>
+          <b>Claude Desktop</b> · MCP connector · <b>no key needed</b><br>
+          <span style="color:rgba(255,255,255,.4)">Add Anthropic or OpenAI keys (optional) to unlock the auto-fire path for background scoring, sweeps, and drafts. UI tells you which path answered.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <h2>Want early access?</h2>
+    <p>Coop is in private beta. Get on the list to be in the next group.</p>
+    <a href="/coop/beta" class="btn btn-primary">Get beta access →</a>
+  </div>
+</div>
+
+<footer class="coop-footer">
+  <p>Coop.ai — by <a href="https://mattsterbenz.com/">Matt Sterbenz</a></p>
+  <p><a href="/coop/">Home</a> · <a href="/coop/story">Story</a> · <a href="/coop/integrations">Integrations</a> · <a href="/coop/beta">Beta access</a></p>
+</footer>
+
+</body>
+</html>
