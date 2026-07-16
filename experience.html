@@ -65,6 +65,10 @@
   .reading .rk { display:flex; align-items:center; gap:9px; }
   .reading .rk i { width:11px; height:11px; border-radius:3px; background:var(--rc, var(--accent)); flex:none; }
   .reading h3 { margin:0; font-size:16px; font-weight:700; letter-spacing:-0.01em; }
+  .reading .rk-grade { margin-left:auto; flex:none; font-weight:800; font-size:20px; line-height:1;
+    letter-spacing:-0.02em; padding:7px 12px; border-radius:9px; font-variant-numeric:tabular-nums;
+    background:color-mix(in srgb, var(--rc, var(--accent)) 15%, transparent);
+    color:color-mix(in srgb, var(--rc, var(--accent)) 74%, #0A0B0D); }
   .reading .nums { display:flex; gap:22px; margin:12px 0 0; }
   .reading .nums div { font-size:12px; font-weight:600; }
   .reading .nums b { display:block; font-size:21px; font-weight:750; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; color:var(--rc, var(--ink)); }
@@ -85,6 +89,10 @@
   .rrow h4 { margin:0; font-size:13px; font-weight:700; flex:none; line-height:1.3; }
   .rrow .receipt { font-size:12.5px; line-height:1.4; }
   .rrow .receipt b { font-weight:750; color:var(--cc); font-variant-numeric:tabular-nums; }
+  .rrow .rgrade { margin-left:auto; flex:none; font-weight:800; font-size:14px; line-height:1;
+    padding:6px 10px; border-radius:8px; letter-spacing:-0.01em; font-variant-numeric:tabular-nums;
+    background:color-mix(in srgb, var(--cc) 15%, transparent);
+    color:color-mix(in srgb, var(--cc) 72%, #0A0B0D); }
 
   footer.colophon { margin-top:34px; border-top:1px solid var(--line); padding-top:14px;
     font-size:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
@@ -151,6 +159,14 @@ const CATS = [
     txt:'On paper, demand outruns depth - it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 40+ tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
 ];
 
+/* Coop's own letter-grade scale - the #757/#769 threshold table, mirrored here so
+   the site grades exactly like the product. A fit score (evidence depth vs role
+   demand, on a 0-10 scale) feeds the same A-F bands Coop uses. */
+const SCORE_GRADES = [['A+',9.5],['A',9.0],['A-',8.5],['B+',8.0],['B',7.5],['B-',7.0],['C+',6.0],['C',5.5],['C-',5.0],['D+',4.5],['D',3.5],['D-',3.0],['F',0]];
+function gradeForScore(s){ for (const [l,m] of SCORE_GRADES) if (s >= m) return l; return 'F'; }
+function fitScore(depth, demand){ const r = demand > 0 ? depth/demand : 1; if (r >= 1.05) return 9.6; if (r >= 1.0) return 9.1; return Math.max(0, r*10); }
+function fitGrade(c){ return gradeForScore(fitScore(c.depth, c.demand)); }
+
 const svg = document.getElementById('radar');
 const CX = 380, CY = 250, R = 185, N = CATS.length;
 const ang = i => -Math.PI/2 + i * 2*Math.PI/N;
@@ -192,7 +208,7 @@ const rgrid = document.getElementById('rgrid');
 CATS.forEach(c => {
   rgrid.insertAdjacentHTML('beforeend',
     `<div class="rrow" data-cat="${c.id}" style="--cc:${c.hex}"><i></i><h4>${c.name}</h4>
-     <span class="receipt"><b>${c.lead[0]}</b> ${c.lead[1]}</span></div>`);
+     <span class="receipt"><b>${c.lead[0]}</b> ${c.lead[1]}</span><span class="rgrade">${fitGrade(c)}</span></div>`);
 });
 
 /* reading panel */
@@ -200,7 +216,7 @@ const reading = document.getElementById('reading');
 const pct = v => Math.round(v*100);
 function renderReading(c, pinned) {
   reading.style.setProperty('--rc', c.hex);
-  reading.innerHTML = `<div class="rk"><i></i><h3>${c.name}</h3></div>
+  reading.innerHTML = `<div class="rk"><i></i><h3>${c.name}</h3><span class="rk-grade" title="Fit of my evidence to what these target roles demand">${fitGrade(c)}</span></div>
     <div class="nums">
       <div><b>${pct(c.depth)}</b>evidence depth</div>
       <div><b>${pct(c.demand)}</b>role demand</div>
@@ -212,6 +228,7 @@ function renderIntro() {
   reading.style.removeProperty('--rc');
   reading.innerHTML = `<div class="rk"><i style="background:var(--accent)"></i><h3>How to read this</h3></div>
     <p class="txt">The <b>solid shape</b> is what five roles actually built - evidence, not adjectives. The <b>dashed shape</b> is the role I'm aiming at. Where they match, I'm a safe bet; where the dashed edge reaches past the solid one, that's the edge I'm growing into; where solid reaches past dashed, that's surplus you get for free.</p>
+    <p class="txt">Each axis also carries a <b>letter grade</b> on Coop's own A-F scale - the same engine I built - scoring how well my evidence covers what the role demands.</p>
     <p class="cue">Hover or tap any axis of the chart for the story behind it.</p>`;
 }
 renderIntro();
