@@ -5,6 +5,16 @@
 <meta name="description" content="Matt Sterbenz - revenue & GTM operator. The shape of my experience, drawn from live career data." />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Matt Sterbenz - the shape of my experience</title>
+<meta property="og:title" content="Matt Sterbenz - the shape of my experience" />
+<meta property="og:description" content="The shape of my experience, mapped from five roles and 50 tracked skills - evidence depth versus what my target roles demand." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://mattsterbenz.com/experience" />
+<meta property="og:image" content="https://mattsterbenz.com/images/matt-headshot.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Matt Sterbenz - the shape of my experience" />
+<meta name="twitter:description" content="The shape of my experience, mapped from five roles and 50 tracked skills - evidence depth versus what my target roles demand." />
+<meta name="twitter:image" content="https://mattsterbenz.com/images/matt-headshot.jpg" />
+<link rel="canonical" href="https://mattsterbenz.com/experience" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E1B17'/%3E%3Ctext x='28' y='45' font-family='-apple-system,Helvetica,Arial,sans-serif' font-size='36' font-weight='800' text-anchor='middle' fill='%23F5F4F2'%3EM%3C/text%3E%3Ccircle cx='48' cy='42' r='6' fill='%23F4505C'/%3E%3C/svg%3E" />
 <link rel="stylesheet" href="/brand.css" />
 <style>
@@ -46,7 +56,7 @@
     padding:10px 14px; font:inherit; font-size:12.5px; font-weight:650; color:var(--ink); cursor:pointer; min-height:44px;
     transition:background 200ms var(--ease-out), border-color 200ms var(--ease-out), color 200ms var(--ease-out); }
   .demand-btn:hover { background:var(--inset); }
-  .demand-btn.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .demand-btn.on { background:var(--accent); border-color:var(--accent); color:var(--ink-on-dark); }
 
   /* polygons: draw-in + demand reveal */
   #shape-depth, #shape-demand { transform-origin: 380px 250px; }
@@ -99,6 +109,13 @@
   footer.colophon i { width:7px; height:7px; border-radius:50%; background:var(--accent); flex:none; }
   @media (max-width:900px){ .stage { grid-template-columns:1fr; } .rgrid { grid-template-columns:1fr; } }
   @media (max-width:560px){ .wrap { padding:92px 20px 70px; } }
+
+  .rrow:focus-visible, .axis-hit:focus-visible, .axis-label:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawn #shape-depth, .drawn #shape-demand { animation:none !important; }
+    #shape-demand, #g-demand, .vertex, .rrow, .demand-btn, .xnav-back { transition:none !important; }
+  }
 </style>
 </head>
 <body data-coop-hello="I'm Coop. This is Matt's experience, mapped. Move around - I'll follow along.">
@@ -152,11 +169,11 @@ const CATS = [
     lead:['$150K→$1M+','peak active ARR grown across 70+ customer logos'],
     txt:'Surplus - I carry more here than a pure closing seat asks for, and it trades as range: <b>peak active ARR from ~$150K to $1M+ across 70+ logos</b>, owning the whole journey from closed-won through renewal, including saving the largest account multiple times, contractually.' },
   { id:'founder', name:'Founder-adjacent operating',     hex:'#C9505F', depth:0.65, demand:0.92,
-    lead:['Promoted','Strategic AE → Head of Revenue & GTM Operations (equity + comp)'],
+    lead:['Promoted','Founding AE → Head of Revenue & GTM Operations (equity + comp)'],
     txt:'The axis my targeting is built around - the roles I want demand nearly everything I have here, and the evidence holds: <b>promoted to Head of Revenue when the scope outgrew the title</b>, the founder’s trusted operator through three product pivots, a rebrand, and a responsible wind-down under real exposure.' },
   { id:'ai',      name:'AI-native building',             hex:'#4FB3C4', depth:0.48, demand:0.72,
-    lead:['180+','issues shipped solo building an AI-native CRM (40+ tool MCP suite)'],
-    txt:'On paper, demand outruns depth - it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 40+ tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
+    lead:['180+','issues shipped solo building an AI-native CRM (78-tool MCP suite)'],
+    txt:'On paper, demand outruns depth - it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 78-tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
 ];
 
 /* Coop's own letter-grade scale - the #757/#769 threshold table, mirrored here so
@@ -195,7 +212,7 @@ CATS.forEach((c,i) => {
     label += `<text x="${lx}" y="${ly + li*15 - (lines.length-1)*6}" text-anchor="${anchor}" font-size="13" font-weight="650" fill="#0A0B0D">${ln}</text>`;
   });
   g += `<g class="axis-label" data-cat="${c.id}">${label}</g>`;
-  g += `<g class="axis-hit" data-cat="${c.id}">
+  g += `<g class="axis-hit" data-cat="${c.id}" tabindex="0" role="button" aria-label="${c.name} - pin this reading">
           <circle class="vertex" cx="${dx}" cy="${dy}" r="4.5" fill="${c.hex}" stroke="#fff" stroke-width="2"/>
           <circle cx="${dx}" cy="${dy}" r="17" fill="transparent"/>
         </g>`;
@@ -207,7 +224,7 @@ requestAnimationFrame(()=>svg.classList.add('drawn'));
 const rgrid = document.getElementById('rgrid');
 CATS.forEach(c => {
   rgrid.insertAdjacentHTML('beforeend',
-    `<div class="rrow" data-cat="${c.id}" style="--cc:${c.hex}"><i></i><h4>${c.name}</h4>
+    `<div class="rrow" data-cat="${c.id}" style="--cc:${c.hex}" tabindex="0" role="button" aria-label="${c.name} - pin this reading"><i></i><h4>${c.name}</h4>
      <span class="receipt"><b>${c.lead[0]}</b> ${c.lead[1]}</span><span class="rgrade">${fitGrade(c)}</span></div>`);
 });
 
@@ -266,6 +283,25 @@ rgrid.addEventListener('click', e => {
   if(pinnedCat){ renderReading(CATS.find(x=>x.id===pinnedCat), true); setActive(pinnedCat); }
   else { renderIntro(); setActive(null); }
 });
+
+/* keyboard: focus previews a reading, Enter/Space pins it (mirrors hover + click) */
+function keyActivate(e){
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const t = e.target.closest && e.target.closest('[data-cat]');
+  if (!t) return;
+  e.preventDefault();
+  t.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+}
+function focusPreview(e){
+  const t = e.target.closest && e.target.closest('[data-cat]');
+  if (!t || pinnedCat) return;
+  const c = CATS.find(x => x.id === t.dataset.cat);
+  if (c) { renderReading(c, false); setActive(c.id); }
+}
+svg.addEventListener('keydown', keyActivate);
+rgrid.addEventListener('keydown', keyActivate);
+svg.addEventListener('focusin', focusPreview);
+rgrid.addEventListener('focusin', focusPreview);
 
 /* demand reveal toggle */
 const revealBtn = document.getElementById('reveal');
