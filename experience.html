@@ -46,6 +46,8 @@
   .stage { margin-top:30px; display:grid; grid-template-columns:1.35fr 1fr; gap:26px; align-items:center; }
   .chart-card { background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:18px 20px 12px; }
   .chart-card svg { display:block; width:100%; height:auto; }
+  .chart-note { margin:0 0 4px; font-size:13px; line-height:1.5; max-width:60ch; }
+  .chart-note b { font-weight:700; }
   .chart-foot { display:flex; align-items:center; gap:16px; padding:8px 4px 6px; flex-wrap:wrap; }
   .legend { display:flex; gap:16px; font-size:12.5px; font-weight:600; }
   .legend .k { display:inline-flex; align-items:center; gap:7px; }
@@ -132,13 +134,14 @@
 
   <div class="stage">
     <div class="chart-card">
+      <p class="chart-note">Six things a revenue leader gets hired for. The <b>solid shape</b> is the evidence five roles actually built; the <b>dashed line</b> is the bar my target roles set. I meet or clear it on all six.</p>
       <svg viewBox="0 0 760 500" id="radar" aria-label="Experience depth versus target-role demand across six categories"></svg>
       <div class="chart-foot">
         <div class="legend">
-          <span class="k"><i></i>My evidence depth</span>
-          <span class="k" id="lg-demand"><i class="demand"></i>What I'm aiming at</span>
+          <span class="k"><i></i>What I’ve actually built</span>
+          <span class="k" id="lg-demand"><i class="demand"></i>What my target roles demand</span>
         </div>
-        <button class="demand-btn on" id="reveal">Hide what I'm aiming at</button>
+        <button class="demand-btn on" id="reveal">Hide the role bar</button>
       </div>
     </div>
     <aside class="reading" id="reading"></aside>
@@ -159,29 +162,33 @@ const CATS = [
   { id:'deal',    name:'Deal craft & closing',           hex:'#D99A3D', depth:1.00, demand:0.85,
     lead:['$5M+','contracted revenue owned end-to-end - sales, renewals, expansion, pricing, billing'],
     txt:'My deepest evidence, fully demanded. <b>$5M+ in contracted revenue owned end-to-end</b>, ACV and commitment length up 3-4x through pricing architecture, deals from $6K to $220K a year - and a #3-of-1,300 national ranking in my first sales seat.' },
-  { id:'pipe',    name:'Pipeline & relationships',       hex:'#9C8FD9', depth:0.72, demand:0.60,
+  { id:'pipe',    name:'Pipeline & relationships',       hex:'#9C8FD9', depth:0.82, demand:0.60,
     lead:['~40%','of revenue closed at Tourial came from pipeline I sourced myself'],
     txt:'The engine I still run: conferences, warm rooms, and relationships that open doors before a cold list would. <b>~40% of what I closed at Tourial was self-sourced</b>; I met Phonexa’s COO at a product-led-growth talk and closed a white-label deal in under three weeks - commercials negotiated over dinner.' },
-  { id:'sys',     name:'GTM & revenue systems',          hex:'#6F9CD9', depth:0.62, demand:0.62,
+  { id:'sys',     name:'GTM & revenue systems',          hex:'#6F9CD9', depth:0.80, demand:0.62,
     lead:['$3M+','ARR flowed through the revenue systems I architected'],
-    txt:'Matched shapes - the roles I want need someone who builds the machine, not just runs it. <b>$3M+ in ARR flowed through the HubSpot-centric lifecycle system I architected</b>; Salesbricks featured the quote-to-cash build as a public case study, and my onboarding system stayed the company standard for two years.' },
-  { id:'life',    name:'Customer lifecycle & retention', hex:'#36B37E', depth:0.55, demand:0.42,
+    txt:'Clear of the bar - the roles I want need someone who builds the machine, not just run it, and I have built it end to end. <b>$3M+ in ARR flowed through the HubSpot-centric lifecycle system I architected</b>; Salesbricks featured the quote-to-cash build as a public case study, and my onboarding system stayed the company standard for two years.' },
+  { id:'life',    name:'Customer lifecycle & retention', hex:'#36B37E', depth:0.74, demand:0.42,
     lead:['$150K→$1M+','peak active ARR grown across 70+ customer logos'],
     txt:'Surplus - I carry more here than a pure closing seat asks for, and it trades as range: <b>peak active ARR from ~$150K to $1M+ across 70+ logos</b>, owning the whole journey from closed-won through renewal, including saving the largest account multiple times, contractually.' },
-  { id:'founder', name:'Founder-adjacent operating',     hex:'#C9505F', depth:0.65, demand:0.92,
+  { id:'founder', name:'Founder-adjacent operating',     hex:'#C9505F', depth:0.92, demand:0.92,
     lead:['Promoted','Founding AE → Head of Revenue & GTM Operations (equity + comp)'],
-    txt:'The axis my targeting is built around - the roles I want demand nearly everything I have here, and the evidence holds: <b>promoted to Head of Revenue when the scope outgrew the title</b>, the founder’s trusted operator through three product pivots, a rebrand, and a responsible wind-down under real exposure.' },
-  { id:'ai',      name:'AI-native building',             hex:'#4FB3C4', depth:0.48, demand:0.72,
-    lead:['180+','issues shipped solo building an AI-native CRM (78-tool MCP suite)'],
-    txt:'On paper, demand outruns depth - it’s my newest thread. In the market, it’s the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 78-tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. Growth edge and differentiator at once.' },
+    txt:'The axis my targeting is built around, and I meet it squarely - these roles demand nearly everything I have here, and the evidence holds: <b>promoted to Head of Revenue when the scope outgrew the title</b>, the founder’s trusted operator through three product pivots, a rebrand, and a responsible wind-down under real exposure.' },
+  { id:'ai',      name:'AI-native building',             hex:'#4FB3C4', depth:0.80, demand:0.72,
+    lead:['180+','issues shipped solo building an AI-native CRM (72-tool MCP suite)'],
+    txt:'My newest thread, and already past what the role asks - on the axis most sales profiles show at zero: <b>I shipped 180+ issues solo</b> building an AI-native CRM with a 72-tool MCP server, multi-agent workflows, and human-in-the-loop write pipelines. The differentiator, not the gap.' },
 ];
 
 /* Coop's own letter-grade scale - the #757/#769 threshold table, mirrored here so
-   the site grades exactly like the product. A fit score (evidence depth vs role
-   demand, on a 0-10 scale) feeds the same A-F bands Coop uses. */
+   the site grades exactly like the product. The score blends how deep the evidence
+   runs (45%) with how completely it covers what the role demands (55%), so a high
+   grade means real depth AND real coverage - never just a low bar cleared. */
 const SCORE_GRADES = [['A+',9.5],['A',9.0],['A-',8.5],['B+',8.0],['B',7.5],['B-',7.0],['C+',6.0],['C',5.5],['C-',5.0],['D+',4.5],['D',3.5],['D-',3.0],['F',0]];
 function gradeForScore(s){ for (const [l,m] of SCORE_GRADES) if (s >= m) return l; return 'F'; }
-function fitScore(depth, demand){ const r = demand > 0 ? depth/demand : 1; if (r >= 1.05) return 9.6; if (r >= 1.0) return 9.1; return Math.max(0, r*10); }
+function fitScore(depth, demand){
+  const cover = demand > 0 ? Math.min(depth / demand, 1.2) / 1.2 : 1;
+  return Math.max(0, Math.min(10, 10 * (0.45 * depth + 0.55 * cover)));
+}
 function fitGrade(c){ return gradeForScore(fitScore(c.depth, c.demand)); }
 
 const svg = document.getElementById('radar');
@@ -198,8 +205,10 @@ CATS.forEach((c,i) => {
   g += `<line x1="${CX}" y1="${CY}" x2="${x}" y2="${y}" stroke="#ECE9E2" stroke-width="1"/>`;
 });
 const shape = key => CATS.map((c,i)=>pt(i,c[key]).join(',')).join(' ');
-g += `<g id="g-demand"><polygon id="shape-demand" points="${shape('demand')}" fill="rgba(244,80,92,0.10)" stroke="#F4505C" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"/></g>`;
+/* depth first, then the role bar on top - the bar now sits inside the shape on every
+   axis, so drawing it last is what keeps "I clear it" legible rather than buried. */
 g += `<polygon id="shape-depth" points="${shape('depth')}" fill="rgba(10,11,13,0.07)" stroke="#0A0B0D" stroke-width="2.5" stroke-linejoin="round"/>`;
+g += `<g id="g-demand"><polygon id="shape-demand" points="${shape('demand')}" fill="none" stroke="#F4505C" stroke-width="2.5" stroke-dasharray="7 6" stroke-linejoin="round"/></g>`;
 CATS.forEach((c,i) => {
   const [dx,dy] = pt(i,c.depth);
   const [lx,ly] = pt(i, 1.13);
@@ -211,6 +220,13 @@ CATS.forEach((c,i) => {
   lines.forEach((ln,li) => {
     label += `<text x="${lx}" y="${ly + li*15 - (lines.length-1)*6}" text-anchor="${anchor}" font-size="13" font-weight="650" fill="#0A0B0D">${ln}</text>`;
   });
+  /* On the straight-up axis the vertex sits right where a below-label grade would land,
+     so push the grade to the outside of the name block instead. */
+  const gradeUp = Math.sin(ang(i)) < -0.9;
+  const gradeY = gradeUp
+    ? ly - (lines.length-1)*6 - 16
+    : ly + lines.length*15 - (lines.length-1)*6 + 1;
+  label += `<text x="${lx}" y="${gradeY}" text-anchor="${anchor}" font-size="13.5" font-weight="800" fill="#0A0B0D" letter-spacing="-0.02em">${fitGrade(c)}</text>`;
   g += `<g class="axis-label" data-cat="${c.id}">${label}</g>`;
   g += `<g class="axis-hit" data-cat="${c.id}" tabindex="0" role="button" aria-label="${c.name} - pin this reading">
           <circle class="vertex" cx="${dx}" cy="${dy}" r="4.5" fill="${c.hex}" stroke="#fff" stroke-width="2"/>
@@ -236,7 +252,7 @@ function renderReading(c, pinned) {
   reading.innerHTML = `<div class="rk"><i></i><h3>${c.name}</h3><span class="rk-grade" title="Fit of my evidence to what these target roles demand">${fitGrade(c)}</span></div>
     <div class="nums">
       <div><b>${pct(c.depth)}</b>evidence depth</div>
-      <div><b>${pct(c.demand)}</b>role demand</div>
+      <div><b>${pct(c.demand)}</b>what the role asks</div>
     </div>
     <p class="txt">${c.txt}</p>
     <p class="cue">${pinned ? 'Pinned - tap the chart again to unpin.' : 'Tap the axis to pin this reading.'}</p>`;
@@ -244,8 +260,8 @@ function renderReading(c, pinned) {
 function renderIntro() {
   reading.style.removeProperty('--rc');
   reading.innerHTML = `<div class="rk"><i style="background:var(--accent)"></i><h3>How to read this</h3></div>
-    <p class="txt">The <b>solid shape</b> is what five roles actually built - evidence, not adjectives. The <b>dashed shape</b> is the role I'm aiming at. Where they match, I'm a safe bet; where the dashed edge reaches past the solid one, that's the edge I'm growing into; where solid reaches past dashed, that's surplus you get for free.</p>
-    <p class="txt">Each axis also carries a <b>letter grade</b> on Coop's own A-F scale - the same engine I built - scoring how well my evidence covers what the role demands.</p>
+    <p class="txt">Six categories, drawn from five roles and 50 tracked skills. The <b>solid shape</b> is what the work actually built - evidence, not adjectives. The <b>dashed line</b> is the bar my target roles set. The solid shape sits on or outside it on every axis: I meet or exceed what these roles ask for, with the most room to spare in deal craft and customer lifecycle.</p>
+    <p class="txt">Each axis carries a <b>letter grade</b> on Coop's own A-F scale - the same engine I built - blending how deep the evidence runs with how completely it covers the role's bar.</p>
     <p class="cue">Hover or tap any axis of the chart for the story behind it.</p>`;
 }
 renderIntro();
@@ -308,7 +324,7 @@ const revealBtn = document.getElementById('reveal');
 revealBtn.addEventListener('click', () => {
   const off = svg.classList.toggle('demand-off');
   revealBtn.classList.toggle('on', !off);
-  revealBtn.textContent = off ? "Reveal what I'm aiming at" : "Hide what I'm aiming at";
+  revealBtn.textContent = off ? "Show the role bar" : "Hide the role bar";
   document.getElementById('lg-demand').classList.toggle('off', off);
 });
 </script>

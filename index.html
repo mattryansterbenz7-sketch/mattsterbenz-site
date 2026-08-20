@@ -274,20 +274,37 @@
   .ledger-stack { display: flex; flex-direction: column; gap: 1.5rem; }
   .ledger-stack h3 { margin-bottom: 0.9rem; }
   .attuned { margin-top: 3rem; }
-  .attuned summary {
-    display: inline-flex; align-items: center; gap: 0.55rem; cursor: pointer;
-    font-size: 1rem; font-weight: 700; color: var(--ink); list-style: none;
-    padding: 0.85rem 1.25rem; border: 1px solid var(--border-strong); border-radius: var(--radius-btn);
-    background: var(--bg-raised);
-    transition: border-color var(--motion-sm) var(--ease-out);
-  }
-  .attuned summary::-webkit-details-marker { display: none; }
-  .attuned summary:hover { border-color: var(--ink); }
-  .attuned summary .chev { transition: transform var(--motion-sm) var(--ease-out); }
-  .attuned[open] summary .chev { transform: rotate(180deg); }
-  .attuned-frame { margin-top: 1.25rem; overflow: hidden; }
-  .attuned-frame iframe { width: 100%; height: 680px; border: none; display: block; }
+  .attuned-head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .attuned-head h3 { margin: 0; }
+  .attuned-head a { margin-left: auto; font-size: 0.92rem; font-weight: 650; color: var(--coral-ink); }
+  .attuned-lede { margin: 0.5rem 0 1.1rem; max-width: 62ch; }
+  .mot-card { padding: 1.25rem 1.4rem 1.35rem; }
+  /* label | track | value - one grid so the band header lines up with every bar */
+  .mot-bands, .mot-row { display: grid; grid-template-columns: 152px 1fr 46px; align-items: center; gap: 0.75rem; }
+  .mot-bands { margin-bottom: 0.6rem; }
+  .mot-bands .zones { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .mot-bands .zones span { text-align: center; font-size: 0.72rem; font-weight: 700; color: var(--ink);
+    opacity: 0.55; padding-bottom: 0.3rem; }
+  .mot-row + .mot-row { margin-top: 0.42rem; }
+  .mot-name { font-size: 0.86rem; font-weight: 650; line-height: 1.25; }
+  .mot-track { position: relative; height: 15px; border-radius: 3px; overflow: hidden;
+    background:
+      linear-gradient(90deg, transparent 0 calc(33.333% - 1px), var(--border-strong) calc(33.333% - 1px) 33.333%, transparent 33.333%),
+      linear-gradient(90deg, transparent 0 calc(66.666% - 1px), var(--border-strong) calc(66.666% - 1px) 66.666%, transparent 66.666%),
+      var(--bg-inset); }
+  .mot-track i { position: absolute; inset: 0 auto 0 0; display: block; border-radius: 3px;
+    width: 0; transition: width 900ms var(--ease-out); }
+  .in .mot-track i { width: var(--w); }
+  .mot-row[data-band="need"]    .mot-track i { background: var(--coral); }
+  .mot-row[data-band="nice"]    .mot-track i { background: rgba(244, 80, 92, 0.45); }
+  .mot-row[data-band="neutral"] .mot-track i { background: rgba(244, 80, 92, 0.22); }
+  .mot-val { font-size: 0.84rem; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  @media (prefers-reduced-motion: reduce) { .mot-track i { transition: none !important; } }
   .attuned-note { font-size: 0.92rem; font-weight: 500; margin-top: 0.75rem; }
+  @media (max-width: 560px) {
+    .mot-bands, .mot-row { grid-template-columns: 104px 1fr 40px; gap: 0.5rem; }
+    .mot-name { font-size: 0.78rem; }
+  }
   @media (max-width: 900px) { .principles-grid { grid-template-columns: 1fr; gap: 2rem; } }
   @media (max-width: 560px) { .ledger-pair { grid-template-columns: 1fr; } }
 
@@ -592,7 +609,7 @@
           <h2>Coop<span style="color:var(--coral)">.</span>ai. <em>A job-search partner that actually knows you.</em></h2>
         </div>
         <p class="build-sub">A Chrome extension plus a local MCP companion, powered by my own Claude. Built solo - five weeks from idea to daily use. Coop runs my search every day. In private beta.</p>
-        <p class="build-statline">78 MCP tools · 5 weeks to daily use · 0 API keys needed</p>
+        <p class="build-statline">72 MCP tools · 5 weeks to daily use · 0 API keys needed</p>
         <div class="build-actions">
           <a href="https://coopmcp.com/" class="btn btn-primary">See Coop ↗</a>
           <a href="https://coopmcp.com/beta" class="btn btn-outline">Get beta access ↗</a>
@@ -692,16 +709,78 @@
       </div>
     </div>
 
-    <details class="attuned reveal" id="attuned">
-      <summary>
-        See my Reiss Motivation Profile
-        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </summary>
-      <div class="card attuned-frame">
-        <iframe id="attunedFrame" data-src="https://my.attuned.ai/report/motivator/6b8f899c-da95-5ba0-9d69-5c96a14a81d3?newuser=true" title="Intrinsic motivators profile" loading="lazy"></iframe>
+    <div class="attuned reveal" id="attuned">
+      <div class="attuned-head">
+        <h3>My Reiss Motivation Profile</h3>
+        <a href="https://my.attuned.ai/report/motivator/6b8f899c-da95-5ba0-9d69-5c96a14a81d3" target="_blank" rel="noopener">Full report ↗</a>
+      </div>
+      <p class="attuned-lede">Eleven intrinsic motivators, scored. What drives me reads clean off the top of this list - <b>competition, rationality, progress</b> - and the bottom is just as honest: security sits at 6%, which is why a wind-down didn't scare me and why I'll trade predictability for real upside.</p>
+      <div class="card mot-card">
+        <div class="mot-bands" aria-hidden="true">
+          <span></span>
+          <span class="zones"><span>Neutral</span><span>Nice to have</span><span>Need to have</span></span>
+          <span></span>
+        </div>
+        <div role="list">
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Competition</span>
+          <span class="mot-track"><i style="--w:99%"></i></span>
+          <span class="mot-val">99%</span>
+        </div>
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Rationality</span>
+          <span class="mot-track"><i style="--w:96%"></i></span>
+          <span class="mot-val">96%</span>
+        </div>
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Progress</span>
+          <span class="mot-track"><i style="--w:83%"></i></span>
+          <span class="mot-val">83%</span>
+        </div>
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Status</span>
+          <span class="mot-track"><i style="--w:72%"></i></span>
+          <span class="mot-val">72%</span>
+        </div>
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Feedback</span>
+          <span class="mot-track"><i style="--w:72%"></i></span>
+          <span class="mot-val">72%</span>
+        </div>
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Financial needs</span>
+          <span class="mot-track"><i style="--w:72%"></i></span>
+          <span class="mot-val">72%</span>
+        </div>
+        <div class="mot-row" data-band="need">
+          <span class="mot-name">Autonomy</span>
+          <span class="mot-track"><i style="--w:67%"></i></span>
+          <span class="mot-val">67%</span>
+        </div>
+        <div class="mot-row" data-band="nice">
+          <span class="mot-name">Innovation</span>
+          <span class="mot-track"><i style="--w:53%"></i></span>
+          <span class="mot-val">53%</span>
+        </div>
+        <div class="mot-row" data-band="nice">
+          <span class="mot-name">Social relationships</span>
+          <span class="mot-track"><i style="--w:52%"></i></span>
+          <span class="mot-val">52%</span>
+        </div>
+        <div class="mot-row" data-band="nice">
+          <span class="mot-name">Altruism</span>
+          <span class="mot-track"><i style="--w:35%"></i></span>
+          <span class="mot-val">35%</span>
+        </div>
+        <div class="mot-row" data-band="neutral">
+          <span class="mot-name">Security</span>
+          <span class="mot-track"><i style="--w:6%"></i></span>
+          <span class="mot-val">6%</span>
+        </div>
+        </div>
       </div>
       <p class="attuned-note">Powered by Attuned - a Reiss Motivation Profile I completed a couple of years ago, sanity-checked against real working patterns since.</p>
-    </details>
+    </div>
   </div>
 </section>
 
@@ -885,7 +964,7 @@ const CASES = [
     title: "Coop.ai - an AI career-search partner, built solo",
     tags: ["AI building","0→1 product","Chrome extension","Claude / MCP","Multi-agent"],
     situation: "A real job search runs on a pile of tools that don't talk to each other - a spreadsheet stale by week two, a dozen tabs per company, a chat window where you re-paste your background every session. The context resets every time, and the highest-stakes decisions get made tired, scattered, and alone.",
-    action: "Designed and built Coop end to end as a non-engineer: a Manifest V3 Chrome extension shipped across 180+ issues, using multi-agent Claude Code over parallel git worktrees with the model tier tuned per issue. A deterministic 5-dimension engine scores fit; a synthesis layer distills a 500+ meeting corpus, emails, and notes into a living profile; an MCP server with 78 tools and 22 slash prompts makes the whole pipeline agent-operable, with writes graded so most land instantly with a one-tap undo and only the sensitive ones wait for a human.",
+    action: "Designed and built Coop end to end as a non-engineer: a Manifest V3 Chrome extension shipped across 180+ issues, using multi-agent Claude Code over parallel git worktrees with the model tier tuned per issue. Claude scores every opportunity three ways - role fit, how the conversations are actually going, and the real odds of an offer - reading the whole record rather than running a keyword formula; a synthesis layer distills a 500+ meeting corpus, emails, and notes into a living profile; an MCP server with 72 tools and 23 slash prompts makes the whole pipeline agent-operable, with every write landing instantly under a one-tap undo, and exactly one action - deleting a memory - held back for a human.",
     outcome: "I run my own search on it every day, it's in private beta, and it's become a live artifact I share on-screen in interviews. Proof of how I build: pragmatic 0→1 execution, AI wired into a real workflow, and judgment kept in the user's hands rather than hardcoded.",
     link: "https://coopmcp.com/", cta: "See Coop"
   }
@@ -1014,12 +1093,6 @@ if (!reducedMotion) {
   }, { threshold: 0.4 });
   countObserver.observe(document.getElementById('statsGrid'));
 }
-
-/* ---------- Attuned iframe: load only when opened ---------- */
-document.getElementById('attuned').addEventListener('toggle', function () {
-  const frame = document.getElementById('attunedFrame');
-  if (this.open && !frame.src) frame.src = frame.dataset.src;
-});
 </script>
 
 <!-- Coop, live: cursor-follow companion (desktop, motion-safe, dismissible) -->
