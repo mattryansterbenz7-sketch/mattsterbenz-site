@@ -309,9 +309,17 @@
   @media (max-width: 560px) { .ledger-pair { grid-template-columns: 1fr; } }
 
   /* ---------- Testimonials ---------- */
-  .quote-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2rem; }
-  .quote-card { padding: 1.6rem; display: flex; flex-direction: column; gap: 1.1rem; }
+  .quote-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 2rem; align-items: start; }
+  .quote-card { padding: 1.7rem 1.75rem; display: flex; flex-direction: column; gap: 1.1rem; }
   .quote-text { font-size: 0.99rem; line-height: 1.65; flex: 1; }
+  .quote-text p { margin: 0 0 0.85rem; }
+  .quote-text p:last-child { margin-bottom: 0; }
+  .rec-note { font-size: 0.98rem; font-weight: 500; margin-top: 0.75rem; max-width: 46rem; }
+  .rec-note a { color: var(--coral-ink); font-weight: 600; }
+  .quote-rel { display: block; font-size: 0.85rem; font-weight: 500; color: var(--coral-ink); margin-top: 0.2rem; }
+  .rec-more { display: none; margin-top: 1.25rem; }
+  .rec-more.open { display: grid; }
+  .rec-toggle-wrap { display: flex; justify-content: center; margin-top: 1.75rem; }
   .quote-meta {
     display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
     border-top: 1px solid var(--border-subtle); padding-top: 1rem;
@@ -320,7 +328,7 @@
   .quote-title { font-size: 0.9rem; font-weight: 500; }
   .quote-meta a { display: inline-flex; color: var(--ink); }
   .quote-meta a:hover { color: var(--coral-ink); }
-  @media (max-width: 900px) { .quote-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) { .quote-grid, .rec-more.open { grid-template-columns: 1fr; } }
 
   /* ---------- Looking for ---------- */
   .looking-wrap {
@@ -790,47 +798,257 @@
     <div class="reveal">
       <span class="kicker">What people say</span>
       <h2>On the record</h2>
+      <p class="rec-note">17 LinkedIn recommendations, reproduced word for word &mdash; nothing trimmed, nothing rewritten. <a href="https://www.linkedin.com/in/matt-sterbenz-854023183/details/recommendations/" target="_blank" rel="noopener">Read them on LinkedIn &#8599;</a></p>
     </div>
     <div class="quote-grid reveal-stagger">
       <div class="card quote-card">
-        <p class="quote-text">"A rare strategic partner I've retained across three separate companies. Matt operates less like a vendor and more like a strategic consultant. He bridges sales, customer success, and product with executive presence and integrity. Matt has my highest recommendation."</p>
+        <div class="quote-text">
+          <p>A rare strategic partner I've retained across three separate companies.</p>
+          <p>I have been a customer of Matt's across three different organizations, and on each occasion, I specifically chose to implement Rep.ai (formerly ServiceBell, RIP) because of the confidence I have in Matt's leadership. In the vendor ecosystem, it is incredibly rare to find a sales leader who prioritizes long-term value over the quick close; Matt is that exception.</p>
+          <p>From a buyer's perspective, Matt operates less like a vendor and more like a strategic consultant. He possesses deep product fluency and the commercial maturity to align solutions strictly with executive goals. He didn't just sell us a tool; he ensured our teams achieved ROI, creating an environment where renewal and expansion were natural outcomes.</p>
+          <p>Matt effortlessly bridges the gap between sales, customer success, and product strategy. He navigates complex negotiations with integrity and has the executive presence required to manage high-stakes relationships.</p>
+          <p>If you are looking for a VP of Sales or Partnerships who understands that revenue is built on trust, consistency, and customer success, Matt has my highest recommendation. He is exactly the type of leader I want representing a brand I buy from.</p>
+        </div>
         <div class="quote-meta">
           <div>
             <span class="quote-name">Ken Jackson</span>
             <span class="quote-title">VP of Marketing</span>
+            <span class="quote-rel">Ken was Matt's client &middot; January 2026</span>
           </div>
-          <a href="https://www.linkedin.com/in/ken-jackson-marketing/" target="_blank" rel="noopener" aria-label="Ken Jackson on LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
+          <a href="https://www.linkedin.com/in/ken-jackson-marketing/" target="_blank" rel="noopener" aria-label="Ken Jackson on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
         </div>
       </div>
       <div class="card quote-card">
-        <p class="quote-text">"Matt showed up as a true design partner during our implementation of Rep.ai. He aligned on clear success criteria, welcomed candid product feedback, and collaborated closely as we refined real-world use cases. He is responsive, clear in communication, and stays engaged in the details while maintaining strategic alignment."</p>
+        <div class="quote-text">
+          <p>Matt is a fearless seller with a strong ability to think on his feet and adapt. Matt will go the extra mile for his prospects &amp; clients.</p>
+          <p>From prospecting through closing then building a customer success org after departing Tourial, Matt continues to show his ability to develop new skills and would be an invaluable member of any GTM team who needs a scrappy player/coach to bring their business to the next revenue milestone.</p>
+        </div>
         <div class="quote-meta">
           <div>
-            <span class="quote-name">Jennifer McNamara</span>
-            <span class="quote-title">Chief Marketing Officer</span>
+            <span class="quote-name">Jason Graub</span>
+            <span class="quote-title">Founder, Tourial</span>
+            <span class="quote-rel">Jason managed Matt directly &middot; January 2026</span>
           </div>
-          <a href="https://www.linkedin.com/in/jennifer-mcnamara-94885b14/" target="_blank" rel="noopener" aria-label="Jennifer McNamara on LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
         </div>
       </div>
       <div class="card quote-card">
-        <p class="quote-text">"Matt combines tactical execution with strong strategic judgment. From a quote-to-cash and GTM operations perspective, he handled a complex setup seamlessly - integrating Salesbricks, Stripe, subscription management, and reporting. He balances big-picture thinking with operational detail."</p>
+        <div class="quote-text">
+          <p>I had the pleasure of working with Matt in ServiceBell/Rep.ai for almost three years. Even though Matt led GTM and I worked in product engineering, we collaborated quite a bit.</p>
+          <p>Matt is extremely resourceful and always finds a creative way to close a deal. This often included him diving deeply into the product's internals, writing product requirement documents and generally using all available assets.</p>
+          <p>Matt's driven. competitive and always optimistic - a pleasure to work with. I hope our professional paths cross again in the future.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Piotr Nowakowski</span>
+            <span class="quote-title">Software Engineer</span>
+            <span class="quote-rel">Piotr worked with Matt but on different teams &middot; February 2026</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>I was one of Matt's customers, and he was excellent to work with. He brings a consistently positive, approachable personality to everything he does, which made even complex projects feel manageable.</p>
+          <p>Matt has a strong ability to get tactical when needed while still keeping an eye on overall strategy and best practices.</p>
+          <p>From a quote-to-cash and GTM operations perspective, he handled a very complex setup extremely well, leveraging Salesbricks alongside tools like Stripe to seamlessly blend quoting, subscription management, and reporting. That balance is not easy, but Matt crushed it.</p>
+          <p>He was consistently responsive and thoughtful in his approach, and I consider myself lucky if I have the chance to work with him again.</p>
+        </div>
         <div class="quote-meta">
           <div>
             <span class="quote-name">Jordan Davis</span>
-            <span class="quote-title">Director of Sales Engineering</span>
+            <span class="quote-title">Solution Engineering Leader</span>
+            <span class="quote-rel">Jordan worked with Matt but they were at different companies &middot; January 2026</span>
           </div>
-          <a href="https://www.linkedin.com/in/jordankunzdavis/" target="_blank" rel="noopener" aria-label="Jordan Davis on LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
+          <a href="https://www.linkedin.com/in/jordankunzdavis/" target="_blank" rel="noopener" aria-label="Jordan Davis on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Matt is a talented problem-solver &amp; a wonderful relationship-builder. What makes him successful is his ability to align a solution to the areas where there are the biggest problems. He becomes a trusted advisor to his clients by building great relationships &amp; doing what he says he will do.</p>
+          <p>Matt has a great work ethic, will not stop until the job is done, &amp; doesn't complain about the extra work it takes to go above &amp; beyond. This is showcased in the fact that he was consistently at the top of the leaderboard when he reported to me.</p>
+          <p>He is loyal, thoughtful, polite, &amp; genuinely curious (which translates nicely to his sales career).</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Kenny Traber</span>
+            <span class="quote-rel">Kenny managed Matt directly &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>I worked with Matt during our implementation of Rep.ai, an avatar-based AI chat agent for our website. From the outset, Matt worked with us as a true design partner—taking the time to align on clear success criteria, welcoming candid product feedback, and collaborating closely as we tested and refined how the AI agent would guide users, answer questions, and support lead capture on our site.</p>
+          <p>Matt was consistently responsive and easy to work with. He communicated clearly, followed through quickly, and made it easy to keep momentum moving even as we iterated on real-world use cases.</p>
+          <p>If you're looking for someone who shows up as a collaborative partner, listens carefully to customer goals, and stays engaged in the details, I'd highly recommend Matt.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Jennifer McNamara</span>
+            <span class="quote-title">ERP Leader | Growth &amp; Strategy</span>
+            <span class="quote-rel">Jennifer was Matt's client &middot; January 2026</span>
+          </div>
+          <a href="https://www.linkedin.com/in/jennifer-mcnamara-94885b14/" target="_blank" rel="noopener" aria-label="Jennifer McNamara on LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
         </div>
       </div>
     </div>
+    <div class="quote-grid rec-more" id="rec-more">
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Matt is a top-tier professional and our working relationship thus far has been nothing short of stellar. He is responsive, knowledgeable, moves quickly, and possesses an ability to distill actionable solutions from multi-faceted and complex use cases.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Jeffrey Schaffer</span>
+            <span class="quote-title">Chief Revenue Officer at EHVA.ai</span>
+            <span class="quote-rel">Jeffrey was Matt's client &middot; March 2024</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>I've only chatted with Matt once but it was the best sales call I've had all year. Matt truly skips the fluff and breaks the pattern to play in a sandbox that appeals to what you need. Highly impressed and very refreshing experience! Well done, Matt, and looking forward to working with you in the future!</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Lauren Long</span>
+            <span class="quote-title">Brand &amp; Marketing @ Nantum, JCI</span>
+            <span class="quote-rel">Lauren worked with Matt but they were at different companies &middot; October 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>I met Matt through when he was working at Tourial. As a long time sales professional, I have watched and experienced many sales cycles over my career; Matt is a winner. Matt was able to leverage cold-outbound to create the opportunity, coordinate and run the solution demo, and worked hard to demonstrate the value prop to the buyer (in this instance it was me). Matt is an up and coming sales star, look forward to seeing his career unfold.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Patrick Sheehan</span>
+            <span class="quote-title">CRO, Acquired Taste</span>
+            <span class="quote-rel">Patrick was Matt's client &middot; April 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Can't say enough good things about working with Matt. He is always willing to go the extra mile to help someone, a great person to bounce ideas off and always authentic. His excitement for the job is contagious and I truly believe he loves selling and interacting with customers. He's pleasantly persistent and not afraid to let prospects know if they are a bad fit if they are one. Learned a lot from Matt in my time working with him hopefully can work with him again at some point in our careers. I would highly recommend Matt in any kind of selling role not just a great seller but a great person as well.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Nick LaRosa</span>
+            <span class="quote-title">Enterprise &amp; Mid-Market SaaS Account Manager</span>
+            <span class="quote-rel">Nick worked with Matt on the same team &middot; April 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Matt is one of the best sales executives I have met. He asks all the right questions and his sharp listening skills and attentive and accurate follow-up help him quickly build rapport. He uses creativity to close deals, finding win-win solutions even in complex situations. Any company would be lucky to have him.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Jennifer Gargulinski</span>
+            <span class="quote-title">Co-founder, Growth and AI Strategy Executive</span>
+            <span class="quote-rel">Jennifer was Matt's client &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>I met Matt at SaaStr, we just happened to be sitting at the same table trying (and mostly failing) to connect to Wifi. His naturally curious and inquisitive approach also happened to expertly guide me through a sales process, convincing me that yes, I did need Tourial. :) Over the next couple of months he stayed close, patient but not pushy, as we went through a trial and closed the deal. Ultimately, he knew it wasn't going to be a big dollar figure, but because he put so much care into it I wanted to buy from him. That's a rare and appreciated ability these days.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Chad Lafferty</span>
+            <span class="quote-title">CEO at Build+ (formerly Wahl+Case)</span>
+            <span class="quote-rel">Chad was Matt's client &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>If you're looking for an exceptional Account Executive, look no further than Matt. Funny story, I had the pleasure of meeting Matt for the first time during an interview. Unfortunately, he accepted another offer before we could extend ours, but we've stayed in touch since, and let me tell you, he's made some serious waves in the tech industry.</p>
+          <p>Matt is an exceptional individual who truly embodies all the traits of a top-performing Account Executive. From the moment I met him, I was struck by his engaging personality and wise beyond-his-years demeanor.</p>
+          <p>Matt has a natural ability to connect with people and build strong, lasting relationships, making him a valuable asset to any organization. He is also extremely knowledgeable about the industry, always asking the right questions and staying up-to-date on the latest trends and technologies, which enables him to provide insightful guidance and recommendations to his clients, colleagues, and partners.</p>
+          <p>Overall, I have no doubt that Matt will continue to excel in his career and make a positive impact on any organization he joins. His track record of driving revenue and growth is a testament to his talent and dedication, and I highly recommend him without reservation.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">George Alifragis</span>
+            <span class="quote-title">SVP, Head of Operating Network &amp; Ecosystem at Metropolitan Partners Group</span>
+            <span class="quote-rel">George was senior to Matt but didn't manage Matt directly &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Matt has a rare blend of high performance and low ego. He asks incredibly thoughtful, curious, and genuine questions because he's interested in learning — especially when he thinks he can do something different or better — and he regularly reaches out for feedback. He's a catch for any sales team hiring.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Nate Nasralla</span>
+            <span class="quote-title">Co-Founder &amp; CEO @ Fluint</span>
+            <span class="quote-rel">Matt was Nate's client &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Matt is a thoughtful professional and genuine relationship builder, which is why he excels as an AE. When Matt was selling Tourial's services to my org he quickly understood our messaging challenges and asked the right questions. Because of that, when we raised objections he was in a position to firmly, yet appropriately, push back on some of our concerns.</p>
+          <p>Matt is also one of the few sales people I've had the chance to connect with who truly understands how to leverage LinkedIn as a tool to build trust and a personal brand. I stop to see what Matt is engaging with or posting on LinkedIn because I trust that it's going to be valuable to me, even though I'm in a different job function. Matt's curiosity and willingness to educate himself leads to authentic engagement that anyone in a go-to-market position could learn from.</p>
+          <p>Matt is the kind of person I like to work with.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Cody Carmen</span>
+            <span class="quote-rel">Cody worked with Matt but they were at different companies &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>I've not often worked along side an Account Executive like Matt before. He asks all the right questions (internal and external), and is passionate about the industry he serves. Matt is a master at social selling, and in the time that I knew him he was the top AE for our team consistently bringing good ideas to the forefront.</p>
+          <p>As a customer success leader, I wish I could have all closers act just like him. He stays in touch with customers, and truly builds relationships with his contacts. You won't get a bad deal coming through with Matt. Great all around and I miss working with him!</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Austin Smith</span>
+            <span class="quote-title">Technical Solutions @ Calendly</span>
+            <span class="quote-rel">Austin was senior to Matt but didn't manage Matt directly &middot; March 2023</span>
+          </div>
+        </div>
+      </div>
+      <div class="card quote-card">
+        <div class="quote-text">
+          <p>Matt embodies everything an Account Executive should be. He is fearless, quick on his feet and always seeking to learn and improve. He is naturally inquisitive and wants to understand his customers deeply, sincerely focused on providing as much value as possible throughout the sales cycle.</p>
+          <p>Matt is a self-starter. He does his job and then some, always bringing in more new ideas than everyone else combined. He's outspoken, a hungry product evangelist, and a product marketer's best friend - making sure his customer's are heard and well-served.</p>
+          <p>Finally, Matt is a pleasure to work with, always positive, always energetic, always willing to give when others are focused on their own needs. That's the kind of person you need on the front lines representing your company to the market.</p>
+        </div>
+        <div class="quote-meta">
+          <div>
+            <span class="quote-name">Blake Mascali</span>
+            <span class="quote-rel">Blake was senior to Matt but didn't manage Matt directly &middot; September 2022</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rec-toggle-wrap">
+      <button type="button" class="btn btn-outline" id="rec-toggle" aria-expanded="false" aria-controls="rec-more">Show all 17 recommendations</button>
+    </div>
   </div>
 </section>
+
+<script>
+(function () {
+  var btn = document.getElementById('rec-toggle');
+  var more = document.getElementById('rec-more');
+  if (!btn || !more) return;
+  btn.addEventListener('click', function () {
+    var open = more.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    btn.textContent = open ? 'Show fewer' : 'Show all 17 recommendations';
+    if (!open) document.getElementById('testimonials').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
 
 <!-- Looking for -->
 <section id="looking-for" class="section" style="padding-top:0">
