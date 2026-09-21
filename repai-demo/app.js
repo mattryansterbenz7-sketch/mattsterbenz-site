@@ -62,6 +62,23 @@ function mountWidget(){
         if (!target) return `No page called ${page}.`;
         setTimeout(() => { window.location.href = target; }, 600);
         return `Navigating to the ${page} page now.`;
+      },
+      show_booking_link: () => {
+        if (document.getElementById("booking-card")) return "Already showing.";
+        const a = document.createElement("a");
+        a.id = "booking-card";
+        a.href = "https://calendly.com/mattryansterbenz7/30-minute-meeting-with-matt";
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = "Book time with Matt →";
+        Object.assign(a.style, {
+          position: "fixed", bottom: "24px", left: "24px", zIndex: "2147483647",
+          background: "#E8752F", color: "#fff", padding: "16px 26px",
+          borderRadius: "999px", fontWeight: "600", fontFamily: "inherit",
+          textDecoration: "none", boxShadow: "0 10px 30px -10px rgba(0,0,0,.4)"
+        });
+        document.body.appendChild(a);
+        return "Booking button is now on the visitor's screen.";
       }
     };
   });
