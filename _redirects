@@ -1,3 +1,6 @@
 # Coop migrated to its own domain 2026-06-12
 /coop/*  https://coopmcp.com/:splat  301!
 /extension-showcase  /  301
+
+# Agent source assets (system prompt + knowledge base) — configuration, not web content
+/_agent/*  /  404
