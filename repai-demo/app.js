@@ -48,6 +48,23 @@ function mountWidget(){
   const el = document.createElement("elevenlabs-convai");
   el.setAttribute("agent-id", AGENT_ID);
   el.setAttribute("dynamic-variables", JSON.stringify(vars));
+  el.addEventListener("elevenlabs-convai:call", (event) => {
+    event.detail.config.clientTools = {
+      navigate_to_page: ({ page }) => {
+        const routes = {
+          home:     "index.html",
+          platform: "platform.html",
+          pricing:  "pricing.html",
+          blog:     "blog.html",
+          docs:     "docs.html"
+        };
+        const target = routes[String(page).toLowerCase().trim()];
+        if (!target) return `No page called ${page}.`;
+        setTimeout(() => { window.location.href = target; }, 600);
+        return `Navigating to the ${page} page now.`;
+      }
+    };
+  });
   host.appendChild(el);
 }
 
