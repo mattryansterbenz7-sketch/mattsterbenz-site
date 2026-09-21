@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Platform I Rep.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="/platform">
+<div class="wrap">
+  <nav>
+    <a class="mark" href="index.html">Rep.ai</a>
+    <ul>
+      <li><a href="platform.html" aria-current="page">Platform</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="pill pill-white" href="pricing.html">Book a meeting</a>
+    </div>
+  </nav>
+
+  <div class="page-head">
+    <h1 style="font-size:clamp(2.4rem,5vw,3.6rem)">The platform</h1>
+    <p>Detect the account, start the conversation, hand off to a human when it counts.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="two">
+      <div class="card">
+        <h3>AI Intent</h3>
+        <p>Capture buying signals from web activity, the dialer, your CRM, and connected sources. Build better lists and reach your ICP with the right timing.</p>
+      </div>
+      <div class="card">
+        <h3>Account detection</h3>
+        <p>Resolve the company behind an anonymous session, route to the owning rep, and track target accounts as they move through the site.</p>
+      </div>
+      <div class="card">
+        <h3>Digital twins</h3>
+        <p>Clone a rep's likeness and voice so the AI conversation feels like a conversation with your team, not a widget.</p>
+      </div>
+      <div class="card">
+        <h3>Human takeover</h3>
+        <p>Watch the AI converse in real time and step in mid-thread when the deal warrants a person.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="mark" style="color:var(--ink);display:block;margin-bottom:12px">Rep.ai</div>
+    <p style="margin:0">Say hello to your first AI sales rep.</p>
+    <div class="disclaimer">
+      Recreation built for a portfolio demonstration. Not affiliated with, endorsed
+      by, or operated by Rep.ai or ServiceBell, Inc.
+    </div>
+  </div>
+</footer>
+
+<div id="convai-mount"></div>
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<script src="app.js"></script>
+</body>
+</html>

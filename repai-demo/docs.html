@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>API reference I Rep.ai Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="/docs/api">
+<div class="wrap">
+  <nav>
+    <a class="mark" href="index.html">Rep.ai</a>
+    <ul>
+      <li><a href="platform.html">Platform</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="docs.html" aria-current="page">Docs</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="pill pill-white" href="pricing.html">Book a meeting</a>
+    </div>
+  </nav>
+
+  <div class="page-head">
+    <h1 style="font-size:clamp(2.1rem,4.4vw,3.1rem)">API reference</h1>
+    <p>Install the script, identify your visitors, and listen for conversation events.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap prose">
+    <h2>Installation</h2>
+    <p>Add the snippet to every page you want covered, ideally in your base template.</p>
+    <pre>&lt;script src="https://cdn.rep.ai/v1/widget.js"
+        data-workspace="YOUR_WORKSPACE_ID" async&gt;&lt;/script&gt;</pre>
+
+    <h2>Identifying a visitor</h2>
+    <p>If you already know who the visitor is, pass it along so the agent can skip the
+    introductions and the enrichment lookup.</p>
+    <pre>Rep.identify({
+  email: "dana@northwind.com",
+  company: "Northwind Logistics",
+  plan: "enterprise"
+});</pre>
+
+    <h2>Conversation events</h2>
+    <p>Subscribe to lifecycle events to mirror activity into your own systems.</p>
+    <pre>Rep.on("conversation.qualified", (payload) =&gt; {
+  analytics.track("Lead Qualified", payload);
+});</pre>
+
+    <h2>Rate limits</h2>
+    <p>Identify calls are limited to <code>60/minute</code> per workspace. Event
+    subscriptions are unmetered.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="mark" style="color:var(--ink);display:block;margin-bottom:12px">Rep.ai</div>
+    <p style="margin:0">Say hello to your first AI sales rep.</p>
+    <div class="disclaimer">
+      Recreation built for a portfolio demonstration. Not affiliated with, endorsed
+      by, or operated by Rep.ai or ServiceBell, Inc.
+    </div>
+  </div>
+</footer>
+
+<div id="convai-mount"></div>
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<script src="app.js"></script>
+</body>
+</html>

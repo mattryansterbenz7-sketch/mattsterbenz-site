@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Rep.ai I Live Video Chat, AI Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="/">
+<div class="wrap">
+  <nav>
+    <a class="mark" href="index.html">Rep.ai</a>
+    <ul>
+      <li><a href="platform.html">Platform</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="docs.html">Docs</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <a class="pill pill-white" href="pricing.html">Book a meeting</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1><em>Human</em> + <em>AI</em><br>Live Website<br>Conversations</h1>
+    <p class="sub">Convert more of your traffic into pipeline with AI. A lot more.</p>
+    <div class="cta">
+      <a class="pill pill-orange" href="#convai-mount">Try it live</a>
+      <a class="pill pill-white" href="pricing.html">Book a meeting</a>
+    </div>
+
+    <div class="console">
+      <div class="console-top">
+        <span class="dot"></span>
+        <strong>Visitor on site now</strong>
+        <span class="ago">detected 4 seconds ago</span>
+      </div>
+      <div class="grid">
+        <div class="cell"><b>Company</b><span id="f-company">—</span></div>
+        <div class="cell"><b>Employees</b><span id="f-size">—</span></div>
+        <div class="cell"><b>Viewing</b><span id="f-page">—</span></div>
+        <div class="cell"><b>Time on page</b><span id="f-dwell">—</span></div>
+        <div class="cell"><b>Source</b><span id="f-source">—</span></div>
+        <div class="cell"><b>Account</b><span id="f-status">—</span></div>
+      </div>
+      <div class="switcher">
+        <p>Simulate a different visitor</p>
+        <div>
+          <button class="chip" data-persona="enterprise" aria-pressed="true">Enterprise</button>
+          <button class="chip" data-persona="founder" aria-pressed="false">Solo founder</button>
+          <button class="chip" data-persona="customer" aria-pressed="false">Existing customer</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="center">
+  <div class="wrap">
+    <h2>Two ways to meet a visitor</h2>
+    <p class="sub">Your reps work one time zone and eight hours. Your traffic doesn't.</p>
+    <div class="two">
+      <div class="card">
+        <h3>Human Live Chat</h3>
+        <p>Connect with buyers on your website through compelling video conversations.</p>
+        <ul>
+          <li>Engage live by text, audio, or video, anywhere in the world</li>
+          <li>Detect the companies visiting, then track and route them</li>
+          <li>Build dynamic lists of ICP and target-account visitors</li>
+          <li>Sync custom fields to your CRM</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>AI Live Chat</h3>
+        <p>Video- and voice-ready AI that talks with visitors around the clock and sets your sales org up for inbound success.</p>
+        <ul>
+          <li>Digital twins of your own reps, plus stock avatars</li>
+          <li>Qualifies and routes without waiting on a form</li>
+          <li>Guides visitors to the page that answers their question</li>
+          <li>Trained on the URLs you pick: product, blog, docs</li>
+          <li>Human takeover &mdash; a rep steps into the conversation live</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="center">
+  <div class="wrap">
+    <h2>Context, not a generic greeting</h2>
+    <p class="sub">Rep.ai resolves the company behind an anonymous session, then adapts to the page, the dwell time, and the campaign that sent them.</p>
+    <div class="bubbles">
+      <div class="bubble">
+        <p>Welcome, Figma team. I know Alex on our side is already working with you &mdash; what are you looking for right now?</p>
+        <cite>Known target account</cite>
+      </div>
+      <div class="bubble">
+        <p>I see you're reading about allbound &mdash; have you seen our perspective on intent strategy?</p>
+        <cite>Long dwell on a content page</cite>
+      </div>
+      <div class="bubble">
+        <p>What's keeping you from scheduling time with our team?</p>
+        <cite>Repeat visit to pricing</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="mark" style="color:var(--ink);display:block;margin-bottom:12px">Rep.ai</div>
+    <p style="margin:0">Say hello to your first AI sales rep.</p>
+    <div class="disclaimer">
+      Recreation built for a portfolio demonstration. Not affiliated with, endorsed
+      by, or operated by Rep.ai or ServiceBell, Inc.
+    </div>
+  </div>
+</footer>
+
+<div id="convai-mount"></div>
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<script src="app.js"></script>
+</body>
+</html>

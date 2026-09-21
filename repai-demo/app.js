@@ -1,0 +1,76 @@
+/* ───────────────────────────────────────────────────────────
+   Rep.ai demo — visitor context + ElevenLabs widget mounting
+
+   Paste your agent id below. The widget re-mounts whenever the
+   visitor persona or the current page changes, so the agent
+   always knows who it's talking to and what they're looking at.
+   ─────────────────────────────────────────────────────────── */
+
+const AGENT_ID = "PASTE_YOUR_AGENT_ID_HERE";
+
+const PERSONAS = {
+  enterprise: {
+    label:"Enterprise",
+    company:"Northwind Logistics", size:"2,400",
+    dwell:"3m 12s", source:"Paid · LinkedIn", status:"Target account",
+    vars:{ company_name:"Northwind Logistics", employee_count:"2400",
+           utm_source:"linkedin_paid", account_status:"target_account",
+           visitor_type:"enterprise_prospect" }
+  },
+  founder: {
+    label:"Solo founder",
+    company:"Unknown (solo)", size:"1–10",
+    dwell:"0m 48s", source:"Organic · Google", status:"Unqualified",
+    vars:{ company_name:"unknown", employee_count:"5",
+           utm_source:"organic", account_status:"unknown",
+           visitor_type:"small_business" }
+  },
+  customer: {
+    label:"Existing customer",
+    company:"Gravity Systems", size:"600",
+    dwell:"6m 05s", source:"Direct", status:"Active customer",
+    vars:{ company_name:"Gravity Systems", employee_count:"600",
+           utm_source:"direct", account_status:"existing_customer",
+           visitor_type:"customer" }
+  }
+};
+
+const KEY = "repai_demo_persona";
+const current = () => sessionStorage.getItem(KEY) || "enterprise";
+const pageUrl = () => document.body.dataset.page || "/";
+
+function mountWidget(){
+  const host = document.getElementById("convai-mount");
+  if(!host) return;
+  const p = PERSONAS[current()];
+  const vars = Object.assign({}, p.vars, { page_url: pageUrl() });
+  host.innerHTML = "";
+  const el = document.createElement("elevenlabs-convai");
+  el.setAttribute("agent-id", AGENT_ID);
+  el.setAttribute("dynamic-variables", JSON.stringify(vars));
+  host.appendChild(el);
+}
+
+function paintConsole(){
+  const p = PERSONAS[current()];
+  const set = (id, val) => { const n = document.getElementById(id); if(n) n.textContent = val; };
+  set("f-company", p.company);
+  set("f-size",    p.size);
+  set("f-page",    pageUrl());
+  set("f-dwell",   p.dwell);
+  set("f-source",  p.source);
+  set("f-status",  p.status);
+  document.querySelectorAll(".chip").forEach(b =>
+    b.setAttribute("aria-pressed", b.dataset.persona === current() ? "true" : "false"));
+}
+
+document.querySelectorAll(".chip").forEach(btn => {
+  btn.addEventListener("click", () => {
+    sessionStorage.setItem(KEY, btn.dataset.persona);
+    paintConsole();
+    mountWidget();
+  });
+});
+
+paintConsole();
+mountWidget();
