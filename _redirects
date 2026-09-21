@@ -3,4 +3,4 @@
 /extension-showcase  /  301
 
 # Agent source assets (system prompt + knowledge base) — configuration, not web content
-/_agent/*  /  404
+/_agent/*  /  404!
