@@ -60,7 +60,7 @@ function mountWidget(){
         };
         const target = routes[String(page).toLowerCase().trim()];
         if (!target) return `No page called ${page}.`;
-        setTimeout(() => { window.location.href = target; }, 600);
+        setTimeout(() => { softNavigate(target); }, 600);
         return `Navigating to the ${page} page now.`;
       },
       show_booking_link: () => {
@@ -98,13 +98,33 @@ function paintConsole(){
     b.setAttribute("aria-pressed", b.dataset.persona === current() ? "true" : "false"));
 }
 
-document.querySelectorAll(".chip").forEach(btn => {
-  btn.addEventListener("click", () => {
-    sessionStorage.setItem(KEY, btn.dataset.persona);
-    paintConsole();
-    mountWidget();
+async function softNavigate(target) {
+  const html = await fetch(target).then(r => r.text());
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const sel = "body > .wrap, body > section, body > footer";
+  document.querySelectorAll(sel).forEach(n => n.remove());
+  const mount = document.getElementById("convai-mount");
+  doc.querySelectorAll(sel).forEach(n =>
+    document.body.insertBefore(document.importNode(n, true), mount));
+  document.body.dataset.page = doc.body.dataset.page || "/";
+  document.title = doc.title;
+  history.pushState({}, "", target);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  paintConsole();
+  bindChips();
+}
+
+function bindChips(){
+  document.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      sessionStorage.setItem(KEY, btn.dataset.persona);
+      paintConsole();
+      mountWidget();
+    });
   });
-});
+}
+
+bindChips();
 
 paintConsole();
 mountWidget();
