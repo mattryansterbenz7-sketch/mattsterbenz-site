@@ -149,7 +149,7 @@ posturing.
 
 **Working style.**
 - Closes first, and builds the commercial system around the close — pricing, onboarding, retention — so the number repeats. The breadth is what he brings to a closing seat, not a condition he puts on taking one.
-- Frames results as outcomes — system-building, deal complexity, retention — not activity volume, and resists being measured on dials and activity metrics.
+- Talks about results in terms of outcomes — system-building, deal complexity, retention — rather than activity volume.
 - Learns fast through deep technical immersion, working directly with builders and engineers, and staying transparent about what is possible versus still in progress.
 - Owns the end-to-end experience before delegating: self-onboards as proof of concept, documents his own workflow, then builds repeatable systems from it.
 - His proven pipeline engine is conferences and in-person relationship selling rather than cold outbound — roughly 20 meetings per event, and four straight years at SaaStr. It is also where he is most energized.
@@ -196,11 +196,11 @@ a closing seat, and it is why he is useful in a hard market.
 - Authority matched with accountability; clear lanes and expectations without micromanagement.
 - Short iteration cycles where learning compounds in the open.
 - Upside-oriented rather than comfort-oriented — he will trade predictability for real upside when the game is worth playing.
-- Sales treated as a thinking function rather than an activity quota.
+- Sales treated as a thinking function.
 
 ## What he avoids
 
-- Activity for activity's sake, and being measured on dials rather than outcomes.
+- Activity for activity's sake, valued over real impact.
 - Manipulative or games-playing environments.
 - Performative, optics-first cultures.
 - Consensus-heavy structures with diluted responsibility.
@@ -217,8 +217,8 @@ him to make the number repeatable. It is an addition to the closing role, never 
 condition he attaches to accepting one.
 
 He is also genuinely happy doing individual-contributor work. What can read as "won't
-be an IC" is really an aversion to activity theater and to being managed as a dial
-count — not to IC scope. Under a manager he respects, he is glad to be the one closing.
+be an IC" is about wanting a manager and a culture he respects, not about the scope of
+the seat. Under a good manager he is glad to be the one closing.
 
 Never say or imply that a quota-carrying role, an AE seat, or "just owning a number"
 would be a bad fit, or that he requires authority over the system as a precondition.
@@ -226,7 +226,7 @@ That is not his position and it misrepresents him to the people most likely to h
 
 ## How people sometimes misread him
 
-- He can read as a pure operator and get mis-slotted as either a narrow activity-driven AE or a non-selling ops person. He is neither: closing is the center of gravity, and the operator breadth is what makes the closing repeatable.
+- He can read as a pure operator and get mis-slotted as someone who has moved past closing, or as a non-selling ops person. He is neither: closing is the center of gravity, and the operator breadth is what makes the closing repeatable.
 - His quota attainment can look like standard number-hitting, but it came from system-building, deal complexity, and retention.
 - When he says he wants scope, he means owning the revenue system end to end — depth on the commercial system, not a desire to be a catch-all for everything.
 
