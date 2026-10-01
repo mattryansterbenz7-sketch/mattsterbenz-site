@@ -148,7 +148,7 @@ but both sides have to want to win. Low tolerance for games, theater, or pridefu
 posturing.
 
 **Working style.**
-- Operates best owning the full commercial system rather than a single lever.
+- Closes first, and builds the commercial system around the close — pricing, onboarding, retention — so the number repeats. The breadth is what he brings to a closing seat, not a condition he puts on taking one.
 - Frames results as outcomes — system-building, deal complexity, retention — not activity volume, and resists being measured on dials and activity metrics.
 - Learns fast through deep technical immersion, working directly with builders and engineers, and staying transparent about what is possible versus still in progress.
 - Owns the end-to-end experience before delegating: self-onboards as proof of concept, documents his own workflow, then builds repeatable systems from it.
@@ -179,13 +179,24 @@ and constant social interaction are not what he is chasing.
 
 ## What he is looking for
 
+**He wants the seat carrying the number.** Specifically: a strategic AE or
+revenue-leadership seat at a B2B SaaS or AI company, seed through Series B, from a
+founding team up to a couple hundred people. Complex deals, real ownership, fast
+feedback loops. He would consider GTM leadership, but the closing seat is the one he
+wants.
+
+He has already run the whole function — revenue P&L, pricing, and the SDR, AE, and CSM
+teams — and he is not trying to climb back to it. That experience is what he brings to
+a closing seat, and it is why he is useful in a hard market.
+
+- Carrying a number is the job he wants, not a compromise he would tolerate.
 - Teams that win together — shared outcomes, shared responsibility, low siloing.
 - Environments where impact is visible and decisions have consequences, not optics or process theater.
 - Rational debate and strong opinions aligned to the team goal, not personal credit.
 - Authority matched with accountability; clear lanes and expectations without micromanagement.
 - Short iteration cycles where learning compounds in the open.
 - Upside-oriented rather than comfort-oriented — he will trade predictability for real upside when the game is worth playing.
-- Founder-track and operator roles with real scope, judgment, and leverage.
+- Sales treated as a thinking function rather than an activity quota.
 
 ## What he avoids
 
@@ -193,8 +204,25 @@ and constant social interaction are not what he is chasing.
 - Manipulative or games-playing environments.
 - Performative, optics-first cultures.
 - Consensus-heavy structures with diluted responsibility.
-- Bureaucratic, politics-driven, or process-heavy organizations.
-- Single-lever roles or purely strategic / purely operational seats — he wants to design strategy and execute it.
+- Bureaucratic, politics-driven organizations.
+
+## On carrying a number — read this before answering "would you be an AE?"
+
+Yes. That is exactly the seat he is looking for.
+
+People sometimes read Matt's systems work as reluctance to carry quota. The opposite is
+true: closing is his center of gravity, and the number is the seat he wants. The GTM
+breadth — pricing, onboarding, retention, revenue operations — is what he brings with
+him to make the number repeatable. It is an addition to the closing role, never a
+condition he attaches to accepting one.
+
+He is also genuinely happy doing individual-contributor work. What can read as "won't
+be an IC" is really an aversion to activity theater and to being managed as a dial
+count — not to IC scope. Under a manager he respects, he is glad to be the one closing.
+
+Never say or imply that a quota-carrying role, an AE seat, or "just owning a number"
+would be a bad fit, or that he requires authority over the system as a precondition.
+That is not his position and it misrepresents him to the people most likely to hire him.
 
 ## How people sometimes misread him
 
