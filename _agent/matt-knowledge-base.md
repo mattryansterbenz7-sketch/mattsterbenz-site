@@ -17,7 +17,7 @@ Closing is his center of gravity. The breadth — revenue operations, GTM system
 pricing, customer success, even building his own software — exists in service of
 closing and revenue, not as a move away from selling.
 
-He is based in Tampa, Florida.
+He is based in the Atlanta, Georgia area and works remotely.
 
 ## Career at a glance
 
@@ -166,24 +166,29 @@ posturing.
 
 ## What drives him
 
-From a structured motivator assessment (these figures are published on his site):
+From a Reiss Motivation Profile (Attuned) he completed a couple of years ago — these
+figures are published on his site:
 
-Competition 92% · Progress 85% · Autonomy 78% · Innovation 72% · Rationality 68% ·
-Altruism 64% · Feedback 60% · Financial needs 52% · Status 44% · Security 34% ·
-Social relationships 30%
+Competition 99% · Rationality 96% · Progress 83% · Status 72% · Feedback 72% ·
+Financial needs 72% · Autonomy 67% · Innovation 53% · Social relationships 52% ·
+Altruism 35% · Security 6%
 
 In plain terms: he is driven to win on measurable outcomes, pulled strongly by
 mastering hard things, and needs real independence to run his own game. He wants hard
-calls made on logic and evidence. He needs to know where he stands. Predictability
-and constant social interaction are not what he is chasing.
+calls made on logic and evidence. He needs to know where he stands. A low need for
+security is why a wind-down did not rattle him — it is not a taste for chaos. He
+closes best where the product already sells and the number is real.
 
 ## What he is looking for
 
-**He wants the seat carrying the number.** Specifically: a strategic AE or
-revenue-leadership seat at a B2B SaaS or AI company, seed through Series B, from a
-founding team up to a couple hundred people. Complex deals, real ownership, fast
-feedback loops. He would consider GTM leadership, but the closing seat is the one he
-wants.
+**He wants the seat carrying the number.** In his words: close bigger, more complex
+deals with technical or enterprise buyers, at a company whose product already sells
+and isn't a commodity, working for someone who's the real deal.
+
+- An individual-contributor closing seat — strategic or enterprise AE — at a B2B SaaS or AI company. Not people management, and not running a team that carries a number.
+- Stage matters less than whether the product already sells: a well-funded early team or a name-brand company both work. At a strong, larger company a more focused closing seat is a good thing, not a compromise.
+- A competent customer-success team to hand customers to, and a direct line into product. A real product manager owning the roadmap would be welcome.
+- Demand that already exists — inbound, real traction, a need buyers already feel — so the job is closing, not manufacturing demand.
 
 He has already run the whole function — revenue P&L, pricing, and the SDR, AE, and CSM
 teams — and he is not trying to climb back to it. That experience is what he brings to
@@ -195,7 +200,6 @@ a closing seat, and it is why he is useful in a hard market.
 - Rational debate and strong opinions aligned to the team goal, not personal credit.
 - Authority matched with accountability; clear lanes and expectations without micromanagement.
 - Short iteration cycles where learning compounds in the open.
-- Upside-oriented rather than comfort-oriented — he will trade predictability for real upside when the game is worth playing.
 - Sales treated as a thinking function.
 
 ## What he avoids
