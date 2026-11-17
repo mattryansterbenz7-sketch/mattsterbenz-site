@@ -181,14 +181,18 @@ closes best where the product already sells and the number is real.
 
 ## What he is looking for
 
-**He wants the seat carrying the number.** In his words: close bigger, more complex
-deals with technical or enterprise buyers, at a company whose product already sells
-and isn't a commodity, working for someone who's the real deal.
+**He wants the seat carrying the number.** In his words: "I want to close bigger, more
+complex deals with technical or enterprise buyers, at a company whose product already
+sells and isn't a commodity, working for someone who's the real deal: smart, honest,
+low ego. For the last few years I did a lot of jobs at once because the company needed
+it. I'm proud of that, but now I want to be great at the center of it, which is
+closing." 
 
 - An individual-contributor closing seat — strategic or enterprise AE — at a B2B SaaS or AI company. Not people management, and not running a team that carries a number.
 - Stage matters less than whether the product already sells: a well-funded early team or a name-brand company both work. At a strong, larger company a more focused closing seat is a good thing, not a compromise.
 - A competent customer-success team to hand customers to, and a direct line into product. A real product manager owning the roadmap would be welcome.
-- Demand that already exists — inbound, real traction, a need buyers already feel — so the job is closing, not manufacturing demand.
+- Demand that already exists — inbound, real traction, a need buyers already feel, ideally with momentum behind it — so the job is closing, not manufacturing demand.
+- Work hard enough to keep him curious and competitive, around people who are humble and curious too.
 
 He has already run the whole function — revenue P&L, pricing, and the SDR, AE, and CSM
 teams — and he is not trying to climb back to it. That experience is what he brings to
